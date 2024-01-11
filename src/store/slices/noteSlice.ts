@@ -24,15 +24,16 @@ export const noteSlice = createSlice({
     addNote: (state, action) => {
       return {
         ...state,
-        notes: [...state.notes, { id: uuidv4(), text: action.payload, created: '', lastUpdated: '' }],
+        notes: [...state.notes, action.payload],
       };
     },
     updateNote: (state, action) => {
+
       state.notes = state.notes.map((note) =>
           note.id === action.payload.id
               ? {
                 id: note.id,
-                text: note.text,
+                text: action.payload.text,
                 created: note.created,
                 lastUpdated: 'new-value',
               }

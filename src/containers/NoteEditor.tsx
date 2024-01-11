@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { Controlled as CodeMirror } from 'react-codemirror2'
 import {useDispatch, useSelector} from "react-redux";
-import { updateNote} from "../actions";
+
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/base16-light.css'
 import 'codemirror/mode/gfm/gfm.js'
 import options from '../constants/codeMirrorOptions'
+import {updateNote} from "../store/slices/noteSlice";
 
 interface NoteObject {
     id: string
@@ -16,9 +17,7 @@ interface NoteProps {
     note: NoteObject
     updateNote: Function
 }
-interface NoteState {
-    note: NoteObject
-}
+
 
 const NoteEditor = () => {
     const activeNote = useSelector(({ notesState, activeState}) => {
