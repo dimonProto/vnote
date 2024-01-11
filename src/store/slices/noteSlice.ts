@@ -31,10 +31,10 @@ export const noteSlice = createSlice({
       state.notes = state.notes.map((note) =>
           note.id === action.payload.id
               ? {
-                id: action.payload.id,
-                text: action.payload.text,
-                created: action.payload.created,
-                lastUpdated: '',
+                id: note.id,
+                text: note.text,
+                created: note.created,
+                lastUpdated: 'new-value',
               }
               : note
       );
