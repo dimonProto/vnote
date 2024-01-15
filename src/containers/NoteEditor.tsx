@@ -5,8 +5,8 @@ import {useDispatch, useSelector} from "react-redux";
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/base16-light.css'
 import 'codemirror/mode/gfm/gfm.js'
-import options from '../constants/codeMirrorOptions'
-import {updateNote} from "../store/slices/noteSlice";
+import options from 'constants/codeMirrorOptions'
+import {updateNote} from "store/slices/noteSlice";
 
 interface NoteObject {
     id: string

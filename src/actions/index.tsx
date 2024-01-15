@@ -1,4 +1,4 @@
-import { SWAP_NOTE } from '../constants/actionTypes'
+import { SWAP_NOTE } from 'constants/actionTypes'
 
 
 export const swapNote = noteId => ({

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import notes from "../../constants/fakeState";
+import notes from "constants/fakeState";
 
 export interface activeState {
     active: string;
