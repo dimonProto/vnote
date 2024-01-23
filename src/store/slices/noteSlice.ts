@@ -50,6 +50,10 @@ export const noteSlice = createSlice({
     addNote: (state, action) => {
       state.data = [...state.data, action.payload]
     },
+    deleteNote: (state, action) => {
+      state.data = state.data.filter(note => note.id !== action.payload)
+      state.active = state.data[0].id
+    },
     updateNote: (state, action) => {
       state.data = state.data.map((note) =>
         note.id === action.payload.id
@@ -77,13 +81,13 @@ export const noteSlice = createSlice({
       .addCase(loadNotes.rejected, (state, action) => {
         state.loading = false
         state.error = action.error.message || 'An error occurred'
-        noteSlice.caseReducers.loadNotesSuccess(state, action)
+        noteSlice.caseReducers.loadNotesError(state, action)
       })
   },
 })
 
 
 // Action creators are generated for each case reducer function
-export const { addNote, updateNote, swapNote, loadNotesSuccess, loadNotesError } = noteSlice.actions
+export const { addNote, updateNote, swapNote, deleteNote } = noteSlice.actions
 
 export default noteSlice.reducer

@@ -22,7 +22,6 @@ interface NoteProps {
 const NoteEditor = () => {
 
   const activeNote = useSelector(({ notesState }) => {
-
     return notesState.data?.find(note => note.id === notesState.active)
   })
 
@@ -37,7 +36,7 @@ const NoteEditor = () => {
   }, [dispatch])
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div className='editor' />
   }
   return (
 

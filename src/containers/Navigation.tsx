@@ -1,17 +1,29 @@
 import React from 'react'
-import { addNote, swapNote } from 'store/slices/noteSlice'
-import { useDispatch } from 'react-redux'
+import { addNote, deleteNote, swapNote } from 'store/slices/noteSlice'
+import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 
 const Navigation = () => {
+
+  const activeNote = useSelector(({ notesState }) => notesState.data?.find(note => note.id === notesState.active))
+
+ 
   const dispatch = useDispatch()
   return (
     <nav className='navigation'>
-      <button onClick={() => {
+      <button className='nav-button' onClick={() => {
         const note = { id: uuidv4(), text: 'new Note', created: '', lastUpdated: '' }
         dispatch(addNote(note))
         dispatch(swapNote(note.id))
       }}>+ New Note
+      </button>
+      <button
+        className='nav-button'
+        onClick={() => {
+          dispatch(deleteNote(activeNote.id))
+        }}
+      >
+        X Delete Note
       </button>
     </nav>
   )
