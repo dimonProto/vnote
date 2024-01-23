@@ -45,10 +45,16 @@ const NoteEditor = () => {
       className='editor'
       value={activeNote.text}
       options={options}
+      editorDidMount={editor => {
+        editor.focus()
+        editor.setCursor(editor.lineCount(), 0)
+      }}
       onBeforeChange={(editor, data, value) => {
         dispatch(updateNote({ id: activeNote.id, text: value }))
       }}
       onChange={(editor, data, value) => {
+        editor.focus()
+        editor.setCursor(editor.lineCount(), 0)
       }}
     />
   )

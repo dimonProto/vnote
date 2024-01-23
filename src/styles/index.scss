@@ -21,10 +21,12 @@ code {
   border-left: 2px solid #dedede;
   border-right: 2px solid #dedede;
 }
+
 .navigation {
   grid-area: nav;
   background: #ccc;
 }
+
 .sidebar {
   background: #efefef;
   width: 350px;
@@ -35,6 +37,7 @@ code {
     cursor: pointer;
     padding: 1rem;
     border-bottom: 2px solid #dedede;
+
     &:hover {
       background: #dedede;
     }
@@ -50,5 +53,10 @@ code {
     font-family: Menlo, Monaco, monospace;
     font-weight: 500;
     font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .CodeMirror-activeline-background {
+    background: rgba(0, 0, 0, 0.05) !important;
   }
 }
