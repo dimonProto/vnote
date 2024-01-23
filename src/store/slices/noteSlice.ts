@@ -1,48 +1,89 @@
-import { createSlice } from '@reduxjs/toolkit'
-import initialState from 'constants/fakeState'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { NoteItem } from '../../type'
 
-export interface Note {
-  id: string,
-  text: string,
-  created: string,
-  lastUpdated: string
+export const fetchDataFromAPI = async (): Promise<NoteItem[]> => {
+  try {
+    const response = await fetch('https://gist.githubusercontent.com/dimonProto/c00f59564c39b458c2c0141bb856382b/raw/44bdcd6b8174706c9d17f0eb2393c0e51278c2e9/gistfile1.txt')
+    if (!response.ok) {
+      throw new Error('Failed to fetch data')
+    }
+    const data = await response.json()
+    return Array.isArray(data) ? data : [data]
+  } catch (error) {
+    console.error('Error fetching data:', error)
+    throw error
+  }
 }
 
-export interface NoteState {
-  notes: Note[];
+// Create an async thunk
+export const loadNotes = createAsyncThunk<NoteItem[], void>(
+  'data/fetchData',
+  async () => {
+    const data = await fetchDataFromAPI()
+    return data
+  },
+)
+
+
+const initialState = {
+  data: [] as NoteItem[],
+  active: null,
+  loading: true,
+  error: null,
 }
 
-// const initialState: NoteState = {
-//   notes: [],
-// };
 
 export const noteSlice = createSlice({
   name: 'note',
   initialState,
   reducers: {
+    loadNotesSuccess: (state, action) => {
+      state.data = action.payload
+      state.active = action.payload.length > 0 ? action.payload[0].id : null
+    },
+    loadNotesError: (state, action) => {
+      state.error = action.payload
+    },
+    swapNote: (state, action) => {
+      state.active = action.payload
+    },
     addNote: (state, action) => {
-      return {
-        ...state,
-        notes: [...state.notes, action.payload],
-      }
+      state.data = [...state.data, action.payload]
     },
     updateNote: (state, action) => {
-
-      state.notes = state.notes.map((note) =>
+      state.data = state.data.map((note) =>
         note.id === action.payload.id
           ? {
             id: note.id,
             text: action.payload.text,
-            created: note.created,
-            lastUpdated: 'new-value',
+            created: '',
+            lastUpdated: '',
           }
           : note,
       )
     },
+
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loadNotes.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(loadNotes.fulfilled, (state, action: PayloadAction<NoteItem[]>) => {
+        state.loading = false
+        noteSlice.caseReducers.loadNotesSuccess(state, action)
+      })
+      .addCase(loadNotes.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message || 'An error occurred'
+        noteSlice.caseReducers.loadNotesSuccess(state, action)
+      })
   },
 })
 
+
 // Action creators are generated for each case reducer function
-export const { addNote, updateNote } = noteSlice.actions
+export const { addNote, updateNote, swapNote, loadNotesSuccess, loadNotesError } = noteSlice.actions
 
 export default noteSlice.reducer

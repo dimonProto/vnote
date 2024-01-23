@@ -1,14 +1,19 @@
-import {combineReducers, configureStore} from '@reduxjs/toolkit'
-import noteReducer from "./slices/noteSlice"
-import activeReducer from "./slices/activeSlice";
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import noteReducer from './slices/noteSlice'
 
 const rootReducer = combineReducers({
   notesState: noteReducer,
-  activeState: activeReducer,
 })
+
 
 export const store = configureStore({
   reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      immutableCheck: {
+        ignoredPaths: ['ignoredPath', 'ignoredNested.one', 'ignoredNested.two'],
+      },
+    }),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

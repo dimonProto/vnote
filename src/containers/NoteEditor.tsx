@@ -1,12 +1,12 @@
-import React from 'react'
-import { Controlled as CodeMirror } from 'react-codemirror2'
-import { useDispatch, useSelector } from 'react-redux'
-
+import React, { useEffect } from 'react'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/base16-light.css'
 import 'codemirror/mode/gfm/gfm.js'
-import options from '../constants/codeMirrorOptions'
-import { updateNote } from '../store/slices/noteSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { Controlled as CodeMirror } from 'react-codemirror2'
+import { AppDispatch } from 'store'
+import { loadNotes, updateNote } from 'store/slices/noteSlice'
+import options from 'constants/codeMirrorOptions'
 
 interface NoteObject {
   id: string
@@ -20,12 +20,25 @@ interface NoteProps {
 
 
 const NoteEditor = () => {
-  const activeNote = useSelector(({ notesState, activeState }) => {
-    return notesState.notes.find(note => note.id === activeState.active)
+
+  const activeNote = useSelector(({ notesState }) => {
+
+    return notesState.data?.find(note => note.id === notesState.active)
   })
 
-  const dispatch = useDispatch()
+  const loading = useSelector(({ notesState }) => {
+    return notesState.loading
+  })
 
+  const dispatch: AppDispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(loadNotes())
+  }, [dispatch])
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
   return (
 
     <CodeMirror
