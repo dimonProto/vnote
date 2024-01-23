@@ -7,6 +7,7 @@ import { swapNote } from 'store/slices/noteSlice'
 const NoteList = () => {
 
   const notes = useSelector((state: RootState) => state.notesState.data)
+  const active = useSelector((state: RootState) => state.notesState.active)
   const dispatch: AppDispatch = useDispatch()
 
 
@@ -16,7 +17,8 @@ const NoteList = () => {
         {notes.map(note => {
           const noteTitle = note?.text?.indexOf('\n') !== -1 ? note.text.slice(0, note.text.indexOf('\n')) : note.text.slice(0, 50)
           return (
-            <div key={note.id} className='note-title' onClick={() => dispatch(swapNote(note.id))}>
+            <div key={note.id} className={note.id === active ? 'note-title active' : 'note-title'}
+                 onClick={() => dispatch(swapNote(note.id))}>
               {noteTitle}
             </div>
           )

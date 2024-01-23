@@ -38,6 +38,10 @@ const NoteEditor = () => {
   if (loading) {
     return <div className='editor' />
   }
+
+  if (!activeNote) {
+    return <div>create your first note !</div>
+  }
   return (
 
     <CodeMirror

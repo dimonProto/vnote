@@ -51,8 +51,10 @@ export const noteSlice = createSlice({
       state.data = [...state.data, action.payload]
     },
     deleteNote: (state, action) => {
+      const noteIndex = state.data.findIndex(note => note.id === action.payload)
+      const newActiveNoteId = state.data[noteIndex - 1] ? state.data[noteIndex - 1].id : null
       state.data = state.data.filter(note => note.id !== action.payload)
-      state.active = state.data[0].id
+      state.active = newActiveNoteId
     },
     updateNote: (state, action) => {
       state.data = state.data.map((note) =>
