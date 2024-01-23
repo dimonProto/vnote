@@ -5,3 +5,10 @@ export interface NoteItem {
   lastUpdated: string
 }
 
+export interface NoteState {
+  data: NoteItem[]
+  loading: boolean
+  active: string
+  error: string
+}
+

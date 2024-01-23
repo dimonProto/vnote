@@ -7,12 +7,12 @@ const Navigation = () => {
 
   const activeNote = useSelector(({ notesState }) => notesState.data?.find(note => note.id === notesState.active))
 
- 
+
   const dispatch = useDispatch()
   return (
     <nav className='navigation'>
       <button className='nav-button' onClick={() => {
-        const note = { id: uuidv4(), text: 'new Note', created: '', lastUpdated: '' }
+        const note = { id: uuidv4(), text: '', created: '', lastUpdated: '' }
         dispatch(addNote(note))
         dispatch(swapNote(note.id))
       }}>+ New Note
@@ -20,7 +20,10 @@ const Navigation = () => {
       <button
         className='nav-button'
         onClick={() => {
-          dispatch(deleteNote(activeNote.id))
+          if (activeNote) {
+            dispatch(deleteNote(activeNote.id))
+          }
+
         }}
       >
         X Delete Note

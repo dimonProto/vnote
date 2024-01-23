@@ -27,9 +27,10 @@ export const loadNotes = createAsyncThunk<NoteItem[], void>(
 
 const initialState = {
   data: [] as NoteItem[],
-  active: null,
+  active: '',
+  error: '',
   loading: true,
-  error: null,
+
 }
 
 
@@ -39,7 +40,7 @@ export const noteSlice = createSlice({
   reducers: {
     loadNotesSuccess: (state, action) => {
       state.data = action.payload
-      state.active = action.payload.length > 0 ? action.payload[0].id : null
+      state.active = action.payload.length > 0 ? action.payload[0].id : ''
     },
     loadNotesError: (state, action) => {
       state.error = action.payload
@@ -52,9 +53,12 @@ export const noteSlice = createSlice({
     },
     deleteNote: (state, action) => {
       const noteIndex = state.data.findIndex(note => note.id === action.payload)
-      const newActiveNoteId = state.data[noteIndex - 1] ? state.data[noteIndex - 1].id : null
+      const newActiveNoteId = state.data[noteIndex - 1] ? state.data[noteIndex - 1].id : ''
       state.data = state.data.filter(note => note.id !== action.payload)
       state.active = newActiveNoteId
+    },
+    pruneNote: (state) => {
+      state.data = state.data.filter(note => note.text !== '')
     },
     updateNote: (state, action) => {
       state.data = state.data.map((note) =>
@@ -90,6 +94,6 @@ export const noteSlice = createSlice({
 
 
 // Action creators are generated for each case reducer function
-export const { addNote, updateNote, swapNote, deleteNote } = noteSlice.actions
+export const { addNote, updateNote, swapNote, deleteNote, pruneNote } = noteSlice.actions
 
 export default noteSlice.reducer
