@@ -20,7 +20,7 @@ const Navigation = () => {
       <button
         className='nav-button'
         onClick={() => {
-          if (activeNote) {
+          if (activeNote.text !== '') {
             dispatch(deleteNote(activeNote.id))
           }
 
