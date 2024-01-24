@@ -13,11 +13,6 @@ interface NoteObject {
   text: string
 }
 
-interface NoteProps {
-  note: NoteObject
-  updateNote: Function
-}
-
 
 const NoteEditor = () => {
 
@@ -36,11 +31,11 @@ const NoteEditor = () => {
   }, [dispatch])
 
   if (loading) {
-    return <div className='editor' />
+    return <div className='empty-editor' />
   }
 
   if (!activeNote) {
-    return <div>create your first note !</div>
+    return <div className='empty-editor vcenter'>create your first note !</div>
   }
   return (
 

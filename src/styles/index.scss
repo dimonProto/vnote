@@ -67,6 +67,12 @@ code {
   }
 }
 
+.empty-editor {
+  grid-area: editor;
+  background: #f5f5f5;
+  width: 100%;
+}
+
 .editor {
   grid-area: editor;
 
@@ -78,8 +84,14 @@ code {
     font-size: 15px;
     line-height: 1.5;
   }
-
+  
   .CodeMirror-activeline-background {
     background: rgba(0, 0, 0, 0.05) !important;
   }
+}
+
+.vcenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

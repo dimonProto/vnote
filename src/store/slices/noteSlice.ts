@@ -3,7 +3,8 @@ import { NoteItem } from '../../type'
 
 export const fetchDataFromAPI = async (): Promise<NoteItem[]> => {
   try {
-    const response = await fetch('https://gist.githubusercontent.com/dimonProto/c00f59564c39b458c2c0141bb856382b/raw/44bdcd6b8174706c9d17f0eb2393c0e51278c2e9/gistfile1.txt')
+    const response = await fetch(
+      'https://gist.githubusercontent.com/dimonProto/c00f59564c39b458c2c0141bb856382b/raw/5c90dd5912f8c854cb2eb76cce72be3741341ee1/gistfile1.txt')
     if (!response.ok) {
       throw new Error('Failed to fetch data')
     }
@@ -52,8 +53,20 @@ export const noteSlice = createSlice({
       state.data = [...state.data, action.payload]
     },
     deleteNote: (state, action) => {
-      const noteIndex = state.data.findIndex(note => note.id === action.payload)
-      const newActiveNoteId = state.data[noteIndex - 1] ? state.data[noteIndex - 1].id : ''
+      const deletedNoteIndex = state.data.findIndex(note => note.id === action.payload)
+      let newActiveNoteId: string
+
+      if (deletedNoteIndex === 0) {
+        if (state.data.find((note, i) => i === 1)) {
+          newActiveNoteId = state.data[deletedNoteIndex + 1].id
+        } else {
+          newActiveNoteId = ''
+        }
+      } else if (state.data[deletedNoteIndex - 1]) {
+        newActiveNoteId = state.data[deletedNoteIndex - 1].id
+      } else {
+        newActiveNoteId = ''
+      }
       state.data = state.data.filter(note => note.id !== action.payload)
       state.active = newActiveNoteId
     },
