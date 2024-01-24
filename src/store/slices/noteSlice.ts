@@ -1,33 +1,32 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { NoteItem } from '../../type'
+import { NoteItem } from 'type'
+import { requestNotes } from 'api'
 
-export const fetchDataFromAPI = async (): Promise<NoteItem[]> => {
+export const fetchAsync = async (endpoint): Promise<NoteItem[]> => {
   try {
-    const response = await fetch(
-      'https://gist.githubusercontent.com/dimonProto/c00f59564c39b458c2c0141bb856382b/raw/5c90dd5912f8c854cb2eb76cce72be3741341ee1/gistfile1.txt')
-    if (!response.ok) {
-      throw new Error('Failed to fetch data')
-    }
-    const data = await response.json()
-    return Array.isArray(data) ? data : [data]
+
+    const response = await endpoint()
+
+
+    return JSON.parse(response)
   } catch (error) {
-    console.error('Error fetching data:', error)
+    console.error('Error fetching notes:', error)
     throw error
   }
 }
 
 // Create an async thunk
 export const loadNotes = createAsyncThunk<NoteItem[], void>(
-  'data/fetchData',
+  'notes/fetchnotes',
   async () => {
-    const data = await fetchDataFromAPI()
-    return data
+    const notes = await fetchAsync(requestNotes)
+    return notes
   },
 )
 
 
 const initialState = {
-  data: [] as NoteItem[],
+  notes: [] as NoteItem[],
   active: '',
   error: '',
   loading: true,
@@ -40,7 +39,7 @@ export const noteSlice = createSlice({
   initialState,
   reducers: {
     loadNotesSuccess: (state, action) => {
-      state.data = action.payload
+      state.notes = action.payload
       state.active = action.payload.length > 0 ? action.payload[0].id : ''
     },
     loadNotesError: (state, action) => {
@@ -50,31 +49,25 @@ export const noteSlice = createSlice({
       state.active = action.payload
     },
     addNote: (state, action) => {
-      state.data = [...state.data, action.payload]
+      state.notes = [...state.notes, action.payload]
     },
     deleteNote: (state, action) => {
-      const deletedNoteIndex = state.data.findIndex(note => note.id === action.payload)
-      let newActiveNoteId: string
+      const deletedNoteIndex = state.notes.findIndex(note => note.id === action.payload)
+      let newActiveNoteId = ''
 
-      if (deletedNoteIndex === 0) {
-        if (state.data.find((note, i) => i === 1)) {
-          newActiveNoteId = state.data[deletedNoteIndex + 1].id
-        } else {
-          newActiveNoteId = ''
-        }
-      } else if (state.data[deletedNoteIndex - 1]) {
-        newActiveNoteId = state.data[deletedNoteIndex - 1].id
-      } else {
-        newActiveNoteId = ''
+      if (deletedNoteIndex === 0 && state.notes[1]) {
+        newActiveNoteId = state.notes[deletedNoteIndex + 1].id
+      } else if (state.notes[deletedNoteIndex - 1]) {
+        newActiveNoteId = state.notes[deletedNoteIndex - 1].id
       }
-      state.data = state.data.filter(note => note.id !== action.payload)
+      state.notes = state.notes.filter(note => note.id !== action.payload)
       state.active = newActiveNoteId
     },
     pruneNote: (state) => {
-      state.data = state.data.filter(note => note.text !== '')
+      state.notes = state.notes.filter(note => note.text !== '')
     },
     updateNote: (state, action) => {
-      state.data = state.data.map((note) =>
+      state.notes = state.notes.map((note) =>
         note.id === action.payload.id
           ? {
             id: note.id,

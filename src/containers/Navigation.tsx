@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 const Navigation = () => {
 
-  const activeNote = useSelector(({ notesState }) => notesState.data?.find(note => note.id === notesState.active))
+  const activeNote = useSelector(({ notesState }) => notesState.notes?.find(note => note.id === notesState.active))
 
 
   const dispatch = useDispatch()

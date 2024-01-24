@@ -6,7 +6,7 @@ import { pruneNote, swapNote } from 'store/slices/noteSlice'
 
 const NoteList = () => {
 
-  const notes = useSelector((state: RootState) => state.notesState.data)
+  const notes = useSelector((state: RootState) => state.notesState.notes)
   const active = useSelector((state: RootState) => state.notesState.active)
   const dispatch: AppDispatch = useDispatch()
 

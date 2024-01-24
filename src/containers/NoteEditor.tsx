@@ -8,11 +8,6 @@ import { AppDispatch } from 'store'
 import { loadNotes, updateNote } from 'store/slices/noteSlice'
 import options from 'constants/codeMirrorOptions'
 
-interface NoteObject {
-  id: string
-  text: string
-}
-
 
 const NoteEditor = () => {
 
