@@ -26,8 +26,10 @@ const NoteList = () => {
           return (
             <div key={note.id} className={note.id === active ? 'note-title active' : 'note-title'}
                  onClick={() => {
-                   dispatch(swapNote(note.id))
-                   dispatch(pruneNote())
+                   if (note.id !== active) {
+                     dispatch(swapNote(note.id))
+                     dispatch(pruneNote())
+                   }
                  }}>
               {noteTitle}
             </div>
