@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'store'
 import { pruneNote, swapNote } from 'store/slices/noteSlice'
+import { getNoteTitle } from '../helpers'
 
 
 const NoteList = () => {
@@ -15,14 +16,7 @@ const NoteList = () => {
     <aside className='sidebar'>
       <div className='note-list'>
         {notes.map(note => {
-          let noteTitle: string
-          if (!note.text) {
-            noteTitle = 'New Note'
-          } else if (note.text.indexOf('\n') !== -1) {
-            noteTitle = note.text.slice(0, note.text.indexOf('\n'))
-          } else {
-            noteTitle = note.text.slice(0, 50)
-          }
+          const noteTitle = getNoteTitle(note.text)
           return (
             <div key={note.id} className={note.id === active ? 'note-title active' : 'note-title'}
                  onClick={() => {
