@@ -14,7 +14,6 @@ export const fetchNotes = async (): Promise<NoteItem[]> => {
 
 export const syncState = (state) => {
   try {
-
     return saveState(state)
   } catch (error) {
     throw new Error('Response status is not 200')
@@ -55,13 +54,6 @@ export const noteSlice = createSlice({
       state.notes = action.payload
       state.active = action.payload.length > 0 ? action.payload[0].id : ''
     },
-    loadNotesR: (state, action) => {
-      state.notes = action.payload
-    },
-    syncStateR: (state, action) => {
-      state.notes = action.payload
-      state.syncing = true
-    },
     loadNotesError: (state, action) => {
       state.error = action.payload
     },
@@ -88,7 +80,7 @@ export const noteSlice = createSlice({
       state.active = newActiveNoteId
     },
     pruneNote: (state) => {
-      state.notes = state.notes.filter(note => note.text !== '')
+      state.notes = state.notes.filter(note => note.text !== '' || note.id !== state.active)
     },
     updateNote: (state, action) => {
       state.notes = state.notes.map((note) =>
