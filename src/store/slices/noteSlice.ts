@@ -1,25 +1,37 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { NoteItem } from 'type'
-import { requestNotes } from 'api'
+import { requestNotes, saveState } from 'api'
 
-export const fetchAsync = async (endpoint): Promise<NoteItem[]> => {
+export const fetchNotes = async (): Promise<NoteItem[]> => {
   try {
-
-    const response = await endpoint()
-
-
-    return JSON.parse(response)
+    const data = await requestNotes()
+    return data as NoteItem[] // Ensure that the data is treated as an array of NoteItem
   } catch (error) {
     console.error('Error fetching notes:', error)
     throw error
   }
 }
 
+export const syncState = (state) => {
+  try {
+
+    return saveState(state)
+  } catch (error) {
+    throw new Error('Response status is not 200')
+  }
+
+}
+
+export const noteSaga = async (state) => {
+  await fetchNotes()
+  await syncState(state)
+}
+
 // Create an async thunk
 export const loadNotes = createAsyncThunk<NoteItem[], void>(
   'notes/fetchnotes',
   async () => {
-    const notes = await fetchAsync(requestNotes)
+    const notes = await fetchNotes()
     return notes
   },
 )
@@ -30,6 +42,7 @@ const initialState = {
   active: '',
   error: '',
   loading: true,
+  syncing: false,
 
 }
 
@@ -42,11 +55,22 @@ export const noteSlice = createSlice({
       state.notes = action.payload
       state.active = action.payload.length > 0 ? action.payload[0].id : ''
     },
+    loadNotesR: (state, action) => {
+      state.notes = action.payload
+    },
+    syncStateR: (state, action) => {
+      state.notes = action.payload
+      state.syncing = true
+    },
     loadNotesError: (state, action) => {
       state.error = action.payload
     },
     swapNote: (state, action) => {
       state.active = action.payload
+    },
+    asyncState: (state, action) => {
+      state.notes = action.payload
+      state.syncing = true
     },
     addNote: (state, action) => {
       state.notes = [...state.notes, action.payload]
@@ -88,10 +112,12 @@ export const noteSlice = createSlice({
       })
       .addCase(loadNotes.fulfilled, (state, action: PayloadAction<NoteItem[]>) => {
         state.loading = false
+        state.syncing = false
         noteSlice.caseReducers.loadNotesSuccess(state, action)
       })
       .addCase(loadNotes.rejected, (state, action) => {
         state.loading = false
+        state.syncing = false
         state.error = action.error.message || 'An error occurred'
         noteSlice.caseReducers.loadNotesError(state, action)
       })
@@ -100,6 +126,6 @@ export const noteSlice = createSlice({
 
 
 // Action creators are generated for each case reducer function
-export const { addNote, updateNote, swapNote, deleteNote, pruneNote } = noteSlice.actions
+export const { addNote, updateNote, swapNote, deleteNote, pruneNote, asyncState } = noteSlice.actions
 
 export default noteSlice.reducer

@@ -12,7 +12,7 @@ import options from 'constants/codeMirrorOptions'
 const NoteEditor = () => {
 
   const activeNote = useSelector(({ notesState }) => {
-    return notesState.data?.find(note => note.id === notesState.active)
+    return notesState.notes?.find(note => note.id === notesState.active)
   })
 
   const loading = useSelector(({ notesState }) => {
