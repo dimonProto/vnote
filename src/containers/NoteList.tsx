@@ -13,12 +13,12 @@ const NoteList = () => {
 
 
   return (
-    <aside className='sidebar'>
+    <aside className='note-sidebar'>
       <div className='note-list'>
         {notes.map(note => {
           const noteTitle = getNoteTitle(note.text)
           return (
-            <div key={note.id} className={note.id === active ? 'note-title active' : 'note-title'}
+            <div key={note.id} className={note.id === active ? 'note-each active' : 'note-each'}
                  onClick={() => {
                    if (note.id !== active) {
                      dispatch(swapNote(note.id))

@@ -16,9 +16,9 @@ code {
 .app {
   display: grid;
   grid-template-areas:
-   'sidebar editor editor'
-    'nav nav nav';
-  grid-template-columns: 250px auto;
+   'category-sidebar note-sidebar editor editor'
+    'nav nav nav nav';
+  grid-template-columns: 150px auto;
   grid-template-rows:  auto 25px;
   min-height: 100vh;
   border-left: 2px solid $hover;
@@ -46,23 +46,44 @@ code {
 
 }
 
-.sidebar {
+.note-sidebar {
+  grid-area: note-sidebar;
   background: $background;
-  width: 350px;
+
+  .note-list {
+    .note-each {
+      cursor: pointer;
+      padding: 0.5rem;
+      border-bottom: 2px solid $hover;
+
+      &.active {
+        background: #bbb;
+      }
+
+      &:hover {
+        background: $hover;
+      }
+    }
+  }
 }
 
-.note-list {
-  .note-title {
-    cursor: pointer;
-    padding: 0.5rem;
-    border-bottom: 2px solid $hover;
+.category-sidebar {
+  grid-area: category-sidebar;
+  background: #333;
 
-    &.active {
-      background: #bbb;
-    }
+  .category-list {
+    .category-each {
+      cursor: pointer;
+      padding: 0.5rem;
+      border-bottom: 2px solid #222;
 
-    &:hover {
-      background: $hover;
+      &.active {
+        background: #222;
+      }
+
+      &:hover {
+        background: #444;
+      }
     }
   }
 }
@@ -84,7 +105,7 @@ code {
     font-size: 15px;
     line-height: 1.5;
   }
-  
+
   .CodeMirror-activeline-background {
     background: rgba(0, 0, 0, 0.05) !important;
   }
