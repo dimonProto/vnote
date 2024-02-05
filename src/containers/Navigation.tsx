@@ -1,15 +1,17 @@
 import React from 'react'
-import { addNote, deleteNote, swapNote, syncState } from 'store/slices/noteSlice'
+import { addNote, deleteNote, swapNote } from 'store/slices/noteSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import { downloadNote, getNoteTitle } from 'helpers'
 import { useKey } from '../helpers/hooks'
+import { syncState } from '../store/middleware'
 
 
 const Navigation = () => {
   const activeNote = useSelector(({ notesState }) => notesState.notes?.find(note => note.id === notesState.active))
   const notes = useSelector(({ notesState }) => notesState.notes)
-  const syncing = useSelector(({ notesState }) => notesState.notes.syncing)
+  const categories = useSelector(({ categoryState }) => categoryState.categories)
+  const syncing = useSelector(({ syncState }) => syncState.syncing)
 
 
   const dispatch = useDispatch()

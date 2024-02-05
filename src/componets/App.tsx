@@ -2,13 +2,13 @@ import React from 'react'
 import NoteEditor from 'containers/NoteEditor'
 import NoteList from 'containers/NoteList'
 import Navigation from 'containers/Navigation'
-import CategoryList from 'containers/CategoryList'
+import AppSidebar from 'containers/AppSidebar'
 
 
 const App: React.FC = () => {
   return (
     <div className='app'>
-      <CategoryList />
+      <AppSidebar />
       <NoteList />
       <NoteEditor />
       <Navigation />

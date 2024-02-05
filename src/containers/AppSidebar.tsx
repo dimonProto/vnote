@@ -1,8 +1,9 @@
 import React from 'react'
 
-const CategoryList = () => {
+const AppSidebar = () => {
   return (
-    <aside className='category-sidebar'>
+    <aside className='app-sidebar'>
+      <div>All notes</div>
       <div className='category-list'>
         {[1, 2, 3].map((category) => {
           return (
@@ -10,9 +11,9 @@ const CategoryList = () => {
           )
         })}
       </div>
-
+      <div>Add Category</div>
     </aside>
   )
 }
 
-export default CategoryList
+export default AppSidebar

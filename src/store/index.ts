@@ -1,8 +1,12 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import noteReducer from './slices/noteSlice'
+import syncReducer from './slices/syncSlice'
+import categoryReducer from './slices/categorySlice'
 
 const rootReducer = combineReducers({
   notesState: noteReducer,
+  syncState: syncReducer,
+  categoryState: categoryReducer,
 })
 
 
