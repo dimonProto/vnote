@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/base16-light.css'
 import 'codemirror/mode/gfm/gfm.js'
 import { useDispatch, useSelector } from 'react-redux'
 import { Controlled as CodeMirror } from 'react-codemirror2'
 import { AppDispatch } from 'store'
-import { loadNotes, updateNote } from 'store/slices/noteSlice'
+import { updateNote } from 'store/slices/noteSlice'
 import options from 'constants/codeMirrorOptions'
 
 
@@ -21,9 +21,6 @@ const NoteEditor = () => {
 
   const dispatch: AppDispatch = useDispatch()
 
-  useEffect(() => {
-    dispatch(loadNotes())
-  }, [dispatch])
 
   if (loading) {
     return <div className='empty-editor' />

@@ -16,6 +16,7 @@
     "dart-sass": "^1.25.0",
     "eslint": "8.22.0",
     "husky": "^8.0.3",
+    "lodash": "^4.17.21",
     "mousetrap": "^1.6.5",
     "mousetrap-global-bind": "^1.1.0",
     "prettier": "^3.2.2",

@@ -1,8 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { CategoryItem } from 'type'
+import { fetchCategories } from '../middleware'
 
+
+export const loadCategories = createAsyncThunk<CategoryItem[], void>(
+  'categories/fetccategories',
+  async (): Promise<CategoryItem[]> => {
+    const categories = await fetchCategories()
+    return categories as CategoryItem[]
+  },
+)
 
 const initialState = {
-  categories: [],
+  categories: [] as CategoryItem[],
   active: '',
   error: '',
   loading: true,
@@ -26,13 +36,13 @@ export const categorySlice = createSlice({
       state.active = action.payload
     },
     addCategory: (state, action) => {
-      state.categories = action.payload
+      state.categories = [...state.categories, action.payload]
     },
     updateCategory: (state, action) => {
       state.categories = state.categories.map((category) =>
         category.id === action.payload ? {
           id: category.id,
-          name: action.payload.title,
+          name: action.payload.name,
         } : category,
       )
     },
