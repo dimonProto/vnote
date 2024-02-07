@@ -6,8 +6,8 @@ export const fetchNotes = async (): Promise<NoteItem[]> => {
     const data = await requestNotes()
     return data as NoteItem[] // Ensure that the data is treated as an array of NoteItem
   } catch (error) {
-    console.error('Error fetching notes:', error)
-    throw error
+    throw new Error('Error fetching notes:', error)
+
   }
 }
 
@@ -16,8 +16,8 @@ export const fetchCategories = async () => {
     const data = await requestCategories()
     return data
   } catch (error) {
-    console.error('Error fetching Categories:', error)
-    throw error
+    throw new Error('Error fetching Categories:', error)
+
   }
 }
 

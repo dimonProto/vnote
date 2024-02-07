@@ -43,8 +43,6 @@ const NoteEditor = () => {
         dispatch(updateNote({ id: activeNote.id, text: value }))
       }}
       onChange={(editor, data, value) => {
-        // editor.focus()
-        // editor.setCursor(editor.lineCount(), 0)
       }}
     />
   )

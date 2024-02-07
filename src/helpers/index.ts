@@ -17,7 +17,7 @@ export const getNoteTitle = text => {
   return noteTitle
 }
 
-export const downloadNote = (fileName, text) => {
+export const downloadNote = (fileName: string, text: string) => {
   const pom = document.createElement('a')
   pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text))
   pom.setAttribute('download', `${fileName}.md`)

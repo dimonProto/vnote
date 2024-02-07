@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { downloadNote, getNoteTitle } from 'helpers'
 import { useKey } from '../helpers/hooks'
 import { syncState } from '../store/middleware'
+import { NoteItem } from '../type'
 
 
 const Navigation = () => {
@@ -17,7 +18,7 @@ const Navigation = () => {
   const dispatch = useDispatch()
 
   const newNoteHandler = () => {
-    const note = { id: uuidv4(), text: '', created: '', lastUpdated: '' }
+    const note: NoteItem = { id: uuidv4(), text: '', created: '', lastUpdated: '' }
     if ((activeNote && activeNote.text !== '') || !activeNote) {
       dispatch(addNote(note))
       dispatch(swapNote(note.id))
@@ -43,7 +44,7 @@ const Navigation = () => {
   useKey('alt+k', () => {
     newNoteHandler()
   })
-  useKey('alt+backspace', () => {
+  useKey('alt+w', () => {
     deleteHandler()
   })
   useKey('alt+s', () => {
