@@ -5,7 +5,7 @@ import 'mousetrap-global-bind'
 const noop = () => {
 }
 
-export const useInterval = (callback: () => void, delay: number | null,) => {
+export const useInterval = (callback: () => void, delay: number | null) => {
   const savedCallback = useRef(noop)
   // Remember the latest callback.
   useEffect(() => {
@@ -28,9 +28,9 @@ export const useInterval = (callback: () => void, delay: number | null,) => {
 
 }
 
-export const useKey = (key: string, handlerCallback: () => void) => {
+export const useKey = (key: string, action: () => void) => {
   let actionRef = useRef(noop)
-  actionRef.current = handlerCallback
+  actionRef.current = action
 
   useEffect(() => {
     mousetrap.bindGlobal(key, () => {

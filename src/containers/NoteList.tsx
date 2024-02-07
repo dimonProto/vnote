@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'store'
 import { pruneNote, swapNote } from 'store/slices/noteSlice'
 import { getNoteTitle } from '../helpers'
+import { NoteItem } from '../type'
 
 
 const NoteList = () => {
 
-  const notes = useSelector((state: RootState) => state.notesState.notes)
+  const notes: NoteItem[] = useSelector((state: RootState) => state.notesState.notes)
   const active = useSelector((state: RootState) => state.notesState.active)
   const dispatch: AppDispatch = useDispatch()
 

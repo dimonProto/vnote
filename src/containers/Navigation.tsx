@@ -4,15 +4,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import { downloadNote, getNoteTitle } from 'helpers'
 import { useKey } from '../helpers/hooks'
-import { syncState } from '../store/middleware'
-import { NoteItem } from '../type'
+import { postState } from '../store/middleware'
+import { CategoryItem, NoteItem } from '../type'
 
 
 const Navigation = () => {
-  const activeNote = useSelector(({ notesState }) => notesState.notes?.find(note => note.id === notesState.active))
-  const notes = useSelector(({ notesState }) => notesState.notes)
-  const categories = useSelector(({ categoryState }) => categoryState.categories)
-  const syncing = useSelector(({ syncState }) => syncState.syncing)
+  const activeNote: NoteItem = useSelector(({ notesState }) => notesState.notes?.find(note => note.id === notesState.active))
+  const notes: NoteItem[] = useSelector(({ notesState }) => notesState.notes)
+  const categories: CategoryItem[] = useSelector(({ categoryState }) => categoryState.categories)
+  const syncing: boolean = useSelector(({ syncState }) => syncState.syncing)
 
 
   const dispatch = useDispatch()
@@ -38,7 +38,7 @@ const Navigation = () => {
   }
 
   const syncNotesHandler = () => {
-    syncState(notes)
+    postState(notes, categories)
   }
 
   useKey('alt+k', () => {

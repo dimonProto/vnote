@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import kebabCase from 'lodash/kebabCase'
 import { AppDispatch } from '../store'
 import { addCategory } from '../store/slices/categorySlice'
+import { CategoryItem } from '../type'
 
 const AppSidebar = () => {
   const [addingTempCategory, setAddingTempCategory] = useState(false)
   const [tempCategory, setTempCategory] = useState('')
 
-  const categories = useSelector(({ categoryState }) => categoryState.categories)
+  const categories: CategoryItem[] = useSelector(({ categoryState }) => categoryState.categories)
 
   const newTempCategoryHandler = () => {
     !addingTempCategory && setAddingTempCategory(true)

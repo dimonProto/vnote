@@ -3,8 +3,8 @@ import { requestCategories, requestNotes, saveState } from 'api'
 
 export const fetchNotes = async (): Promise<NoteItem[]> => {
   try {
-    const data = await requestNotes()
-    return data as NoteItem[] // Ensure that the data is treated as an array of NoteItem
+    const notes = await requestNotes()
+    return notes as NoteItem[] // Ensure that the data is treated as an array of NoteItem
   } catch (error) {
     throw new Error('Error fetching notes:', error)
 
@@ -13,25 +13,26 @@ export const fetchNotes = async (): Promise<NoteItem[]> => {
 
 export const fetchCategories = async () => {
   try {
-    const data = await requestCategories()
-    return data
+    const categories = await requestCategories()
+    return categories
   } catch (error) {
     throw new Error('Error fetching Categories:', error)
 
   }
 }
 
-export const syncState = (state) => {
+export const postState = (notes, categories) => {
+
   try {
-    return saveState(state)
+    return saveState(notes, categories)
   } catch (error) {
     throw new Error('Response status is not 200')
   }
 
 }
 
-export const noteSaga = async (state) => {
+export const noteSaga = async (notes, categories) => {
   await fetchNotes()
   await fetchCategories()
-  await syncState(state)
+  await postState(notes, categories)
 }

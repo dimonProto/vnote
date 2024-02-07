@@ -7,11 +7,12 @@ import { Controlled as CodeMirror } from 'react-codemirror2'
 import { AppDispatch } from 'store'
 import { updateNote } from 'store/slices/noteSlice'
 import options from 'constants/codeMirrorOptions'
+import { NoteItem } from '../type'
 
 
 const NoteEditor = () => {
 
-  const activeNote = useSelector(({ notesState }) => {
+  const activeNote: NoteItem = useSelector(({ notesState }) => {
     return notesState.notes?.find(note => note.id === notesState.active)
   })
 
