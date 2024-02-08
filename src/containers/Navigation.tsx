@@ -6,10 +6,11 @@ import { downloadNote, getNoteTitle } from 'helpers'
 import { useKey } from '../helpers/hooks'
 import { postState } from '../store/middleware'
 import { CategoryItem, NoteItem } from '../type'
+import moment from 'moment'
 
 
 const Navigation = () => {
-  const activeNote: NoteItem = useSelector(({ notesState }) => notesState.notes?.find(note => note.id === notesState.active))
+  const activeNote: NoteItem = useSelector(({ notesState }) => notesState.notes?.find(note => note.id === notesState.activeNoteId))
   const notes: NoteItem[] = useSelector(({ notesState }) => notesState.notes)
   const categories: CategoryItem[] = useSelector(({ categoryState }) => categoryState.categories)
   const syncing: boolean = useSelector(({ syncState }) => syncState.syncing)
@@ -18,7 +19,12 @@ const Navigation = () => {
   const dispatch = useDispatch()
 
   const newNoteHandler = () => {
-    const note: NoteItem = { id: uuidv4(), text: '', created: '', lastUpdated: '' }
+    const note: NoteItem = {
+      id: uuidv4(),
+      text: '',
+      created: moment().format(),
+      lastUpdated: moment().format(),
+    }
     if ((activeNote && activeNote.text !== '') || !activeNote) {
       dispatch(addNote(note))
       dispatch(swapNote(note.id))

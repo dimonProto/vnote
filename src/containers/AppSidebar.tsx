@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import kebabCase from 'lodash/kebabCase'
 import { AppDispatch } from '../store'
-import { addCategory } from '../store/slices/categorySlice'
+import { addCategory, swapCategory } from '../store/slices/categorySlice'
 import { CategoryItem } from '../type'
 
 const AppSidebar = () => {
@@ -10,6 +10,7 @@ const AppSidebar = () => {
   const [tempCategory, setTempCategory] = useState('')
 
   const categories: CategoryItem[] = useSelector(({ categoryState }) => categoryState.categories)
+  const activeCategoryId = useSelector(({ categoryState }) => categoryState.activeCategoryId)
 
   const newTempCategoryHandler = () => {
     !addingTempCategory && setAddingTempCategory(true)
@@ -26,7 +27,14 @@ const AppSidebar = () => {
         <div className='category-list'>
           {categories.map(category => {
             return (
-              <div key={category.id} className={!category ? 'category-each active' : 'category-each'}>
+              <div key={category.id}
+                   className={category.id === activeCategoryId ? 'category-each active' : 'category-each'}
+                   onClick={() => {
+                     if (category.id !== activeCategoryId) {
+                       dispatch(swapCategory(category.id))
+                     }
+                   }}
+              >
                 {category.name}
               </div>
             )
@@ -46,7 +54,7 @@ const AppSidebar = () => {
           >
             <input
               autoFocus
-              placeholder='New catogory name...'
+              placeholder='New category...'
               onChange={event => {
                 setTempCategory(event.target.value)
               }}

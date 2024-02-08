@@ -15,7 +15,7 @@ export const loadNotes = createAsyncThunk<NoteItem[], void>(
 
 const initialState = {
   notes: [] as NoteItem[],
-  active: '',
+  activeNoteId: '',
   error: '',
   loading: true,
 
@@ -28,16 +28,16 @@ export const noteSlice = createSlice({
   reducers: {
     loadNotesSuccess: (state, action) => {
       state.notes = action.payload
-      state.active = action.payload.length > 0 ? action.payload[0].id : ''
+      state.activeNoteId = action.payload.length > 0 ? action.payload[0].id : ''
     },
     loadNotesError: (state, action) => {
       state.error = action.payload
     },
     swapNote: (state, action) => {
-      state.active = action.payload
+      state.activeNoteId = action.payload
     },
     addNote: (state, action) => {
-      state.notes = [...state.notes, action.payload]
+      state.notes = [action.payload, ...state.notes]
     },
     deleteNote: (state, action) => {
       const deletedNoteIndex = state.notes.findIndex(note => note.id === action.payload)
@@ -49,10 +49,10 @@ export const noteSlice = createSlice({
         newActiveNoteId = state.notes[deletedNoteIndex - 1].id
       }
       state.notes = state.notes.filter(note => note.id !== action.payload)
-      state.active = newActiveNoteId
+      state.activeNoteId = newActiveNoteId
     },
     pruneNote: (state) => {
-      state.notes = state.notes.filter(note => note.text !== '' || note.id !== state.active)
+      state.notes = state.notes.filter(note => note.text !== '' || note.id !== state.activeNoteId)
     },
     updateNote: (state, action) => {
       state.notes = state.notes.map((note) =>
@@ -60,8 +60,8 @@ export const noteSlice = createSlice({
           ? {
             id: note.id,
             text: action.payload.text,
-            created: '',
-            lastUpdated: '',
+            created: note.created,
+            lastUpdated: action.payload.lastUpdated,
           }
           : note,
       )

@@ -9,7 +9,7 @@ import { NoteItem } from '../type'
 const NoteList = () => {
 
   const notes: NoteItem[] = useSelector((state: RootState) => state.notesState.notes)
-  const active = useSelector((state: RootState) => state.notesState.active)
+  const activeNoteId = useSelector((state: RootState) => state.notesState.activeNoteId)
   const dispatch: AppDispatch = useDispatch()
 
 
@@ -19,9 +19,9 @@ const NoteList = () => {
         {notes.map(note => {
           const noteTitle = getNoteTitle(note.text)
           return (
-            <div key={note.id} className={note.id === active ? 'note-each active' : 'note-each'}
+            <div key={note.id} className={note.id === activeNoteId ? 'note-each active' : 'note-each'}
                  onClick={() => {
-                   if (note.id !== active) {
+                   if (note.id !== activeNoteId) {
                      dispatch(swapNote(note.id))
                      dispatch(pruneNote())
                    }

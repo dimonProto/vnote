@@ -8,12 +8,13 @@ import { AppDispatch } from 'store'
 import { updateNote } from 'store/slices/noteSlice'
 import options from 'constants/codeMirrorOptions'
 import { NoteItem } from '../type'
+import moment from 'moment'
 
 
 const NoteEditor = () => {
 
   const activeNote: NoteItem = useSelector(({ notesState }) => {
-    return notesState.notes?.find(note => note.id === notesState.active)
+    return notesState.notes?.find(note => note.id === notesState.activeNoteId)
   })
 
   const loading = useSelector(({ notesState }) => {
@@ -41,7 +42,12 @@ const NoteEditor = () => {
         editor.setCursor(editor.lineCount(), 0)
       }}
       onBeforeChange={(editor, data, value) => {
-        dispatch(updateNote({ id: activeNote.id, text: value }))
+        dispatch(updateNote({
+          id: activeNote.id,
+          text: value,
+          created: activeNote.created,
+          lastUpdated: moment().format(),
+        }))
       }}
       onChange={(editor, data, value) => {
       }}

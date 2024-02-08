@@ -13,7 +13,7 @@ export interface CategoryItem {
 
 export interface NoteState {
   notes: NoteItem[]
-  active: string
+  activeNoteId: string
   error: string
   loading: boolean
   syncing: boolean
@@ -21,7 +21,7 @@ export interface NoteState {
 
 export interface CategoryState {
   categories: CategoryItem[]
-  active: string
+  activeCategoryId: string
   error: string
   loading: boolean
 }
