@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { CategoryItem } from 'type'
 import { fetchCategories } from '../middleware'
 
@@ -57,6 +57,22 @@ export const categorySlice = createSlice({
       state.categories = state.categories.filter(category => category.id !== action.payload)
       state.activeCategoryId = newActiveCategoryId
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loadCategories.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(loadCategories.fulfilled, (state, action: PayloadAction<CategoryItem[]>) => {
+        state.loading = false
+        categorySlice.caseReducers.loadCategoriesSuccess(state, action)
+      })
+      .addCase(loadCategories.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message || 'An error occurred'
+        categorySlice.caseReducers.loadCategoriesError(state, action)
+      })
   },
 })
 

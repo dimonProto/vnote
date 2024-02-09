@@ -6,24 +6,39 @@ import { addCategory, swapCategory } from '../store/slices/categorySlice'
 import { CategoryItem } from '../type'
 
 const AppSidebar = () => {
-  const [addingTempCategory, setAddingTempCategory] = useState(false)
-  const [tempCategory, setTempCategory] = useState('')
 
   const categories: CategoryItem[] = useSelector(({ categoryState }) => categoryState.categories)
   const activeCategoryId = useSelector(({ categoryState }) => categoryState.activeCategoryId)
 
+  const dispatch: AppDispatch = useDispatch()
+
+  const [addingTempCategory, setAddingTempCategory] = useState(false)
+  const [tempCategory, setTempCategory] = useState('')
+
   const newTempCategoryHandler = () => {
     !addingTempCategory && setAddingTempCategory(true)
   }
-  const dispatch: AppDispatch = useDispatch()
+
+  const onSubmit = event => {
+    event.preventDefault()
+    const category = {
+      id: kebabCase(tempCategory),
+      name: tempCategory,
+    }
+
+    dispatch(addCategory(category))
+    setTempCategory('')
+    setAddingTempCategory(false)
+  }
+
 
   return (
     <aside className='app-sidebar'>
       <section id='app-sidebar-main'>
-        <h1>vNote</h1>
-        <p>All Notes</p>
+        <div onClick={() => dispatch(swapCategory(''))} className='app-sidebar-link'>
+          Notes
+        </div>
         <h2>Categories</h2>
-
         <div className='category-list'>
           {categories.map(category => {
             return (
@@ -44,19 +59,20 @@ const AppSidebar = () => {
           <form
             className='add-category-form'
             action=''
-            onSubmit={event => {
-              event.preventDefault()
-              const category = { id: kebabCase(tempCategory), name: tempCategory }
-              dispatch(addCategory(category))
-              setTempCategory('')
-              setAddingTempCategory(false)
-            }}
+            onSubmit={onSubmit}
           >
             <input
               autoFocus
               placeholder='New category...'
               onChange={event => {
                 setTempCategory(event.target.value)
+              }}
+              onBlur={event => {
+                if (!tempCategory) {
+                  setAddingTempCategory(false)
+                } else {
+                  onSubmit(event)
+                }
               }}
               type='text' />
           </form>
