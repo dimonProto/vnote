@@ -2,13 +2,15 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import kebabCase from 'lodash/kebabCase'
 import { AppDispatch } from '../store'
-import { addCategory, swapCategory } from '../store/slices/categorySlice'
-import { CategoryItem } from '../type'
+import { addCategory, swapCategory } from 'store/slices/categorySlice'
+import { CategoryItem } from 'type'
+import { swapNote } from 'store/slices/noteSlice'
 
 const AppSidebar = () => {
 
   const categories: CategoryItem[] = useSelector(({ categoryState }) => categoryState.categories)
   const activeCategoryId = useSelector(({ categoryState }) => categoryState.activeCategoryId)
+  const notes = useSelector(({ notesState }) => notesState.notes)
 
   const dispatch: AppDispatch = useDispatch()
 
@@ -19,7 +21,7 @@ const AppSidebar = () => {
     !addingTempCategory && setAddingTempCategory(true)
   }
 
-  const onSubmit = event => {
+  const onSubmit = (event) => {
     event.preventDefault()
     const category = {
       id: kebabCase(tempCategory),
@@ -35,7 +37,11 @@ const AppSidebar = () => {
   return (
     <aside className='app-sidebar'>
       <section id='app-sidebar-main'>
-        <div onClick={() => dispatch(swapCategory(''))} className='app-sidebar-link'>
+        <div onClick={() => {
+          const newNoteId = notes.length > 0 ? notes[0].id : ''
+          dispatch(swapCategory(''))
+          dispatch(swapNote(newNoteId))
+        }} className='app-sidebar-link'>
           Notes
         </div>
         <h2>Categories</h2>
@@ -45,8 +51,12 @@ const AppSidebar = () => {
               <div key={category.id}
                    className={category.id === activeCategoryId ? 'category-each active' : 'category-each'}
                    onClick={() => {
+                     const notesForNewCategory = notes.filter(note => note.category === category.id)
+                     const newNoteId = notesForNewCategory.length > 0 ? notesForNewCategory[0].id : ''
+
                      if (category.id !== activeCategoryId) {
                        dispatch(swapCategory(category.id))
+                       dispatch(swapNote(newNoteId))
                      }
                    }}
               >
