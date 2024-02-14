@@ -32,8 +32,9 @@ export const useKey = (key: string, action: () => void) => {
   let actionRef = useRef(noop)
   actionRef.current = action
 
-  useEffect(() => {
-    mousetrap.bindGlobal(key, () => {
+  useEffect((): any => {
+    // @ts-ignore
+    mousetrap.bindGlobal((key), () => {
       if (!actionRef.current) return
       actionRef.current()
     })

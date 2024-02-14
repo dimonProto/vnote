@@ -81,5 +81,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/mousetrap": "^1.6.15"
   }
 }

@@ -1,4 +1,4 @@
-import { NoteItem } from '../../type'
+import { CategoryItem, NoteItem } from '../../type'
 import { requestCategories, requestNotes, saveState } from 'api'
 
 export const fetchNotes = async (): Promise<NoteItem[]> => {
@@ -21,7 +21,7 @@ export const fetchCategories = async () => {
   }
 }
 
-export const postState = (notes, categories) => {
+export const postState = (notes: NoteItem[], categories: CategoryItem[]) => {
 
   try {
     return saveState(notes, categories)
@@ -31,7 +31,7 @@ export const postState = (notes, categories) => {
 
 }
 
-export const noteSaga = async (notes, categories) => {
+export const noteSaga = async (notes: NoteItem[], categories: CategoryItem[]) => {
   await fetchNotes()
   await fetchCategories()
   await postState(notes, categories)

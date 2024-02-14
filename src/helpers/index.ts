@@ -1,4 +1,4 @@
-export const getNoteTitle = text => {
+export const getNoteTitle = (text: string) => {
   let noteTitle: string
   if (!text) {
     noteTitle = 'New Note'

@@ -7,10 +7,11 @@ import { useKey } from '../helpers/hooks'
 import { postState } from '../store/middleware'
 import { CategoryItem, NoteItem } from '../type'
 import moment from 'moment'
+import { RootState } from '../store'
 
 
 const Navigation = () => {
-  const activeNote: NoteItem = useSelector(({ notesState }) => notesState.notes?.find(note => note.id === notesState.activeNoteId))
+  const activeNote: NoteItem | undefined = useSelector(({ notesState }: RootState) => notesState.notes?.find(note => note.id === notesState.activeNoteId))
   const notes: NoteItem[] = useSelector(({ notesState }) => notesState.notes)
   const categories: CategoryItem[] = useSelector(({ categoryState }) => categoryState.categories)
   const syncing: boolean = useSelector(({ syncState }) => syncState.syncing)
