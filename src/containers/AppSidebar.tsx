@@ -27,10 +27,13 @@ const AppSidebar = () => {
       id: kebabCase(tempCategory),
       name: tempCategory,
     }
+    if (!categories.find(cat => cat.id === kebabCase(tempCategory))) {
+      dispatch(addCategory(category))
+      setTempCategory('')
+      setAddingTempCategory(false)
+    }
 
-    dispatch(addCategory(category))
-    setTempCategory('')
-    setAddingTempCategory(false)
+
   }
 
 
