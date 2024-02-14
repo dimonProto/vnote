@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import kebabCase from 'lodash/kebabCase'
 import { AppDispatch } from '../store'
-import { addCategory, swapCategory } from 'store/slices/categorySlice'
+import { addCategory, deleteCategory, swapCategory } from 'store/slices/categorySlice'
 import { CategoryItem, NoteItem } from 'type'
-import { swapNote } from 'store/slices/noteSlice'
+import { pruneCategoryFromNotes, swapNote } from 'store/slices/noteSlice'
 
 const AppSidebar = () => {
 
@@ -61,6 +61,14 @@ const AppSidebar = () => {
                    }}
               >
                 {category.name}
+                <div
+                  onClick={() => {
+                    dispatch(deleteCategory(category.id))
+                    dispatch(pruneCategoryFromNotes(category.id))
+                  }}
+                  className='category-options'>
+                  X
+                </div>
               </div>
             )
           })}

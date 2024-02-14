@@ -53,6 +53,18 @@ export const noteSlice = createSlice({
     pruneNote: (state) => {
       state.notes = state.notes.filter(note => note.text !== '' || note.id !== state.activeNoteId)
     },
+    pruneCategoryFromNotes: (state, action) => {
+      state.notes = state.notes.map(note =>
+        note.category === action.payload ?
+          {
+            id: note.id,
+            text: note.text,
+            created: note.created,
+            lastUpdated: note.lastUpdated,
+            category: undefined,
+          } : note,
+      )
+    },
     addCategoryToNote: (state, action) => {
 
       state.notes = state.notes.map((note) =>
@@ -99,6 +111,14 @@ export const noteSlice = createSlice({
 
 
 // Action creators are generated for each case reducer function
-export const { addNote, updateNote, swapNote, deleteNote, pruneNote, addCategoryToNote } = noteSlice.actions
+export const {
+  addNote,
+  updateNote,
+  swapNote,
+  deleteNote,
+  pruneNote,
+  addCategoryToNote,
+  pruneCategoryFromNotes,
+} = noteSlice.actions
 
 export default noteSlice.reducer

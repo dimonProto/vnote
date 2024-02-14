@@ -130,7 +130,9 @@ code {
     .category-each {
       cursor: pointer;
       padding: 0.5rem;
-      border-bottom: 2px solid #222;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
       &:last-of-type {
         border-bottom: none;
@@ -138,6 +140,24 @@ code {
 
       &:hover {
         background: #444;
+
+        .category-options {
+          color: #bbb;
+        }
+      }
+
+      .category-options {
+        color: transparent;
+        z-index: 1;
+        cursor: pointer;
+
+        &.active {
+          color: #bbb;
+        }
+      }
+
+      &.active {
+        background: #bbb;
       }
 
       &.active {
