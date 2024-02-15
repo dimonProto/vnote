@@ -26,7 +26,7 @@ const NoteList = () => {
   const [noteOptionsId, setNoteOptionsId] = useState('')
   const node = useRef<HTMLDivElement>(null)
 
-  const handleNoteOptionsClick = (event: MouseEvent | React.MouseEvent<HTMLDivElement>, noteId: string = '') => {
+  const handleNoteOptionsClick = (event: MouseEvent | React.MouseEvent<HTMLDivElement> | React.ChangeEvent<HTMLSelectElement>, noteId: string = '') => {
     event.stopPropagation()
 
     if (node.current) {
@@ -42,6 +42,10 @@ const NoteList = () => {
     }
 
   }
+
+  const searchNotes = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const filteredResult = filteredNotes.filter(note => note.text.toLowerCase().search(event.target.value.toLowerCase()) !== -1)
+  }
   useEffect(() => {
     // add when mounted
     document.addEventListener('mousedown', handleNoteOptionsClick)
@@ -53,6 +57,12 @@ const NoteList = () => {
 
   return (
     <aside className='note-sidebar'>
+      {/* <input
+        type="search"
+        placeholder="Search notes"
+        onChange={searchNotes}
+        className="searchbar"
+      /> */}
       <div className='note-list'>
         {filteredNotes.map(note => {
           const noteTitle: string = getNoteTitle(note.text)
@@ -92,6 +102,7 @@ const NoteList = () => {
                         dispatch(swapCategory(event.target.value))
                         dispatch(swapNote(newNoteId))
                       }
+                      handleNoteOptionsClick(event)
                     }}
                     name='' id=''>
                     <option disabled value=''>

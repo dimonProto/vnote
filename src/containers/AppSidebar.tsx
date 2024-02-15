@@ -47,7 +47,13 @@ const AppSidebar = () => {
         }} className='app-sidebar-link'>
           Notes
         </div>
-        <h2>Categories</h2>
+        <div className='category-title vbetween'>
+          <h2>Categories</h2>
+          <button onClick={newTempCategoryHandler} className='add-button'>
+            +
+          </button>
+        </div>
+
         <div className='category-list'>
           {categories.map(category => {
             return (
@@ -65,11 +71,16 @@ const AppSidebar = () => {
               >
                 {category.name}
                 <div
+                  className='category-options'
                   onClick={() => {
+                    const newNoteId = notes.length > 0 ? notes[0].id : ''
                     dispatch(deleteCategory(category.id))
                     dispatch(pruneCategoryFromNotes(category.id))
+                    dispatch(swapCategory(''))
+                    dispatch(swapNote(newNoteId))
                   }}
-                  className='category-options'>
+                >
+
                   X
                 </div>
               </div>
@@ -99,9 +110,7 @@ const AppSidebar = () => {
           </form>
         )}
       </section>
-      <section id='app-sidebar-button'>
-        <button onClick={newTempCategoryHandler}>Add Category</button>
-      </section>
+
     </aside>
   )
 }
