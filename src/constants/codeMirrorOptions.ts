@@ -10,5 +10,5 @@ export enum Folders {
   ALL = 'ALL',
   TRASH = 'TRASH',
   FAVORITES = 'FAVORITES',
-  NONE = 'NONE',
+  CATEGORY = 'CATEGORY',
 }

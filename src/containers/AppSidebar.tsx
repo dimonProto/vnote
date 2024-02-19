@@ -12,6 +12,7 @@ const AppSidebar = () => {
   const categories: CategoryItem[] = useSelector(({ categoryState }) => categoryState.categories)
   const activeCategoryId = useSelector(({ categoryState }) => categoryState.activeCategoryId)
   const notes: NoteItem[] = useSelector(({ notesState }) => notesState.notes)
+  const activeFolder = useSelector(({ notesState }) => notesState.activeFolder)
 
   const dispatch: AppDispatch = useDispatch()
 
@@ -43,11 +44,13 @@ const AppSidebar = () => {
       <section id='app-sidebar-main'>
         <div onClick={() => {
           dispatch(swapFolder(Folders.ALL))
-        }} className='app-sidebar-link'>
+        }} className={activeFolder === Folders.ALL ? 'app-sidebar-link active' : 'app-sidebar-link'}>
           Notes
         </div>
         <div
-          className='app-sidebar-link'
+          className={
+            activeFolder === Folders.TRASH ? 'app-sidebar-link active' : 'app-sidebar-link'
+          }
           onClick={() => {
             dispatch(swapFolder(Folders.TRASH))
           }}

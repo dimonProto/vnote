@@ -40,8 +40,8 @@ export const noteSlice = createSlice({
     },
     swapCategory: (state, action) => {
       state.activeCategoryId = action.payload
-      state.activeFolder = Folders.NONE
-      state.activeNoteId = getFirstNote(Folders.NONE, state.notes, action.payload)
+      state.activeFolder = Folders.CATEGORY
+      state.activeNoteId = getFirstNote(Folders.CATEGORY, state.notes, action.payload)
     },
     swapFolder: (state, action) => {
       state.activeFolder = action.payload
@@ -135,7 +135,7 @@ export default noteSlice.reducer
 
 export const getFirstNote = (folder: string, notes: NoteItem[], categoryId?: string) => {
   switch (folder) {
-    case Folders.NONE:
+    case Folders.CATEGORY:
       return notes.find(note => note.category === categoryId) ? notes.find(note => note.category === categoryId)!.id : ''
     case Folders.ALL:
       return notes.length > 0 ? notes[0].id : ''

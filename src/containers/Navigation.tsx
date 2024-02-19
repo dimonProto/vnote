@@ -32,7 +32,7 @@ const Navigation = () => {
     }
   }
 
-  const deleteHandler = () => {
+  const trashNoteHandler = () => {
     if (activeNote) {
       dispatch(sendNoteToTrash(activeNote.id))
     }
@@ -51,8 +51,11 @@ const Navigation = () => {
   useKey('alt+k', () => {
     newNoteHandler()
   })
+  useKey('ctrl+backspace', () => {
+    trashNoteHandler()
+  })
   useKey('alt+w', () => {
-    deleteHandler()
+    trashNoteHandler()
   })
   useKey('alt+s', () => {
     syncNotesHandler()
@@ -64,7 +67,7 @@ const Navigation = () => {
       </button>
       <button
         className='nav-button'
-        onClick={deleteHandler}
+        onClick={trashNoteHandler}
       >
         X Delete Note
       </button>

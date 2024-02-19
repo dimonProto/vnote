@@ -16,7 +16,7 @@ const NoteList = () => {
                                                    notesState,
                                                  }: RootState) => {
       let filterNotes: NoteItem[] = []
-      if (notesState.activeNoteId) {
+      if (notesState.activeNoteId === Folders.CATEGORY) {
         filterNotes = notesState.notes.filter(note => note.category === notesState.activeCategoryId)
       } else if (notesState.activeFolder === Folders.TRASH) {
         filterNotes = notesState.notes.filter(note => note.trash)
@@ -125,9 +125,11 @@ const NoteList = () => {
                         {category.name}
                       </option>
                     ))}
-                    <option key='none' value=''>
-                      Remove category
-                    </option>
+                    {note.category && (
+                      <option key='none' value=''>
+                        Remove category
+                      </option>
+                    )}
                   </select>
                 </div>
               )}

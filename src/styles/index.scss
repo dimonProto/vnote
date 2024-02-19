@@ -151,15 +151,10 @@ code {
         z-index: 1;
         cursor: pointer;
 
-        &.active {
-          color: #bbb;
-        }
+
       }
 
-      &.active {
-        background: #bbb;
-      }
-      
+
     }
   }
 }
