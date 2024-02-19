@@ -13,7 +13,6 @@ export const loadCategories = createAsyncThunk<CategoryItem[], void>(
 
 const initialState = {
   categories: [] as CategoryItem[],
-  activeCategoryId: '',
   error: '',
   loading: true,
 }
@@ -25,16 +24,14 @@ export const categorySlice = createSlice({
   reducers: {
     loadCategoriesSuccess: (state, action) => {
       state.categories = action.payload
-      state.activeCategoryId = ''
+
       state.loading = false
     },
     loadCategoriesError: (state, action) => {
       state.loading = false
       state.error = action.payload
     },
-    swapCategory: (state, action) => {
-      state.activeCategoryId = action.payload
-    },
+
     addCategory: (state, action) => {
       state.categories = [...state.categories, action.payload]
     },
@@ -47,15 +44,7 @@ export const categorySlice = createSlice({
       )
     },
     deleteCategory: (state, action) => {
-      const deletedCategoryIndex = state.categories.findIndex(category => category.id === action.payload)
-      let newActiveCategoryId = ''
-      if (deletedCategoryIndex === 0 && state.categories[1]) {
-        newActiveCategoryId = state.categories[deletedCategoryIndex + 1].id
-      } else if (state.categories[deletedCategoryIndex - 1]) {
-        newActiveCategoryId = state.categories[deletedCategoryIndex - 1].id
-      }
       state.categories = state.categories.filter(category => category.id !== action.payload)
-      state.activeCategoryId = newActiveCategoryId
     },
   },
   extraReducers: (builder) => {
@@ -81,7 +70,6 @@ export const categorySlice = createSlice({
 export const {
   loadCategoriesSuccess,
   loadCategoriesError,
-  swapCategory,
   updateCategory,
   addCategory,
   deleteCategory,

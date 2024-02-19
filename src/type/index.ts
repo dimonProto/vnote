@@ -4,6 +4,7 @@ export interface NoteItem {
   created: string
   lastUpdated: string
   category?: string
+  trash?: boolean
 }
 
 export interface CategoryItem {
@@ -14,6 +15,8 @@ export interface CategoryItem {
 export interface NoteState {
   notes: NoteItem[]
   activeNoteId: string
+  activeFolder: string
+  activeCategoryId: string
   error: string
   loading: boolean
   syncing: boolean

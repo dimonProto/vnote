@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import kebabCase from 'lodash/kebabCase'
 import { AppDispatch } from '../store'
-import { addCategory, deleteCategory, swapCategory } from 'store/slices/categorySlice'
+import { addCategory, deleteCategory } from 'store/slices/categorySlice'
 import { CategoryItem, NoteItem } from 'type'
-import { pruneCategoryFromNotes, swapNote } from 'store/slices/noteSlice'
+import { pruneCategoryFromNotes, swapCategory, swapFolder, swapNote } from 'store/slices/noteSlice'
+import { Folders } from '../constants/codeMirrorOptions'
 
 const AppSidebar = () => {
 
@@ -41,11 +42,17 @@ const AppSidebar = () => {
     <aside className='app-sidebar'>
       <section id='app-sidebar-main'>
         <div onClick={() => {
-          const newNoteId = notes.length > 0 ? notes[0].id : ''
-          dispatch(swapCategory(''))
-          dispatch(swapNote(newNoteId))
+          dispatch(swapFolder(Folders.ALL))
         }} className='app-sidebar-link'>
           Notes
+        </div>
+        <div
+          className='app-sidebar-link'
+          onClick={() => {
+            dispatch(swapFolder(Folders.TRASH))
+          }}
+        >
+          Trash
         </div>
         <div className='category-title vbetween'>
           <h2>Categories</h2>
@@ -77,6 +84,7 @@ const AppSidebar = () => {
                     dispatch(deleteCategory(category.id))
                     dispatch(pruneCategoryFromNotes(category.id))
                     dispatch(swapCategory(''))
+                    dispatch(swapFolder(Folders.ALL))
                     dispatch(swapNote(newNoteId))
                   }}
                 >

@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'store'
-import { addCategoryToNote, pruneNote, swapNote } from 'store/slices/noteSlice'
+import { addCategoryToNote, pruneNote, swapCategory, swapNote } from 'store/slices/noteSlice'
 import { getNoteTitle } from '../helpers'
 import { CategoryItem, NoteItem } from '../type'
-import { swapCategory } from '../store/slices/categorySlice'
+import { Folders } from '../constants/codeMirrorOptions'
 
 
 const NoteList = () => {
@@ -13,16 +13,28 @@ const NoteList = () => {
   const activeCategoryId = useSelector(({ categoryState }) => categoryState.activeCategoryId)
   const activeNoteId = useSelector((state: RootState) => state.notesState.activeNoteId)
   const filteredNotes: NoteItem[] = useSelector(({
-                                                   categoryState,
                                                    notesState,
-                                                 }: RootState) => categoryState.activeCategoryId ?
-    notesState.notes.filter(note => note.category === categoryState.activeCategoryId) : notesState.notes,
+                                                 }: RootState) => {
+      let filterNotes: NoteItem[] = []
+      if (notesState.activeNoteId) {
+        filterNotes = notesState.notes.filter(note => note.category === notesState.activeCategoryId)
+      } else if (notesState.activeFolder === Folders.TRASH) {
+        filterNotes = notesState.notes.filter(note => note.trash)
+      } else {
+        filterNotes = notesState.notes.filter(note => !note.trash)
+
+      }
+      return filterNotes
+    },
   )
-  const filteredCategories: CategoryItem[] = useSelector(({ categoryState }: RootState) => categoryState.categories.filter(
-    category => category.id !== categoryState.activeCategoryId))
+  console.log(filteredNotes)
+  const filteredCategories: CategoryItem[] = useSelector(({
+                                                            categoryState,
+                                                            notesState,
+                                                          }: RootState) => categoryState.categories.filter(
+    category => category.id !== notesState.activeCategoryId))
 
   const dispatch: AppDispatch = useDispatch()
-
   const [noteOptionsId, setNoteOptionsId] = useState('')
   const node = useRef<HTMLDivElement>(null)
 
@@ -113,6 +125,9 @@ const NoteList = () => {
                         {category.name}
                       </option>
                     ))}
+                    <option key='none' value=''>
+                      Remove category
+                    </option>
                   </select>
                 </div>
               )}

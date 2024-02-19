@@ -1,5 +1,5 @@
 import React from 'react'
-import { addNote, deleteNote, swapNote } from 'store/slices/noteSlice'
+import { addNote, sendNoteToTrash, swapNote } from 'store/slices/noteSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import { downloadNote, getNoteTitle } from 'helpers'
@@ -34,13 +34,13 @@ const Navigation = () => {
 
   const deleteHandler = () => {
     if (activeNote) {
-      dispatch(deleteNote(activeNote.id))
+      dispatch(sendNoteToTrash(activeNote.id))
     }
   }
 
   const downloadNoteHandler = () => {
     if (activeNote) {
-      downloadNote(getNoteTitle(activeNote.text), activeNote.text)
+      downloadNote(getNoteTitle(activeNote.text), activeNote)
     }
   }
 

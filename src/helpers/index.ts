@@ -1,3 +1,5 @@
+import { NoteItem } from '../type'
+
 export const getNoteTitle = (text: string) => {
   let noteTitle: string
   if (!text) {
@@ -10,9 +12,19 @@ export const getNoteTitle = (text: string) => {
   return noteTitle
 }
 
-export const downloadNote = (fileName: string, text: string) => {
+export const noteWithFrontmatter = (note: NoteItem) => {
+  return `---
+  title: ${getNoteTitle(note.text)}
+  created: ${note.created}
+  lastUpdated: ${note.lastUpdated}
+  ---
+  
+  ${note.text}`
+}
+
+export const downloadNote = (fileName: string, note: NoteItem) => {
   const pom = document.createElement('a')
-  pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text))
+  pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(noteWithFrontmatter(note)))
   pom.setAttribute('download', `${fileName}.md`)
 
   if (document.createEvent) {
