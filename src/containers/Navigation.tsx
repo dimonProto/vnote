@@ -33,7 +33,7 @@ const Navigation = () => {
   }
 
   const trashNoteHandler = () => {
-    if (activeNote) {
+    if (activeNote && !activeNote.trash) {
       dispatch(sendNoteToTrash(activeNote.id))
     }
   }
@@ -51,9 +51,7 @@ const Navigation = () => {
   useKey('alt+k', () => {
     newNoteHandler()
   })
-  useKey('ctrl+backspace', () => {
-    trashNoteHandler()
-  })
+
   useKey('alt+w', () => {
     trashNoteHandler()
   })

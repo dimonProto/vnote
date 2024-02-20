@@ -70,9 +70,10 @@ const AppSidebar = () => {
               <div key={category.id}
                    className={category.id === activeCategoryId ? 'category-each active' : 'category-each'}
                    onClick={() => {
-                     const notesForNewCategory = notes.filter(note => note.category === category.id)
+                     const notesForNewCategory = notes.filter(
+                       note => note.category === category.id,
+                     )
                      const newNoteId = notesForNewCategory.length > 0 ? notesForNewCategory[0].id : ''
-
                      if (category.id !== activeCategoryId) {
                        dispatch(swapCategory(category.id))
                        dispatch(swapNote(newNoteId))
@@ -86,7 +87,7 @@ const AppSidebar = () => {
                     const newNoteId = notes.length > 0 ? notes[0].id : ''
                     dispatch(deleteCategory(category.id))
                     dispatch(pruneCategoryFromNotes(category.id))
-                    dispatch(swapCategory(''))
+                    dispatch(swapCategory(Folders.ALL))
                     dispatch(swapFolder(Folders.ALL))
                     dispatch(swapNote(newNoteId))
                   }}

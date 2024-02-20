@@ -29,7 +29,7 @@ const NoteEditor = () => {
   }
 
   if (!activeNote) {
-    return <div className='empty-editor vcenter'>Create a note !</div>
+    return <div className='empty-editor vcenter' />
   }
   return (
 

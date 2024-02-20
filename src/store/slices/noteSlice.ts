@@ -58,11 +58,11 @@ export const noteSlice = createSlice({
           trash: true,
         } : note,
       )
-      state.activeNoteId = getNewNoteId(state.notes, action.payload)
+      state.activeNoteId = getNewNoteId(state.notes, action.payload, state.activeCategoryId)
     },
     deleteNote: (state, action) => {
       state.notes = state.notes.filter(note => note.id !== action.payload)
-      state.activeNoteId = getNewNoteId(state.notes, action.payload)
+      state.activeNoteId = getNewNoteId(state.notes, action.payload, state.activeCategoryId)
     },
     pruneNote: (state) => {
       state.notes = state.notes.filter(note => note.text !== '' || note.id !== state.activeNoteId)
@@ -134,11 +134,13 @@ export default noteSlice.reducer
 
 
 export const getFirstNote = (folder: string, notes: NoteItem[], categoryId?: string) => {
+
+  const notesNotTrash = notes.filter(note => !note.trash)
   switch (folder) {
     case Folders.CATEGORY:
-      return notes.find(note => note.category === categoryId) ? notes.find(note => note.category === categoryId)!.id : ''
+      return notesNotTrash.find(note => note.category === categoryId) ? notes.find(note => note.category === categoryId)!.id : ''
     case Folders.ALL:
-      return notes.length > 0 ? notes[0].id : ''
+      return notesNotTrash.length > 0 ? notes[0].id : ''
     case Folders.TRASH:
       return notes.find(note => note.trash) ? notes.find(note => note.trash)!.id : ''
     default:
@@ -147,15 +149,18 @@ export const getFirstNote = (folder: string, notes: NoteItem[], categoryId?: str
 }
 
 
-const getNewNoteId = (notes: NoteItem[], payload: string) => {
+const getNewNoteId = (notes: NoteItem[], oldNoteId: string, activeCategoryId: string) => {
+  const notesNotTrash = activeCategoryId
+    ? notes.filter(note => !note.trash && note.category === activeCategoryId)
+    : notes.filter(note => !note.trash)
 
-  const deletedNoteIndex = notes.findIndex(note => note.id === payload)
+  const deletedNoteIndex = notesNotTrash.findIndex(note => note.id === oldNoteId)
   let newActiveNoteId = ''
 
-  if (deletedNoteIndex === 0 && notes[1]) {
-    newActiveNoteId = notes[deletedNoteIndex + 1].id
-  } else if (notes[deletedNoteIndex - 1]) {
-    newActiveNoteId = notes[deletedNoteIndex - 1].id
+  if (deletedNoteIndex === 0 && notesNotTrash[1]) {
+    newActiveNoteId = notesNotTrash[deletedNoteIndex + 1].id
+  } else if (notesNotTrash[deletedNoteIndex - 1]) {
+    newActiveNoteId = notesNotTrash[deletedNoteIndex - 1].id
   }
 
   return newActiveNoteId

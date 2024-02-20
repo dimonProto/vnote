@@ -16,8 +16,11 @@ const NoteList = () => {
                                                    notesState,
                                                  }: RootState) => {
       let filterNotes: NoteItem[] = []
-      if (notesState.activeNoteId === Folders.CATEGORY) {
-        filterNotes = notesState.notes.filter(note => note.category === notesState.activeCategoryId)
+
+      if (notesState.activeFolder === Folders.CATEGORY) {
+        console.log('ss')
+        filterNotes = notesState.notes.filter(
+          note => !note.trash && note.category === notesState.activeCategoryId)
       } else if (notesState.activeFolder === Folders.TRASH) {
         filterNotes = notesState.notes.filter(note => note.trash)
       } else {
@@ -108,11 +111,10 @@ const NoteList = () => {
                     className='select-element'
                     onChange={event => {
                       dispatch(addCategoryToNote({ noteId: note.id, categoryId: event.target.value }))
-                      const notesForNewCategory = notes.filter(note => note.category === event.target.value)
-                      const newNoteId = notesForNewCategory.length > 0 ? notesForNewCategory[0].id : ''
+
                       if (event.target.value !== activeCategoryId) {
                         dispatch(swapCategory(event.target.value))
-                        dispatch(swapNote(newNoteId))
+                        dispatch(swapNote(note.id))
                       }
                       handleNoteOptionsClick(event)
                     }}
@@ -120,11 +122,13 @@ const NoteList = () => {
                     <option disabled value=''>
                       Select category
                     </option>
-                    {filteredCategories.map(category => (
-                      <option key={category.id} value={category.id}>
-                        {category.name}
-                      </option>
-                    ))}
+                    {filteredCategories
+                      .filter(category => category.id !== note.category)
+                      .map(category => (
+                        <option key={category.id} value={category.id}>
+                          {category.name}
+                        </option>
+                      ))}
                     {note.category && (
                       <option key='none' value=''>
                         Remove category
