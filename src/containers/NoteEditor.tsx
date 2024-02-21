@@ -50,6 +50,7 @@ const NoteEditor = () => {
         }))
       }}
       onChange={(editor, data, value) => {
+        editor.focus()
       }}
     />
   )
