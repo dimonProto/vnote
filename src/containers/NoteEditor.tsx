@@ -31,6 +31,7 @@ const NoteEditor = () => {
   if (!activeNote) {
     return <div className='empty-editor vcenter' />
   }
+
   return (
 
     <CodeMirror
@@ -51,8 +52,7 @@ const NoteEditor = () => {
       }}
       onChange={(editor, data, value) => {
         editor.focus()
-      }}
-    />
+      }}></CodeMirror>
   )
 }
 

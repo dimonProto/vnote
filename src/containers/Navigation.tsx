@@ -8,10 +8,11 @@ import { postState } from '../store/middleware'
 import { CategoryItem, NoteItem } from '../type'
 import moment from 'moment'
 import { RootState } from '../store'
-
+import { Cloud, Download, Plus, X } from 'react-feather'
 
 const Navigation = () => {
   const activeNote: NoteItem | undefined = useSelector(({ notesState }: RootState) => notesState.notes?.find(note => note.id === notesState.activeNoteId))
+  const activeCategoryId = useSelector(({ notesState }) => notesState.activeCategoryId)
   const notes: NoteItem[] = useSelector(({ notesState }) => notesState.notes)
   const categories: CategoryItem[] = useSelector(({ categoryState }) => categoryState.categories)
   const syncing: boolean = useSelector(({ syncState }) => syncState.syncing)
@@ -25,6 +26,7 @@ const Navigation = () => {
       text: '',
       created: moment().format(),
       lastUpdated: moment().format(),
+      category: activeCategoryId ? activeCategoryId : '',
     }
     if ((activeNote && activeNote.text !== '') || !activeNote) {
       dispatch(addNote(note))
@@ -61,27 +63,28 @@ const Navigation = () => {
 
   return (
     <nav className='navigation'>
-      <button className='nav-button' onClick={newNoteHandler}>+ New Note
+      <button className='nav-button' onClick={newNoteHandler}><Plus /> New Note
       </button>
-      <button
+      <div
         className='nav-button'
         onClick={trashNoteHandler}
       >
-        X Delete Note
-      </button>
-      <button
+        <X /> Delete Note
+      </div>
+      <div
         className='nav-button'
         onClick={downloadNoteHandler}
       >
-        ^ Download Note
-      </button>
-      <button
+        <Download /> Download Note
+      </div>
+      <div
         className='nav-button'
         onClick={syncNotesHandler}
       >
+        <Cloud />
         Sync notes
         {syncing && 'Syncing...'}
-      </button>
+      </div>
     </nav>
   )
 }

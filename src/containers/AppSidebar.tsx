@@ -6,6 +6,7 @@ import { addCategory, deleteCategory } from 'store/slices/categorySlice'
 import { CategoryItem, NoteItem } from 'type'
 import { pruneCategoryFromNotes, swapCategory, swapFolder, swapNote } from 'store/slices/noteSlice'
 import { Folders } from '../constants/codeMirrorOptions'
+import { Book, Folder, Trash2 } from 'react-feather'
 
 const AppSidebar = () => {
 
@@ -45,6 +46,7 @@ const AppSidebar = () => {
         <div onClick={() => {
           dispatch(swapFolder(Folders.ALL))
         }} className={activeFolder === Folders.ALL ? 'app-sidebar-link active' : 'app-sidebar-link'}>
+          <Book size={15} style={{ marginRight: '.5rem' }} />
           Notes
         </div>
         <div
@@ -55,6 +57,8 @@ const AppSidebar = () => {
             dispatch(swapFolder(Folders.TRASH))
           }}
         >
+
+          <Trash2 size={15} style={{ marginRight: '.5rem' }} />
           Trash
         </div>
         <div className='category-title vbetween'>
@@ -80,7 +84,11 @@ const AppSidebar = () => {
                      }
                    }}
               >
-                {category.name}
+                <div className='category-each-name'>
+                  <Folder size={15} style={{ marginRight: '.5rem' }} />
+                  {category.name}
+                </div>
+
                 <div
                   className='category-options'
                   onClick={() => {

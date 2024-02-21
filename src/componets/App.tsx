@@ -19,13 +19,13 @@ const App: React.FC = () => {
   useEffect(() => {
     dispatch(loadCategories())
   }, [dispatch])
-  
+
   return (
     <div className='app'>
+      <Navigation />
       <AppSidebar />
       <NoteList />
       <NoteEditor />
-      <Navigation />
     </div>
   )
 }

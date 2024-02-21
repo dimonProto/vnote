@@ -116,7 +116,8 @@ const NoteList = () => {
                         dispatch(swapCategory(event.target.value))
                         dispatch(swapNote(note.id))
                       }
-                      handleNoteOptionsClick(event)
+
+                      setNoteOptionsId('')
                     }}
                     name='' id=''>
                     <option disabled value=''>
