@@ -6,7 +6,7 @@ import { addCategory, deleteCategory } from 'store/slices/categorySlice'
 import { CategoryItem, NoteItem } from 'type'
 import { pruneCategoryFromNotes, swapCategory, swapFolder, swapNote } from 'store/slices/noteSlice'
 import { Folders } from '../constants/codeMirrorOptions'
-import { Book, Folder, Trash2 } from 'react-feather'
+import { Book, Folder, Trash2, X } from 'react-feather'
 
 const AppSidebar = () => {
 
@@ -101,7 +101,7 @@ const AppSidebar = () => {
                   }}
                 >
 
-                  X
+                  <X size={12} />
                 </div>
               </div>
             )

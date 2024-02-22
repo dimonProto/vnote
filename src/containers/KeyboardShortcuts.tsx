@@ -8,9 +8,9 @@ import { postState } from '../store/middleware'
 import { CategoryItem, NoteItem } from '../type'
 import moment from 'moment'
 import { RootState } from '../store'
-import { Cloud, Download, Plus, X } from 'react-feather'
 
-const Navigation = () => {
+// @ts-ignore
+const KeyboardShortcuts = () => {
   const activeNote: NoteItem | undefined = useSelector(({ notesState }: RootState) => notesState.notes?.find(note => note.id === notesState.activeNoteId))
   const activeCategoryId = useSelector(({ notesState }) => notesState.activeCategoryId)
   const notes: NoteItem[] = useSelector(({ notesState }) => notesState.notes)
@@ -60,33 +60,37 @@ const Navigation = () => {
   useKey('alt+s', () => {
     syncNotesHandler()
   })
+  useKey('alt+d', () => {
+    downloadNoteHandler()
+  })
+  return null
 
-  return (
-    <nav className='navigation'>
-      <button className='nav-button' onClick={newNoteHandler}><Plus /> New Note
-      </button>
-      <div
-        className='nav-button'
-        onClick={trashNoteHandler}
-      >
-        <X /> Delete Note
-      </div>
-      <div
-        className='nav-button'
-        onClick={downloadNoteHandler}
-      >
-        <Download /> Download Note
-      </div>
-      <div
-        className='nav-button'
-        onClick={syncNotesHandler}
-      >
-        <Cloud />
-        Sync notes
-        {syncing && 'Syncing...'}
-      </div>
-    </nav>
-  )
+  // return (
+  //   <nav className='navigation'>
+  //     <button className='nav-button' onClick={newNoteHandler}><Plus /> New Note
+  //     </button>
+  //     <div
+  //       className='nav-button'
+  //       onClick={trashNoteHandler}
+  //     >
+  //       <X /> Delete Note
+  //     </div>
+  //     <div
+  //       className='nav-button'
+  //       onClick={downloadNoteHandler}
+  //     >
+  //       <Download /> Download Note
+  //     </div>
+  //     <div
+  //       className='nav-button'
+  //       onClick={syncNotesHandler}
+  //     >
+  //       <Cloud />
+  //       Sync notes
+  //       {syncing && 'Syncing...'}
+  //     </div>
+  //   </nav>
+  // )
 }
 
-export default Navigation
+export default KeyboardShortcuts

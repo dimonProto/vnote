@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'store'
-import { addCategoryToNote, pruneNote, swapCategory, swapNote } from 'store/slices/noteSlice'
+import { addCategoryToNote, addNote, pruneNote, swapCategory, swapNote } from 'store/slices/noteSlice'
 import { getNoteTitle } from '../helpers'
 import { CategoryItem, NoteItem } from '../type'
 import { Folders } from '../constants/codeMirrorOptions'
+import { v4 as uuidv4 } from 'uuid'
+import moment from 'moment'
+import { PlusCircle } from 'react-feather'
+import NoteOptions from './NoteOptions'
 
 
 const NoteList = () => {
@@ -12,6 +16,7 @@ const NoteList = () => {
   const notes: NoteItem[] = useSelector((state: RootState) => state.notesState.notes)
   const activeCategoryId = useSelector(({ categoryState }) => categoryState.activeCategoryId)
   const activeNoteId = useSelector((state: RootState) => state.notesState.activeNoteId)
+  const activeNote: NoteItem | undefined = useSelector(({ notesState }: RootState) => notesState.notes?.find(note => note.id === notesState.activeNoteId))
   const filteredNotes: NoteItem[] = useSelector(({
                                                    notesState,
                                                  }: RootState) => {
@@ -30,7 +35,7 @@ const NoteList = () => {
       return filterNotes
     },
   )
-  console.log(filteredNotes)
+
   const filteredCategories: CategoryItem[] = useSelector(({
                                                             categoryState,
                                                             notesState,
@@ -58,6 +63,20 @@ const NoteList = () => {
 
   }
 
+  const newNoteHandler = () => {
+    const note: NoteItem = {
+      id: uuidv4(),
+      text: '',
+      created: moment().format(),
+      lastUpdated: moment().format(),
+      category: activeCategoryId ? activeCategoryId : '',
+    }
+    if ((activeNote && activeNote.text !== '') || !activeNote) {
+      dispatch(addNote(note))
+      dispatch(swapNote(note.id))
+    }
+  }
+
   const searchNotes = (event: React.ChangeEvent<HTMLInputElement>) => {
     const filteredResult = filteredNotes.filter(note => note.text.toLowerCase().search(event.target.value.toLowerCase()) !== -1)
   }
@@ -78,6 +97,11 @@ const NoteList = () => {
         onChange={searchNotes}
         className="searchbar"
       /> */}
+      <div className='add-note'>
+        <div>
+          <PlusCircle size={20} onClick={newNoteHandler} />
+        </div>
+      </div>
       <div className='note-list'>
         {filteredNotes.map(note => {
           const noteTitle = getNoteTitle(note.text)
@@ -136,6 +160,7 @@ const NoteList = () => {
                       </option>
                     )}
                   </select>
+                  <NoteOptions />
                 </div>
               )}
             </div>
