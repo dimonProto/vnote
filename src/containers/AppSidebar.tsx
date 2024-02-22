@@ -1,12 +1,18 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import kebabCase from 'lodash/kebabCase'
-import { AppDispatch } from '../store'
+import { AppDispatch, RootState } from '../store'
 import { addCategory, deleteCategory } from 'store/slices/categorySlice'
 import { CategoryItem, NoteItem } from 'type'
-import { pruneCategoryFromNotes, swapCategory, swapFolder, swapNote } from 'store/slices/noteSlice'
+import { addNote, pruneCategoryFromNotes, swapCategory, swapFolder, swapNote } from 'store/slices/noteSlice'
 import { Folders } from '../constants/codeMirrorOptions'
-import { Book, Folder, Trash2, X } from 'react-feather'
+import { Book, Cloud, Folder, PlusCircle, Trash2, X } from 'react-feather'
+import moment from 'moment'
+import { v4 as uuidv4 } from 'uuid'
+import { postState } from '../store/middleware'
+
+
+const iconColor = 'rgba(255, 255, 255, 0.4)'
 
 const AppSidebar = () => {
 
@@ -14,6 +20,8 @@ const AppSidebar = () => {
   const activeCategoryId = useSelector(({ categoryState }) => categoryState.activeCategoryId)
   const notes: NoteItem[] = useSelector(({ notesState }) => notesState.notes)
   const activeFolder = useSelector(({ notesState }) => notesState.activeFolder)
+  const activeNote: NoteItem | undefined = useSelector(({ notesState }: RootState) => notesState.notes?.find(note => note.id === notesState.activeNoteId))
+
 
   const dispatch: AppDispatch = useDispatch()
 
@@ -22,6 +30,24 @@ const AppSidebar = () => {
 
   const newTempCategoryHandler = () => {
     !addingTempCategory && setAddingTempCategory(true)
+  }
+
+  const newNoteHandler = () => {
+    const note: NoteItem = {
+      id: uuidv4(),
+      text: '',
+      created: moment().format(),
+      lastUpdated: moment().format(),
+      category: activeCategoryId ? activeCategoryId : '',
+    }
+    if ((activeNote && activeNote.text !== '') || !activeNote) {
+      dispatch(addNote(note))
+      dispatch(swapNote(note.id))
+    }
+  }
+
+  const syncNotesHandler = () => {
+    postState(notes, categories)
   }
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement> | React.FocusEvent<HTMLInputElement>): void => {
@@ -43,10 +69,14 @@ const AppSidebar = () => {
   return (
     <aside className='app-sidebar'>
       <section id='app-sidebar-main'>
+        <div className='app-sidebar-link' onClick={newNoteHandler}>
+          <PlusCircle size={15} style={{ marginRight: '.5rem' }} color={iconColor} />
+          Add Note
+        </div>
         <div onClick={() => {
           dispatch(swapFolder(Folders.ALL))
         }} className={activeFolder === Folders.ALL ? 'app-sidebar-link active' : 'app-sidebar-link'}>
-          <Book size={15} style={{ marginRight: '.5rem' }} />
+          <Book size={15} style={{ marginRight: '.5rem' }} color={iconColor} />
           Notes
         </div>
         <div
@@ -58,13 +88,13 @@ const AppSidebar = () => {
           }}
         >
 
-          <Trash2 size={15} style={{ marginRight: '.5rem' }} />
+          <Trash2 size={15} style={{ marginRight: '.5rem' }} color={iconColor} />
           Trash
         </div>
         <div className='category-title vbetween'>
           <h2>Categories</h2>
           <button onClick={newTempCategoryHandler} className='add-button'>
-            +
+            <PlusCircle size={15} color={iconColor} />
           </button>
         </div>
 
@@ -85,7 +115,7 @@ const AppSidebar = () => {
                    }}
               >
                 <div className='category-each-name'>
-                  <Folder size={15} style={{ marginRight: '.5rem' }} />
+                  <Folder size={15} style={{ marginRight: '.5rem' }} color={iconColor} />
                   {category.name}
                 </div>
 
@@ -130,7 +160,11 @@ const AppSidebar = () => {
           </form>
         )}
       </section>
-
+      <section>
+        <div className='app-sidebar-link' onClick={syncNotesHandler}>
+          <Cloud size={15} style={{ marginRight: '.5rem' }} color={iconColor} /> Sync
+        </div>
+      </section>
     </aside>
   )
 }

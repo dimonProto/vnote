@@ -8,7 +8,7 @@ import { addNote, sendNoteToTrash, swapNote } from '../store/slices/noteSlice'
 import { downloadNote, getNoteTitle } from '../helpers'
 import { postState } from '../store/middleware'
 import { useKey } from '../helpers/hooks'
-import { Download, X } from 'react-feather'
+import { Download, Trash } from 'react-feather'
 
 const NoteOptions: React.FC = () => {
 
@@ -34,7 +34,7 @@ const NoteOptions: React.FC = () => {
   }
 
   const trashNoteHandler = () => {
- 
+
     if (activeNote && !activeNote.trash) {
       dispatch(sendNoteToTrash(activeNote.id))
     }
@@ -67,12 +67,12 @@ const NoteOptions: React.FC = () => {
   return (
     <nav className='note-options-nav'>
       <div className='nav-button' onClick={trashNoteHandler}>
-        <X size={15} />
-        Delete Note
+        <Trash size={15} />
+        Delete note
       </div>
       <div className='nav-button' onClick={downloadNoteHandler}>
         <Download size={15} />
-        Download Note
+        Download note
       </div>
 
     </nav>
