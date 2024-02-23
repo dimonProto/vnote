@@ -48,12 +48,12 @@ code {
       background: rgba(0, 0, 0, 0.1);
     }
   }
-
 }
 
 .note-sidebar {
   grid-area: note-sidebar;
   background: $background;
+  border-right: 1px solid $hover;
 
   .note-list {
     .note-each {
@@ -65,16 +65,17 @@ code {
       align-items: center;
       justify-content: space-between;
 
-      &.active {
-        background: #bbb;
-      }
-
       &:hover {
-        background: $hover;
+        background: #ccc;
 
         .note-options {
           color: #333;
         }
+      }
+
+      &.active {
+        font-weight: 600;
+        background: #eee;
       }
 
       .note-options {
@@ -264,6 +265,7 @@ svg {
   overflow-y: auto;
 
   .CodeMirror {
+    padding-left: 0.5rem;
     -webkit-font-smoothing: subpixel-antialiased;
     height: 100%;
     font-family: Menlo, Monaco, monospace;
@@ -325,10 +327,11 @@ svg {
   background: #292929;
   padding: 0.7rem;
   border-radius: 50%;
-  stroke: #6ab0f3;
+  stroke: rgba(255, 255, 255, 0.7);
   margin: 0 0.25rem;
 
   &:hover {
+    stroke: #6ab0f3;
     background: #222;
   }
 }

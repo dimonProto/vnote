@@ -17,7 +17,7 @@ const NoteList = () => {
   const filteredNotes: NoteItem[] = useSelector(({
                                                    notesState,
                                                  }: RootState) => {
-      let filterNotes: NoteItem[] = []
+      let filterNotes: NoteItem[]
 
       if (notesState.activeFolder === Folders.CATEGORY) {
         console.log('ss')
@@ -27,8 +27,13 @@ const NoteList = () => {
         filterNotes = notesState.notes.filter(note => note.trash)
       } else {
         filterNotes = notesState.notes.filter(note => !note.trash)
-
       }
+
+      filterNotes.sort((a, b) => {
+        let dataA = new Date(a.lastUpdated)
+        let dataB = new Date(b.lastUpdated)
+        return dataA > dataB ? -1 : dataA < dataB ? 1 : 0
+      })
       return filterNotes
     },
   )
