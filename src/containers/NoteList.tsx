@@ -6,6 +6,7 @@ import { getNoteTitle } from '../helpers'
 import { CategoryItem, NoteItem } from '../type'
 import { Folders } from '../constants/codeMirrorOptions'
 import NoteOptions from './NoteOptions'
+import { MoreHorizontal } from 'react-feather'
 
 
 const NoteList = () => {
@@ -101,7 +102,7 @@ const NoteList = () => {
               <div className={noteOptionsId === note.id ? 'note-options active' : 'note-options'}
                    onClick={event => handleNoteOptionsClick(event, note.id)}
               >
-                ...
+                <MoreHorizontal size={15} />
               </div>
               {noteOptionsId === note.id && (
                 <div ref={node}

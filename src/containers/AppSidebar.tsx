@@ -6,13 +6,13 @@ import { addCategory, deleteCategory } from 'store/slices/categorySlice'
 import { CategoryItem, NoteItem } from 'type'
 import { addNote, pruneCategoryFromNotes, swapCategory, swapFolder, swapNote } from 'store/slices/noteSlice'
 import { Folders } from '../constants/codeMirrorOptions'
-import { Book, Cloud, Folder, PlusCircle, Trash2, X } from 'react-feather'
+import { Book, Folder, Plus, PlusCircle, Settings, Trash2, UploadCloud, X } from 'react-feather'
 import moment from 'moment'
 import { v4 as uuidv4 } from 'uuid'
 import { postState } from '../store/middleware'
 
 
-const iconColor = 'rgba(255, 255, 255, 0.4)'
+const iconColor = 'rgba(255, 255, 255, 0.2)'
 
 const AppSidebar = () => {
 
@@ -77,7 +77,7 @@ const AppSidebar = () => {
           dispatch(swapFolder(Folders.ALL))
         }} className={activeFolder === Folders.ALL ? 'app-sidebar-link active' : 'app-sidebar-link'}>
           <Book size={15} style={{ marginRight: '.5rem' }} color={iconColor} />
-          Notes
+          All Notes
         </div>
         <div
           className={
@@ -93,8 +93,8 @@ const AppSidebar = () => {
         </div>
         <div className='category-title vbetween'>
           <h2>Categories</h2>
-          <button onClick={newTempCategoryHandler} className='add-button'>
-            <PlusCircle size={15} color={iconColor} />
+          <button className='add-category-button' onClick={newTempCategoryHandler}>
+            <Plus size={15} color={iconColor} />
           </button>
         </div>
 
@@ -161,8 +161,10 @@ const AppSidebar = () => {
         )}
       </section>
       <section>
-        <div className='app-sidebar-link' onClick={syncNotesHandler}>
-          <Cloud size={15} style={{ marginRight: '.5rem' }} color={iconColor} /> Sync
+        <div className='app-sidebar-actions'>
+          <Plus size={18} className='action-button' color={iconColor} onClick={newNoteHandler} />
+          <UploadCloud size={18} className='action-button' color={iconColor} onClick={syncNotesHandler} />
+          <Settings size={18} className='action-button' color={iconColor} />
         </div>
       </section>
     </aside>
