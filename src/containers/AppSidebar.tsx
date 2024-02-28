@@ -6,7 +6,7 @@ import { addCategory, deleteCategory } from 'store/slices/categorySlice'
 import { CategoryItem, NoteItem } from 'type'
 import { addNote, pruneCategoryFromNotes, swapCategory, swapFolder, swapNote } from 'store/slices/noteSlice'
 import { Folders } from '../constants/codeMirrorOptions'
-import { Book, Folder, Plus, PlusCircle, Settings, Trash2, UploadCloud, X } from 'react-feather'
+import { Book, Bookmark, Folder, Plus, PlusCircle, Settings, Trash2, UploadCloud, X } from 'react-feather'
 import moment from 'moment'
 import { v4 as uuidv4 } from 'uuid'
 import { postState } from '../store/middleware'
@@ -78,6 +78,12 @@ const AppSidebar = () => {
         }} className={activeFolder === Folders.ALL ? 'app-sidebar-link active' : 'app-sidebar-link'}>
           <Book size={15} style={{ marginRight: '.5rem' }} color={iconColor} />
           All Notes
+        </div>
+        <div className={activeFolder === Folders.FAVORITES ? 'app-sidebar-link active' : 'app-sidebar-link'}
+             onClick={() => dispatch(swapFolder(Folders.FAVORITES))}
+        >
+          <Bookmark size={15} style={{ marginRight: '.5rem' }} color={iconColor} />
+          Favorites
         </div>
         <div
           className={

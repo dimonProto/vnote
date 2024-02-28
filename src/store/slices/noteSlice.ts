@@ -51,6 +51,13 @@ export const noteSlice = createSlice({
     addNote: (state, action) => {
       state.notes = [action.payload, ...state.notes]
     },
+    toggleFavoriteNote: (state, action) => {
+      state.notes = state.notes.map(note => note.id === action.payload
+        ? {
+          ...note,
+          favorite: !note.favorite,
+        } : note)
+    },
     sendNoteToTrash: (state, action) => {
       state.notes = state.notes.map(note => note.id === action.payload ?
         {
@@ -128,6 +135,7 @@ export const {
   sendNoteToTrash,
   swapCategory,
   swapFolder,
+  toggleFavoriteNote,
 } = noteSlice.actions
 
 export default noteSlice.reducer

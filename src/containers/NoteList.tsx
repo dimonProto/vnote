@@ -11,7 +11,7 @@ import { MoreHorizontal } from 'react-feather'
 
 const NoteList = () => {
 
-  const notes: NoteItem[] = useSelector((state: RootState) => state.notesState.notes)
+
   const activeCategoryId = useSelector(({ categoryState }) => categoryState.activeCategoryId)
   const activeNoteId = useSelector((state: RootState) => state.notesState.activeNoteId)
   const filteredNotes: NoteItem[] = useSelector(({
@@ -20,9 +20,11 @@ const NoteList = () => {
       let filterNotes: NoteItem[]
 
       if (notesState.activeFolder === Folders.CATEGORY) {
-        console.log('ss')
+
         filterNotes = notesState.notes.filter(
           note => !note.trash && note.category === notesState.activeCategoryId)
+      } else if (notesState.activeFolder === Folders.FAVORITES) {
+        filterNotes = notesState.notes.filter(note => !note.trash && note.favorite)
       } else if (notesState.activeFolder === Folders.TRASH) {
         filterNotes = notesState.notes.filter(note => note.trash)
       } else {
@@ -145,7 +147,7 @@ const NoteList = () => {
                       </option>
                     )}
                   </select>
-                  <NoteOptions />
+                  <NoteOptions clickedNote={note} />
                 </div>
               )}
             </div>

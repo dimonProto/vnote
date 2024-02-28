@@ -4,13 +4,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../store'
 import { v4 as uuidv4 } from 'uuid'
 import moment from 'moment'
-import { addNote, sendNoteToTrash, swapNote } from '../store/slices/noteSlice'
+import { addNote, sendNoteToTrash, swapNote, toggleFavoriteNote } from '../store/slices/noteSlice'
 import { downloadNote, getNoteTitle } from '../helpers'
 import { postState } from '../store/middleware'
 import { useKey } from '../helpers/hooks'
-import { Download, Trash } from 'react-feather'
+import { Bookmark, Download, Trash } from 'react-feather'
 
-const NoteOptions: React.FC = () => {
+interface NoteOptionsProps {
+  clickedNote: NoteItem
+}
+
+const NoteOptions: React.FC<NoteOptionsProps> = ({ clickedNote }) => {
 
   const activeNote: NoteItem | undefined = useSelector(({ notesState }: RootState) => notesState.notes?.find(note => note.id === notesState.activeNoteId))
   const activeCategoryId = useSelector(({ categoryState }) => categoryState.activeCategoryId)
@@ -39,6 +43,9 @@ const NoteOptions: React.FC = () => {
       dispatch(sendNoteToTrash(activeNote.id))
     }
   }
+  const favoriteNoteHandler = () => {
+    dispatch(toggleFavoriteNote(clickedNote.id))
+  }
 
   const downloadNoteHandler = () => {
     if (activeNote) {
@@ -66,6 +73,12 @@ const NoteOptions: React.FC = () => {
 
   return (
     <nav className='note-options-nav'>
+      {!clickedNote.trash && (
+        <div className='nav-button' onClick={favoriteNoteHandler}>
+          <Bookmark size={15} />
+          {clickedNote.favorite ? 'Remove Favorite' : 'Mark is Favorite'}
+        </div>
+      )}
       <div className='nav-button' onClick={trashNoteHandler}>
         <Trash size={15} />
         Delete note

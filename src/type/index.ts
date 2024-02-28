@@ -5,6 +5,7 @@ export interface NoteItem {
   lastUpdated: string
   category?: string
   trash?: boolean
+  favorite?: boolean
 }
 
 export interface CategoryItem {
