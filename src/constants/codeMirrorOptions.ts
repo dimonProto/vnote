@@ -12,3 +12,5 @@ export enum Folders {
   FAVORITES = 'FAVORITES',
   CATEGORY = 'CATEGORY',
 }
+
+export type FolderKey = keyof typeof Folders;

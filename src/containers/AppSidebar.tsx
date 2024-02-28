@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { postState } from '../store/middleware'
 
 
-const iconColor = 'rgba(255, 255, 255, 0.2)'
+const iconColor = 'rgba(255, 255, 255, 0.3)'
 
 const AppSidebar = () => {
 

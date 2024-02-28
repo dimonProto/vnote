@@ -11,8 +11,10 @@ import { MoreHorizontal } from 'react-feather'
 
 const NoteList = () => {
 
-
   const activeCategoryId = useSelector(({ categoryState }) => categoryState.activeCategoryId)
+  const activeFolder: Folders = useSelector(({ notesState }) => notesState.activeFolder)
+  const activeCategory = useSelector(({ categoryState, notesState }: RootState) => categoryState.categories.find(
+    category => category.id === notesState.activeCategoryId))
   const activeNoteId = useSelector((state: RootState) => state.notesState.activeNoteId)
   const filteredNotes: NoteItem[] = useSelector(({
                                                    notesState,
@@ -89,6 +91,9 @@ const NoteList = () => {
         className="searchbar"
       /> */}
 
+      <div className='note-sidebar-header'>
+        {activeFolder === 'CATEGORY' ? activeCategory!.name : Folders[activeFolder]}
+      </div>
       <div className='note-list'>
         {filteredNotes.map(note => {
           const noteTitle = getNoteTitle(note.text)
