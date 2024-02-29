@@ -78,7 +78,7 @@ const NoteList = () => {
   return (
     <aside className='note-sidebar'>
       <div className='note-sidebar-header'>
-        {activeFolder === 'CATEGORY' ? activeCategory!.name : Folders[activeFolder]}
+        {activeFolder === 'CATEGORY' ? activeCategory && activeCategory.name : Folders[activeFolder]}
       </div>
       <div className='note-list'>
         {filteredNotes.map(note => {

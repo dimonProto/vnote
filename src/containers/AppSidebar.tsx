@@ -122,7 +122,8 @@ const AppSidebar = () => {
                 <div
                   className='category-options'
                   onClick={() => {
-                    const newNoteId = notes.length > 0 ? notes[0].id : ''
+                    const noteNotTrash = notes.filter(note => !note.trash)
+                    const newNoteId = noteNotTrash.length > 0 ? noteNotTrash[0].id : ''
                     dispatch(deleteCategory(category.id))
                     dispatch(pruneCategoryFromNotes(category.id))
                     dispatch(swapCategory(Folders.ALL))
