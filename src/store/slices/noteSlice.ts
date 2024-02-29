@@ -148,6 +148,8 @@ export const getFirstNote = (folder: string, notes: NoteItem[], categoryId?: str
   switch (folder) {
     case Folders.CATEGORY:
       return notesNotTrash.find(note => note.category === categoryId) ? notes.find(note => note.category === categoryId)!.id : ''
+    case Folders.FAVORITES:
+      return notesNotTrash.find(note => note.favorite) ? notesNotTrash.find(note => note.favorite)!.id : ''
     case Folders.ALL:
       return notesNotTrash.length > 0 ? notes[0].id : ''
     case Folders.TRASH:
