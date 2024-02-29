@@ -39,8 +39,6 @@ const NoteEditor = () => {
       value={activeNote.text}
       options={options}
       editorDidMount={editor => {
-        editor.focus()
-        editor.setCursor(editor.lineCount(), 0)
       }}
       onBeforeChange={(editor, data, value) => {
         dispatch(updateNote({
@@ -51,7 +49,9 @@ const NoteEditor = () => {
         }))
       }}
       onChange={(editor, data, value) => {
-        editor.focus()
+        if (activeNote && activeNote.text === '') {
+          editor.focus()
+        }
       }}></CodeMirror>
   )
 }
