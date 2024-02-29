@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { NoteItem } from 'type'
 import { fetchNotes } from '../middleware'
 import { Folders } from '../../constants/codeMirrorOptions'
+import { sortByLastUpdated } from '../../helpers'
 
 
 // Create an async thunk
@@ -30,7 +31,7 @@ export const noteSlice = createSlice({
   reducers: {
     loadNotesSuccess: (state, action) => {
       state.notes = action.payload
-      state.activeNoteId = action.payload.length > 0 ? action.payload[0].id : ''
+      state.activeNoteId = getFirstNote(Folders.ALL, action.payload)
     },
     loadNotesError: (state, action) => {
       state.error = action.payload
@@ -143,7 +144,7 @@ export default noteSlice.reducer
 
 export const getFirstNote = (folder: string, notes: NoteItem[], categoryId?: string) => {
 
-  const notesNotTrash = notes.filter(note => !note.trash)
+  const notesNotTrash = notes.filter(note => !note.trash).sort(sortByLastUpdated)
   switch (folder) {
     case Folders.CATEGORY:
       return notesNotTrash.find(note => note.category === categoryId) ? notes.find(note => note.category === categoryId)!.id : ''

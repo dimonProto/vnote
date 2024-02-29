@@ -2,7 +2,7 @@ import { NoteItem } from '../type'
 
 export const getNoteTitle = (text: string) => {
   let noteTitle: string
-  let noteText = text[0] === "#" && text[1] === " " ? text.slice(2, 52) : text.slice(0, 50)
+  let noteText = text[0] === '#' && text[1] === ' ' ? text.slice(2, 52) : text.slice(0, 50)
 
   if (!noteText) {
     noteTitle = 'New Note'
@@ -19,7 +19,7 @@ export const noteWithFrontmatter = (note: NoteItem) => {
   title: ${getNoteTitle(note.text)}
   created: ${note.created}
   lastUpdated: ${note.lastUpdated}
-  category: ${note.category ? note.category : ""}
+  category: ${note.category ? note.category : ''}
   ---
   
   ${note.text}`
@@ -37,4 +37,10 @@ export const downloadNote = (fileName: string, note: NoteItem) => {
   } else {
     pom.click()
   }
+}
+
+export const sortByLastUpdated = (a: NoteItem, b: NoteItem) => {
+  let dataA = new Date(a.lastUpdated)
+  let dataB = new Date(b.lastUpdated)
+  return dataA > dataB ? -1 : dataA < dataB ? 1 : 0
 }

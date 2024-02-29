@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'store'
 import { addCategoryToNote, pruneNote, swapCategory, swapNote } from 'store/slices/noteSlice'
-import { getNoteTitle } from '../helpers'
+import { getNoteTitle, sortByLastUpdated } from '../helpers'
 import { CategoryItem, NoteItem } from '../type'
 import { Folders } from '../constants/codeMirrorOptions'
 import NoteOptions from './NoteOptions'
@@ -33,11 +33,7 @@ const NoteList = () => {
         filterNotes = notesState.notes.filter(note => !note.trash)
       }
 
-      filterNotes.sort((a, b) => {
-        let dataA = new Date(a.lastUpdated)
-        let dataB = new Date(b.lastUpdated)
-        return dataA > dataB ? -1 : dataA < dataB ? 1 : 0
-      })
+      filterNotes.sort(sortByLastUpdated)
       return filterNotes
     },
   )
