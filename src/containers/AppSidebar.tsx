@@ -7,9 +7,8 @@ import { CategoryItem, NoteItem } from 'type'
 import { addNote, pruneCategoryFromNotes, swapCategory, swapFolder, swapNote } from 'store/slices/noteSlice'
 import { Folders } from '../constants/codeMirrorOptions'
 import { Book, Bookmark, Folder, Plus, PlusCircle, Settings, Trash2, UploadCloud, X } from 'react-feather'
-import moment from 'moment'
-import { v4 as uuidv4 } from 'uuid'
 import { postState } from '../store/middleware'
+import { newNote } from '../helpers'
 
 
 const iconColor = 'rgba(255, 255, 255, 0.3)'
@@ -33,14 +32,9 @@ const AppSidebar = () => {
   }
 
   const newNoteHandler = () => {
-    const note: NoteItem = {
-      id: uuidv4(),
-      text: '',
-      created: moment().format(),
-      lastUpdated: moment().format(),
-      category: activeCategoryId ? activeCategoryId : '',
-    }
+
     if ((activeNote && activeNote.text !== '') || !activeNote) {
+      const note = newNote(activeCategoryId, activeFolder)
       dispatch(addNote(note))
       dispatch(swapNote(note.id))
     }

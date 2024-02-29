@@ -1,4 +1,8 @@
 import { NoteItem } from '../type'
+import { v4 as uuidv4 } from 'uuid'
+import moment from 'moment'
+import { Folders } from '../constants/codeMirrorOptions'
+
 
 export const getNoteTitle = (text: string) => {
   let noteTitle: string
@@ -44,3 +48,13 @@ export const sortByLastUpdated = (a: NoteItem, b: NoteItem) => {
   let dataB = new Date(b.lastUpdated)
   return dataA > dataB ? -1 : dataA < dataB ? 1 : 0
 }
+
+export const newNote = (categoryId?: string, folder?: string): NoteItem => ({
+  id: uuidv4(),
+  text: '',
+  created: moment().format(),
+  lastUpdated: moment().format(),
+  category: categoryId,
+  favorite: folder === Folders.FAVORITES,
+})
+

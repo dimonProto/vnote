@@ -1,12 +1,10 @@
 import React from 'react'
 import { addNote, sendNoteToTrash, swapNote } from 'store/slices/noteSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { v4 as uuidv4 } from 'uuid'
-import { downloadNote, getNoteTitle } from 'helpers'
+import { downloadNote, getNoteTitle, newNote } from 'helpers'
 import { useKey } from '../helpers/hooks'
 import { postState } from '../store/middleware'
 import { CategoryItem, NoteItem } from '../type'
-import moment from 'moment'
 import { RootState } from '../store'
 
 // @ts-ignore
@@ -15,19 +13,12 @@ const KeyboardShortcuts = () => {
   const activeCategoryId = useSelector(({ notesState }) => notesState.activeCategoryId)
   const notes: NoteItem[] = useSelector(({ notesState }) => notesState.notes)
   const categories: CategoryItem[] = useSelector(({ categoryState }) => categoryState.categories)
-  const syncing: boolean = useSelector(({ syncState }) => syncState.syncing)
-
+  const activeFolder = useSelector(({ notesState }) => notesState.activeFolder)
 
   const dispatch = useDispatch()
 
   const newNoteHandler = () => {
-    const note: NoteItem = {
-      id: uuidv4(),
-      text: '',
-      created: moment().format(),
-      lastUpdated: moment().format(),
-      category: activeCategoryId ? activeCategoryId : '',
-    }
+    const note = newNote(activeCategoryId, activeFolder)
     if ((activeNote && activeNote.text !== '') || !activeNote) {
       dispatch(addNote(note))
       dispatch(swapNote(note.id))
