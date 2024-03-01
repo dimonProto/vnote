@@ -7,6 +7,7 @@ import { loadNotes } from '../store/slices/noteSlice'
 import { AppDispatch } from '../store'
 import { useDispatch } from 'react-redux'
 import { loadCategories } from '../store/slices/categorySlice'
+import { KeyboardProvider } from '../context/KeyboardContext'
 
 
 const App: React.FC = () => {
@@ -22,10 +23,12 @@ const App: React.FC = () => {
 
   return (
     <div className='app'>
-      <AppSidebar />
-      <NoteList />
-      <NoteEditor />
-      <KeyboardShortcuts />
+      <KeyboardProvider>
+        <AppSidebar />
+        <NoteList />
+        <NoteEditor />
+        <KeyboardShortcuts />
+      </KeyboardProvider>
     </div>
   )
 }

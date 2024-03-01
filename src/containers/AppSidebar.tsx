@@ -9,6 +9,7 @@ import { Folders } from '../constants/codeMirrorOptions'
 import { Book, Bookmark, Folder, Plus, PlusCircle, Settings, Trash2, UploadCloud, X } from 'react-feather'
 import { postState } from '../store/middleware'
 import { newNote } from '../helpers'
+import { useKeyboard } from '../context/KeyboardContext'
 
 
 const iconColor = 'rgba(255, 255, 255, 0.3)'
@@ -24,7 +25,7 @@ const AppSidebar = () => {
 
   const dispatch: AppDispatch = useDispatch()
 
-  const [addingTempCategory, setAddingTempCategory] = useState(false)
+  const { addingTempCategory, setAddingTempCategory } = useKeyboard()
   const [tempCategory, setTempCategory] = useState('')
 
   const newTempCategoryHandler = () => {

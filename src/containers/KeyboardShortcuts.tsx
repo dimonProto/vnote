@@ -6,6 +6,7 @@ import { useKey } from '../helpers/hooks'
 import { postState } from '../store/middleware'
 import { CategoryItem, NoteItem } from '../type'
 import { RootState } from '../store'
+import { useKeyboard } from '../context/KeyboardContext'
 
 // @ts-ignore
 const KeyboardShortcuts = () => {
@@ -14,6 +15,8 @@ const KeyboardShortcuts = () => {
   const notes: NoteItem[] = useSelector(({ notesState }) => notesState.notes)
   const categories: CategoryItem[] = useSelector(({ categoryState }) => categoryState.categories)
   const activeFolder = useSelector(({ notesState }) => notesState.activeFolder)
+
+  const { addingTempCategory, setAddingTempCategory } = useKeyboard()
 
   const dispatch = useDispatch()
 
@@ -24,7 +27,9 @@ const KeyboardShortcuts = () => {
       dispatch(swapNote(note.id))
     }
   }
-
+  const newTempCategoryHandler = () => {
+    !addingTempCategory && setAddingTempCategory(true)
+  }
   const trashNoteHandler = () => {
     if (activeNote && !activeNote.trash) {
       dispatch(sendNoteToTrash(activeNote.id))
@@ -45,6 +50,10 @@ const KeyboardShortcuts = () => {
     newNoteHandler()
   })
 
+  useKey('alt+c', () => {
+    newTempCategoryHandler()
+  })
+
   useKey('alt+w', () => {
     trashNoteHandler()
   })
@@ -56,32 +65,6 @@ const KeyboardShortcuts = () => {
   })
   return null
 
-  // return (
-  //   <nav className='navigation'>
-  //     <button className='nav-button' onClick={newNoteHandler}><Plus /> New Note
-  //     </button>
-  //     <div
-  //       className='nav-button'
-  //       onClick={trashNoteHandler}
-  //     >
-  //       <X /> Delete Note
-  //     </div>
-  //     <div
-  //       className='nav-button'
-  //       onClick={downloadNoteHandler}
-  //     >
-  //       <Download /> Download Note
-  //     </div>
-  //     <div
-  //       className='nav-button'
-  //       onClick={syncNotesHandler}
-  //     >
-  //       <Cloud />
-  //       Sync notes
-  //       {syncing && 'Syncing...'}
-  //     </div>
-  //   </nav>
-  // )
 }
 
 export default KeyboardShortcuts
