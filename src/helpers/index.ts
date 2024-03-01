@@ -5,7 +5,7 @@ import { Folders } from '../constants/codeMirrorOptions'
 
 
 export const getNoteTitle = (text: string) => {
-  const noteTitleRegEx = /[\w' ]{1,50}/
+  const noteTitleRegEx = /[\w'?!. ]{1,50}/
 
   let noteTitle: string
   let noteText = text.match(noteTitleRegEx)
