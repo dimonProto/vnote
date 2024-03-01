@@ -5,15 +5,15 @@ import { Folders } from '../constants/codeMirrorOptions'
 
 
 export const getNoteTitle = (text: string) => {
+  const noteTitleRegEx = /[\w ]{1,50}/
+
   let noteTitle: string
-  let noteText = text[0] === '#' && text[1] === ' ' ? text.slice(2, 52) : text.slice(0, 50)
+  let noteText = text.match(noteTitleRegEx)
 
   if (!noteText) {
     noteTitle = 'New Note'
-  } else if (noteText.indexOf('\n') !== -1) {
-    noteTitle = noteText.slice(0, text.indexOf('\n'))
   } else {
-    noteTitle = noteText.slice(0, 50)
+    noteTitle = noteText[0]
   }
   return noteTitle
 }
