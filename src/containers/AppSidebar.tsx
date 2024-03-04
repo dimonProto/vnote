@@ -63,7 +63,7 @@ const AppSidebar = () => {
 
   return (
     <aside className='app-sidebar'>
-      <section id='app-sidebar-main'>
+      <section className='app-sidebar-main'>
         <div className='app-sidebar-link' onClick={newNoteHandler}>
           <PlusCircle size={15} style={{ marginRight: '.5rem' }} color={iconColor} />
           Add Note
@@ -162,8 +162,8 @@ const AppSidebar = () => {
           </form>
         )}
       </section>
-      <section>
-        <div className='app-sidebar-actions'>
+      <section className='app-sidebar-actions'>
+        <div>
           <Plus size={18} className='action-button' color={iconColor} onClick={newNoteHandler} />
           <UploadCloud size={18} className='action-button' color={iconColor} onClick={syncNotesHandler} />
           <Settings size={18} className='action-button' color={iconColor} />

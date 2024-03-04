@@ -39,6 +39,8 @@ const NoteEditor = () => {
       value={activeNote.text}
       options={options}
       editorDidMount={editor => {
+        editor.focus()
+        editor.setCursor(0)
       }}
       onBeforeChange={(editor, data, value) => {
         dispatch(updateNote({
