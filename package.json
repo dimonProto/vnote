@@ -24,7 +24,7 @@
     "mousetrap-global-bind": "^1.1.0",
     "patch-package": "^8.0.0",
     "postinstall": "^0.9.0",
-    "prettier": "^3.2.2",
+    "prettier": "^3.2.5",
     "react": "^18.2.0",
     "react-codemirror2": "^6.0.0",
     "react-dom": "^18.2.0",
