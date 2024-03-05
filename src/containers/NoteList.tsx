@@ -51,18 +51,9 @@ const NoteList = () => {
   const handleNoteOptionsClick = (event: MouseEvent | React.MouseEvent<HTMLDivElement> | React.ChangeEvent<HTMLSelectElement>, noteId: string = '') => {
     event.stopPropagation()
 
-    if (node.current) {
-      if (node.current.contains(event.target as HTMLDivElement)) return
-    }
-    if (!noteOptionsId) {
-      setNoteOptionsId(noteId)
-    }
-    if (noteOptionsId !== noteId) {
-      setNoteOptionsId(noteId)
-    } else {
-      setNoteOptionsId('')
-    }
-
+    if (node.current && node.current.contains(event.target as HTMLDivElement)) return
+    setNoteOptionsId(!noteOptionsId || noteOptionsId !== noteId ? noteId : '')
+    
   }
 
 

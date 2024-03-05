@@ -3,9 +3,9 @@ import { NoteItem } from '../type'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../store'
 
-import { sendNoteToTrash, toggleFavoriteNote } from '../store/slices/noteSlice'
+import { toggleFavoriteNote, toggleTrashedNote } from '../store/slices/noteSlice'
 import { downloadNote, getNoteTitle } from '../helpers'
-import { Bookmark, Download, Trash } from 'react-feather'
+import { ArrowUp, Bookmark, Download, Trash } from 'react-feather'
 
 interface NoteOptionsProps {
   clickedNote: NoteItem
@@ -16,9 +16,8 @@ const NoteOptions: React.FC<NoteOptionsProps> = ({ clickedNote }) => {
   const dispatch: AppDispatch = useDispatch()
 
   const trashNoteHandler = () => {
-
-    if (clickedNote && !clickedNote.trash) {
-      dispatch(sendNoteToTrash(clickedNote.id))
+    if (clickedNote) {
+      dispatch(toggleTrashedNote(clickedNote.id))
     }
   }
   const favoriteNoteHandler = () => {
@@ -41,12 +40,21 @@ const NoteOptions: React.FC<NoteOptionsProps> = ({ clickedNote }) => {
         </div>
       )}
       <div className='nav-button' onClick={trashNoteHandler}>
-        <Trash size={15} />
-        Delete note
+        {clickedNote.trash ? (
+          <>
+            <ArrowUp size={15} />
+            Restore from trash
+          </>
+        ) : (
+          <>
+            <Trash size={15} />
+            Move to trash
+          </>
+        )}
       </div>
       <div className='nav-button' onClick={downloadNoteHandler}>
         <Download size={15} />
-        Download note
+        Download
       </div>
 
     </nav>

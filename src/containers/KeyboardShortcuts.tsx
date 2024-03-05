@@ -1,5 +1,5 @@
 import React from 'react'
-import { addNote, sendNoteToTrash, swapNote } from 'store/slices/noteSlice'
+import { addNote, swapNote, toggleTrashedNote } from 'store/slices/noteSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { downloadNote, getNoteTitle, newNote } from 'helpers'
 import { useKey } from '../helpers/hooks'
@@ -31,8 +31,9 @@ const KeyboardShortcuts = () => {
     !addingTempCategory && setAddingTempCategory(true)
   }
   const trashNoteHandler = () => {
-    if (activeNote && !activeNote.trash) {
-      dispatch(sendNoteToTrash(activeNote.id))
+
+    if (activeNote) {
+      dispatch(toggleTrashedNote(activeNote.id))
     }
   }
 

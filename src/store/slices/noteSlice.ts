@@ -59,11 +59,11 @@ export const noteSlice = createSlice({
           favorite: !note.favorite,
         } : note)
     },
-    sendNoteToTrash: (state, action) => {
+    toggleTrashedNote: (state, action) => {
       state.notes = state.notes.map(note => note.id === action.payload ?
         {
           ...note,
-          trash: true,
+          trash: !note.trash,
         } : note,
       )
       state.activeNoteId = getNewNoteId(state.notes, action.payload, state.activeCategoryId)
@@ -133,7 +133,7 @@ export const {
   pruneNote,
   addCategoryToNote,
   pruneCategoryFromNotes,
-  sendNoteToTrash,
+  toggleTrashedNote,
   swapCategory,
   swapFolder,
   toggleFavoriteNote,
