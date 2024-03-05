@@ -5,14 +5,21 @@ import KeyboardShortcuts from 'containers/KeyboardShortcuts'
 import AppSidebar from 'containers/AppSidebar'
 import { loadNotes } from '../store/slices/noteSlice'
 import { AppDispatch } from '../store'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { loadCategories } from '../store/slices/categorySlice'
 import { KeyboardProvider } from '../context/KeyboardContext'
 
 
 const App: React.FC = () => {
   const dispatch: AppDispatch = useDispatch()
+  const dark = useSelector(({ themeState }) => themeState.dark)
 
+  let themeClass = ''
+
+  if (dark) {
+    themeClass = 'dark'
+  }
+  
   useEffect(() => {
     dispatch(loadNotes())
   }, [dispatch])
@@ -22,7 +29,7 @@ const App: React.FC = () => {
   }, [dispatch])
 
   return (
-    <div className='app'>
+    <div className={`app ${themeClass}`}>
       <KeyboardProvider>
         <AppSidebar />
         <NoteList />

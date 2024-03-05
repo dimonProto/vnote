@@ -7,6 +7,7 @@ import { postState } from '../store/middleware'
 import { CategoryItem, NoteItem } from '../type'
 import { RootState } from '../store'
 import { useKeyboard } from '../context/KeyboardContext'
+import { toggleDarkTheme } from '../store/slices/themeSlice'
 
 // @ts-ignore
 const KeyboardShortcuts = () => {
@@ -27,14 +28,20 @@ const KeyboardShortcuts = () => {
       dispatch(swapNote(note.id))
     }
   }
+
   const newTempCategoryHandler = () => {
     !addingTempCategory && setAddingTempCategory(true)
   }
+
   const trashNoteHandler = () => {
 
     if (activeNote) {
       dispatch(toggleTrashedNote(activeNote.id))
     }
+  }
+
+  const toggleDarkThemeHandler = () => {
+    dispatch(toggleDarkTheme())
   }
 
   const downloadNoteHandler = () => {
@@ -51,6 +58,10 @@ const KeyboardShortcuts = () => {
     newNoteHandler()
   })
 
+  useKey('alt+t', () => {
+    toggleDarkThemeHandler()
+  })
+
   useKey('alt+c', () => {
     newTempCategoryHandler()
   })
@@ -58,12 +69,15 @@ const KeyboardShortcuts = () => {
   useKey('alt+w', () => {
     trashNoteHandler()
   })
+
   useKey('alt+s', () => {
     syncNotesHandler()
   })
+
   useKey('alt+d', () => {
     downloadNoteHandler()
   })
+  
   return null
 
 }
