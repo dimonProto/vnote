@@ -2,10 +2,9 @@ import React from 'react'
 import { NoteItem } from '../type'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../store'
-
-import { toggleFavoriteNote, toggleTrashedNote } from '../store/slices/noteSlice'
+import { deleteNote, toggleFavoriteNote, toggleTrashedNote } from '../store/slices/noteSlice'
 import { downloadNote, getNoteTitle } from '../helpers'
-import { ArrowUp, Bookmark, Download, Trash } from 'react-feather'
+import { ArrowUp, Bookmark, Download, Trash, X } from 'react-feather'
 
 interface NoteOptionsProps {
   clickedNote: NoteItem
@@ -15,14 +14,11 @@ const NoteOptions: React.FC<NoteOptionsProps> = ({ clickedNote }) => {
 
   const dispatch: AppDispatch = useDispatch()
 
-  const trashNoteHandler = () => {
-    if (clickedNote) {
-      dispatch(toggleTrashedNote(clickedNote.id))
-    }
+
+  const deleteNoteHandler = () => {
+    dispatch(deleteNote(clickedNote.id))
   }
-  const favoriteNoteHandler = () => {
-    dispatch(toggleFavoriteNote(clickedNote.id))
-  }
+
 
   const downloadNoteHandler = () => {
     if (clickedNote) {
@@ -30,28 +26,39 @@ const NoteOptions: React.FC<NoteOptionsProps> = ({ clickedNote }) => {
     }
   }
 
+  const favoriteNoteHandler = () => {
+    dispatch(toggleFavoriteNote(clickedNote.id))
+  }
+
+  const trashNoteHandler = () => {
+    dispatch(toggleTrashedNote(clickedNote.id))
+  }
 
   return (
     <nav className='note-options-nav'>
-      {!clickedNote.trash && (
-        <div className='nav-button' onClick={favoriteNoteHandler}>
-          <Bookmark size={15} />
-          {clickedNote.favorite ? 'Remove Favorite' : 'Mark is Favorite'}
-        </div>
-      )}
-      <div className='nav-button' onClick={trashNoteHandler}>
-        {clickedNote.trash ? (
-          <>
+      {clickedNote.trash ? (
+        <>
+          <div className='nav-button' onClick={deleteNoteHandler}>
+            <X size={15} />
+            Delete permanently
+          </div>
+          <div className='nav-button' onClick={trashNoteHandler}>
             <ArrowUp size={15} />
             Restore from trash
-          </>
-        ) : (
-          <>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className='nav-button' onClick={favoriteNoteHandler}>
+            <Bookmark size={15} />
+            {clickedNote.favorite ? 'Remove Favorite' : 'Mark as Favorite'}
+          </div>
+          <div className='nav-button' onClick={trashNoteHandler}>
             <Trash size={15} />
             Move to trash
-          </>
-        )}
-      </div>
+          </div>
+        </>
+      )}
       <div className='nav-button' onClick={downloadNoteHandler}>
         <Download size={15} />
         Download
