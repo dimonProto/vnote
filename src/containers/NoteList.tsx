@@ -53,7 +53,7 @@ const NoteList = () => {
 
     if (node.current && node.current.contains(event.target as HTMLDivElement)) return
     setNoteOptionsId(!noteOptionsId || noteOptionsId !== noteId ? noteId : '')
-    
+
   }
 
 
@@ -98,37 +98,41 @@ const NoteList = () => {
                      className='note-options-context'
                      onClick={event => event.stopPropagation()}
                 >
-                  <h2>Move to category</h2>
-                  <select
-                    defaultValue=''
-                    className='select-element'
-                    onChange={event => {
-                      dispatch(addCategoryToNote({ noteId: note.id, categoryId: event.target.value }))
+                  {!note.trash && (
+                    <>
+                      <h2>Move to category</h2>
+                      <select
+                        defaultValue=''
+                        className='select-element'
+                        onChange={event => {
+                          dispatch(addCategoryToNote({ noteId: note.id, categoryId: event.target.value }))
 
-                      if (event.target.value !== activeCategoryId) {
-                        dispatch(swapCategory(event.target.value))
-                        dispatch(swapNote(note.id))
-                      }
+                          if (event.target.value !== activeCategoryId) {
+                            dispatch(swapCategory(event.target.value))
+                            dispatch(swapNote(note.id))
+                          }
 
-                      setNoteOptionsId('')
-                    }}
-                    name='' id=''>
-                    <option disabled value=''>
-                      Select category
-                    </option>
-                    {filteredCategories
-                      .filter(category => category.id !== note.category)
-                      .map(category => (
-                        <option key={category.id} value={category.id}>
-                          {category.name}
+                          setNoteOptionsId('')
+                        }}
+                      >
+                        <option disabled value=''>
+                          Select category
                         </option>
-                      ))}
-                    {note.category && (
-                      <option key='none' value=''>
-                        Remove category
-                      </option>
-                    )}
-                  </select>
+                        {filteredCategories
+                          .filter(category => category.id !== note.category)
+                          .map(category => (
+                            <option key={category.id} value={category.id}>
+                              {category.name}
+                            </option>
+                          ))}
+                        {note.category && (
+                          <option key='none' value=''>
+                            Remove category
+                          </option>
+                        )}
+                      </select>
+                    </>
+                  )}
                   <NoteOptions clickedNote={note} />
                 </div>
               )}
