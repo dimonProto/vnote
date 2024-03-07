@@ -7,11 +7,6 @@
 
 .note-sidebar {
   grid-area: note-sidebar;
-  overflow-y: hidden;
-
-  &:hover {
-    overflow-y: auto;
-  }
 }
 
 .app-sidebar {
@@ -23,17 +18,3 @@
   }
 }
 
-.note-options-nav {
-  margin-top: 1rem;
-
-  div {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    padding: 0.5rem 0;
-  }
-
-  svg {
-    margin-right: 0.5rem;
-  }
-}

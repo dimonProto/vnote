@@ -204,6 +204,28 @@
         z-index: 3;
         box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.1);
 
+        .select-element {
+          -webkit-appearance: none;
+          font-size: 1rem;
+          padding: 0.5rem;
+          width: 100%;
+        }
+
+        .note-options-nav {
+          margin-top: 1rem;
+
+          div {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0;
+          }
+
+          svg {
+            margin-right: 0.5rem;
+          }
+        }
+
         h2 {
           margin-top: 0;
           font-size: 1rem;
