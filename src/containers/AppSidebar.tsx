@@ -164,7 +164,9 @@ const AppSidebar = () => {
       </section>
       <section className='app-sidebar-actions'>
         <div>
-          <Plus size={18} className='action-button' color={iconColor} onClick={newNoteHandler} />
+          {activeFolder !== Folders.TRASH && (
+            <Plus size={18} className='action-button' color={iconColor} onClick={newNoteHandler} />
+          )}
           <UploadCloud size={18} className='action-button' color={iconColor} onClick={syncNotesHandler} />
           <Settings size={18} className='action-button' color={iconColor} />
         </div>
