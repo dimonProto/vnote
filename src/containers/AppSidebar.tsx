@@ -10,6 +10,7 @@ import { Book, Bookmark, Folder, Plus, PlusCircle, Settings, Trash2, UploadCloud
 import { postState } from '../store/middleware'
 import { newNote } from '../helpers'
 import { useKeyboard } from '../context/KeyboardContext'
+import { toggleSettingsModal } from '../store/slices/settingsSlice'
 
 
 const iconColor = 'rgba(255, 255, 255, 0.3)'
@@ -30,6 +31,10 @@ const AppSidebar = () => {
 
   const newTempCategoryHandler = () => {
     !addingTempCategory && setAddingTempCategory(true)
+  }
+
+  const settingsHandler = () => {
+    dispatch(toggleSettingsModal())
   }
 
   const newNoteHandler = () => {
@@ -168,7 +173,7 @@ const AppSidebar = () => {
             <Plus size={18} className='action-button' color={iconColor} onClick={newNoteHandler} />
           )}
           <UploadCloud size={18} className='action-button' color={iconColor} onClick={syncNotesHandler} />
-          <Settings size={18} className='action-button' color={iconColor} />
+          <Settings onClick={settingsHandler} size={18} className='action-button' color={iconColor} />
         </div>
       </section>
     </aside>

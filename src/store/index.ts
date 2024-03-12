@@ -3,12 +3,14 @@ import noteReducer from './slices/noteSlice'
 import syncReducer from './slices/syncSlice'
 import categoryReducer from './slices/categorySlice'
 import themeReducer from './slices/themeSlice'
+import settingsReducer from './slices/settingsSlice'
 
 const rootReducer = combineReducers({
   notesState: noteReducer,
   syncState: syncReducer,
   categoryState: categoryReducer,
   themeState: themeReducer,
+  settingsState: settingsReducer,
 })
 
 

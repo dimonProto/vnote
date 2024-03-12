@@ -8,6 +8,7 @@ import { AppDispatch } from '../store'
 import { useDispatch, useSelector } from 'react-redux'
 import { loadCategories } from '../store/slices/categorySlice'
 import { KeyboardProvider } from '../context/KeyboardContext'
+import SettingsModal from '../containers/SettingsModal'
 
 
 const App: React.FC = () => {
@@ -19,7 +20,7 @@ const App: React.FC = () => {
   if (dark) {
     themeClass = 'dark'
   }
-  
+
   useEffect(() => {
     dispatch(loadNotes())
   }, [dispatch])
@@ -35,6 +36,7 @@ const App: React.FC = () => {
         <NoteList />
         <NoteEditor />
         <KeyboardShortcuts />
+        <SettingsModal />
       </KeyboardProvider>
     </div>
   )
