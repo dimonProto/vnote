@@ -19,7 +19,7 @@ const initialState = {
 
 
 export const categorySlice = createSlice({
-  name: 'note',
+  name: 'category',
   initialState,
   reducers: {
     loadCategoriesSuccess: (state, action) => {

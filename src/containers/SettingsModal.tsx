@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch } from '../store'
-import { toggleSettingsModal } from '../store/slices/settingsSlice'
+import { toggleSettingsModal, updateCodeMirrorOption } from '../store/slices/settingsSlice'
 import { toggleDarkTheme } from '../store/slices/themeSlice'
 
 
@@ -22,6 +22,12 @@ const SettingsModal = () => {
 
   const toggleDarkThemeHandler = () => {
     dispatch(toggleDarkTheme())
+
+    if (!dark) {
+      dispatch(updateCodeMirrorOption({ key: 'theme', value: 'zenburn' }))
+    } else {
+      dispatch(updateCodeMirrorOption({ key: 'theme', value: 'base16-light' }))
+    }
   }
 
   useEffect(() => {
@@ -35,7 +41,13 @@ const SettingsModal = () => {
     <div className='dimmer'>
       <div ref={node} className='settings-modal'>
         <h2>Settings</h2>
-        <button onClick={toggleDarkThemeHandler}>Toggle Dark Theme</button>
+        <div className='settings-options vbetween'>
+          <div className='settings-label'>Dark Mode</div>
+          <label className='switch'>
+            <input type='checkbox' onChange={toggleDarkThemeHandler} checked={dark} />
+            <span className='slider round'></span>
+          </label>
+        </div>
       </div>
 
     </div>

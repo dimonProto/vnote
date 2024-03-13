@@ -16,18 +16,27 @@ const initialState: SettingsState = {
 
 
 export const settingsSlice = createSlice({
-  name: 'note',
+  name: 'settings',
   initialState,
   reducers: {
     toggleSettingsModal: (state) => {
       state.isOpen = !state.isOpen
     },
-
+    updateCodeMirrorOption: (state, action) => {
+      const { key, value } = action.payload
+      return {
+        ...state,
+        codeMirrorOptions: {
+          ...state.codeMirrorOptions,
+          [key]: value,
+        },
+      }
+    },
   },
 })
 
 
 // Action creators are generated for each case reducer function
-export const { toggleSettingsModal } = settingsSlice.actions
+export const { toggleSettingsModal, updateCodeMirrorOption } = settingsSlice.actions
 
 export default settingsSlice.reducer

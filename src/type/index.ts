@@ -30,6 +30,7 @@ export interface CategoryState {
   loading: boolean
 }
 
+
 export interface SettingsState {
   isOpen: boolean
   codeMirrorOptions: {
@@ -41,3 +42,4 @@ export interface SettingsState {
     viewportMargin: number
   }
 }
+

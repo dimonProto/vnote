@@ -8,7 +8,7 @@ const initialState = {
 
 
 export const syncSlice = createSlice({
-  name: 'note',
+  name: 'sync',
   initialState,
   reducers: {
     syncState: (state, action) => {

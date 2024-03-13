@@ -7,7 +7,7 @@ const initialState = {
 
 
 export const themeSlice = createSlice({
-  name: 'note',
+  name: 'theme',
   initialState,
   reducers: {
     toggleDarkTheme: (state) => {
