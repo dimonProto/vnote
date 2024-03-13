@@ -23,7 +23,7 @@ const KeyboardShortcuts = () => {
 
   const newNoteHandler = () => {
     const note = newNote(activeCategoryId, activeFolder)
-    if ((activeNote && activeNote.text !== '') || !activeNote) {
+    if ((activeNote && activeNote.text !== '' && !activeNote.trash) || !activeNote) {
       dispatch(addNote(note))
       dispatch(swapNote(note.id))
     }
@@ -77,7 +77,7 @@ const KeyboardShortcuts = () => {
   useKey('alt+d', () => {
     downloadNoteHandler()
   })
-  
+
   return null
 
 }
