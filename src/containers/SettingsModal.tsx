@@ -8,6 +8,8 @@ import { toggleDarkTheme } from '../store/slices/themeSlice'
 const SettingsModal = () => {
   const isOpen = useSelector(({ settingsState }) => settingsState.isOpen)
   const dark = useSelector(({ themeState }) => themeState.dark)
+  const codeMirrorOptions = useSelector(({ settingsState }) => settingsState.codeMirrorOptions)
+
   const dispatch: AppDispatch = useDispatch()
 
   const node = useRef<HTMLDivElement>()
@@ -45,6 +47,23 @@ const SettingsModal = () => {
           <div className='settings-label'>Dark Mode</div>
           <label className='switch'>
             <input type='checkbox' onChange={toggleDarkThemeHandler} checked={dark} />
+            <span className='slider round'></span>
+          </label>
+        </div>
+        <div className='settings-options vbetween'>
+          <div className='settings-label'>Vim Mode</div>
+          <label className='switch'>
+            <input
+              type='checkbox'
+              onChange={() => {
+                if (codeMirrorOptions.keyMap === 'vim') {
+                  dispatch(updateCodeMirrorOption({ key: 'keyMap', value: 'default' }))
+                } else {
+                  dispatch(updateCodeMirrorOption({ key: 'keyMap', value: 'vim' }))
+                }
+
+              }}
+              checked={codeMirrorOptions.keyMap === 'vim'} />
             <span className='slider round'></span>
           </label>
         </div>
