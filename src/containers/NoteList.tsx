@@ -66,6 +66,11 @@ const NoteList = () => {
     }
   })
 
+  const handleDragStart = (event: React.DragEvent<HTMLDivElement>, noteId: string = '') => {
+    event.stopPropagation()
+    event.dataTransfer.setData('text/plain', noteId)
+  }
+
   return (
     <aside className='note-sidebar'>
       <div className='note-sidebar-header'>
@@ -86,6 +91,8 @@ const NoteList = () => {
                 }
 
               }}
+              draggable
+              onDragStart={event => handleDragStart(event, note.id)}
             >
               <div>{noteTitle}</div>
               <div className={noteOptionsId === note.id ? 'note-options active' : 'note-options'}

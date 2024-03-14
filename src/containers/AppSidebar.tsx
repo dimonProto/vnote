@@ -4,7 +4,16 @@ import kebabCase from 'lodash/kebabCase'
 import { AppDispatch, RootState } from '../store'
 import { addCategory, deleteCategory } from 'store/slices/categorySlice'
 import { CategoryItem, NoteItem } from 'type'
-import { addNote, pruneCategoryFromNotes, swapCategory, swapFolder, swapNote } from 'store/slices/noteSlice'
+import {
+  addCategoryToNote,
+  addNote,
+  pruneCategoryFromNotes,
+  swapCategory,
+  swapFolder,
+  swapNote,
+  toggleFavoriteNote,
+  toggleTrashedNote,
+} from 'store/slices/noteSlice'
 import { Folders } from '../constants/codeMirrorOptions'
 import { Book, Bookmark, Folder, Plus, PlusCircle, Settings, Trash2, UploadCloud, X } from 'react-feather'
 import { postState } from '../store/middleware'
@@ -61,8 +70,20 @@ const AppSidebar = () => {
       setTempCategory('')
       setAddingTempCategory(false)
     }
+  }
 
+  const allowDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault()
+  }
 
+  const trashNoteHandler = (event: React.DragEvent<HTMLDivElement>) => {
+    console.log(event.dataTransfer.getData('text'))
+    dispatch(toggleTrashedNote(event.dataTransfer.getData('text')))
+  }
+
+  const favoriteNoteHandler = (event: React.DragEvent<HTMLDivElement>) => {
+    console.log(event.dataTransfer.getData('text'))
+    dispatch(toggleFavoriteNote(event.dataTransfer.getData('text')))
   }
 
 
@@ -73,14 +94,21 @@ const AppSidebar = () => {
           <PlusCircle size={15} style={{ marginRight: '.75rem' }} color={iconColor} />
           Add Note
         </div>
-        <div onClick={() => {
-          dispatch(swapFolder(Folders.ALL))
-        }} className={activeFolder === Folders.ALL ? 'app-sidebar-link active' : 'app-sidebar-link'}>
+        <div
+          className={activeFolder === Folders.ALL ? 'app-sidebar-link active' : 'app-sidebar-link'}
+          onClick={() => {
+            dispatch(swapFolder(Folders.ALL))
+          }}
+        >
+
           <Book size={15} style={{ marginRight: '.75rem' }} color={iconColor} />
           All Notes
         </div>
-        <div className={activeFolder === Folders.FAVORITES ? 'app-sidebar-link active' : 'app-sidebar-link'}
-             onClick={() => dispatch(swapFolder(Folders.FAVORITES))}
+        <div
+          className={activeFolder === Folders.FAVORITES ? 'app-sidebar-link active' : 'app-sidebar-link'}
+          onClick={() => dispatch(swapFolder(Folders.FAVORITES))}
+          onDrop={favoriteNoteHandler}
+          onDragOver={allowDrop}
         >
           <Bookmark size={15} style={{ marginRight: '.75rem' }} color={iconColor} />
           Favorites
@@ -92,6 +120,8 @@ const AppSidebar = () => {
           onClick={() => {
             dispatch(swapFolder(Folders.TRASH))
           }}
+          onDrop={trashNoteHandler}
+          onDragOver={allowDrop}
         >
 
           <Trash2 size={15} style={{ marginRight: '.75rem' }} color={iconColor} />
@@ -119,6 +149,13 @@ const AppSidebar = () => {
                        dispatch(swapNote(newNoteId))
                      }
                    }}
+                   onDrop={event => {
+                     dispatch(addCategoryToNote({
+                       noteId: category.id,
+                       categoryId: event.dataTransfer.getData('noteId'),
+                     }))
+                   }}
+                   onDragOver={allowDrop}
               >
                 <div className='category-each-name'>
                   <Folder size={15} style={{ marginRight: '.75rem' }} color={iconColor} />
