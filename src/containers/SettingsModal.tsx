@@ -17,6 +17,7 @@ const SettingsModal = () => {
   const handleDomClick = (event: MouseEvent | React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation()
     if (node.current && node.current.contains(event.target as HTMLDivElement)) return
+
     if (isOpen) {
       dispatch(toggleSettingsModal())
     }
@@ -37,7 +38,7 @@ const SettingsModal = () => {
     return () => {
       document.removeEventListener('mousedown', handleDomClick)
     }
-  }, [])
+  })
 
   return isOpen ? (
     <div className='dimmer'>

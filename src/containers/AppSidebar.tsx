@@ -77,12 +77,10 @@ const AppSidebar = () => {
   }
 
   const trashNoteHandler = (event: React.DragEvent<HTMLDivElement>) => {
-    console.log(event.dataTransfer.getData('text'))
     dispatch(toggleTrashedNote(event.dataTransfer.getData('text')))
   }
 
   const favoriteNoteHandler = (event: React.DragEvent<HTMLDivElement>) => {
-    console.log(event.dataTransfer.getData('text'))
     dispatch(toggleFavoriteNote(event.dataTransfer.getData('text')))
   }
 
@@ -207,10 +205,40 @@ const AppSidebar = () => {
       <section className='app-sidebar-actions'>
         <div>
           {activeFolder !== Folders.TRASH && (
-            <Plus size={18} className='action-button' color={iconColor} onClick={newNoteHandler} />
+            <button className='action-button' aria-label='create new note' onClick={newNoteHandler}>
+              <span>
+                <Plus
+                  size={18}
+                  className='action-button__icon'
+                  color={iconColor}
+                  aria-hidden='true'
+                  focusable='false'
+                />
+              </span>
+            </button>
           )}
-          <UploadCloud size={18} className='action-button' color={iconColor} onClick={syncNotesHandler} />
-          <Settings onClick={settingsHandler} size={18} className='action-button' color={iconColor} />
+          <button className='action-button' aria-label='create new note' onClick={syncNotesHandler}>
+              <span>
+                <UploadCloud
+                  size={18}
+                  className='action-button__icon'
+                  color={iconColor}
+                  aria-hidden='true'
+                  focusable='false'
+                />
+              </span>
+          </button>
+          <button className='action-button' aria-label='create new note' onClick={settingsHandler}>
+              <span>
+                <Settings
+                  size={18}
+                  className='action-button__icon'
+                  color={iconColor}
+                  aria-hidden='true'
+                  focusable='false'
+                />
+              </span>
+          </button>
         </div>
       </section>
     </aside>
