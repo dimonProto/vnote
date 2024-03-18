@@ -77,10 +77,12 @@ const AppSidebar = () => {
   }
 
   const trashNoteHandler = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault()
     dispatch(toggleTrashedNote(event.dataTransfer.getData('text')))
   }
 
   const favoriteNoteHandler = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault()
     dispatch(toggleFavoriteNote(event.dataTransfer.getData('text')))
   }
 
@@ -148,6 +150,7 @@ const AppSidebar = () => {
                      }
                    }}
                    onDrop={event => {
+                     event.preventDefault()
                      dispatch(addCategoryToNote({
                        noteId: category.id,
                        categoryId: event.dataTransfer.getData('noteId'),
