@@ -57,12 +57,11 @@ const SettingsModal = () => {
             <input
               type='checkbox'
               onChange={() => {
-                if (codeMirrorOptions.keyMap === 'vim') {
-                  dispatch(updateCodeMirrorOption({ key: 'keyMap', value: 'default' }))
-                } else {
-                  dispatch(updateCodeMirrorOption({ key: 'keyMap', value: 'vim' }))
-                }
-
+                console.log('hi')
+                dispatch(updateCodeMirrorOption({
+                  key: 'keyMap',
+                  value: codeMirrorOptions.keyMap === 'vim' ? 'default' : 'vim',
+                }))
               }}
               checked={codeMirrorOptions.keyMap === 'vim'} />
             <span className='slider round'></span>
