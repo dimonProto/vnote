@@ -24,11 +24,11 @@ const NoteEditor = () => {
 
 
   if (loading) {
-    return <div className='empty-editor' />
+    return <div className='empty-editor v-center'>Loading...</div>
   }
 
   if (!activeNote) {
-    return <div className='empty-editor vcenter' />
+    return <div className='empty-editor v-center' />
   }
 
   return (

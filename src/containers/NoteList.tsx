@@ -83,7 +83,7 @@ const NoteList = () => {
             <div
               key={note.id}
 
-              className={note.id === activeNoteId ? 'note-each active' : 'note-each'}
+              className={note.id === activeNoteId ? 'note-list-each active' : 'note-list-each'}
               onClick={() => {
                 if (note.id !== activeNoteId) {
                   dispatch(swapNote(note.id))
@@ -102,7 +102,7 @@ const NoteList = () => {
               </div>
               {noteOptionsId === note.id && (
                 <div ref={node}
-                     className='note-options-context'
+                     className='note-options-context-menu'
                      onClick={event => event.stopPropagation()}
                 >
                   {!note.trash && (

@@ -15,7 +15,7 @@ import {
   toggleTrashedNote,
 } from 'store/slices/noteSlice'
 import { Folders } from '../constants/codeMirrorOptions'
-import { Book, Bookmark, Folder, Plus, PlusCircle, Settings, Trash2, UploadCloud, X } from 'react-feather'
+import { Book, Bookmark, Folder, Plus, Settings, Trash2, UploadCloud, X } from 'react-feather'
 import { postState } from '../store/middleware'
 import { newNote } from '../helpers'
 import { useKeyboard } from '../context/KeyboardContext'
@@ -90,10 +90,6 @@ const AppSidebar = () => {
   return (
     <aside className='app-sidebar'>
       <section className='app-sidebar-main'>
-        <div className='app-sidebar-link' onClick={newNoteHandler}>
-          <PlusCircle size={15} style={{ marginRight: '.75rem' }} color={iconColor} />
-          Add Note
-        </div>
         <div
           className={activeFolder === Folders.ALL ? 'app-sidebar-link active' : 'app-sidebar-link'}
           onClick={() => {
@@ -101,7 +97,7 @@ const AppSidebar = () => {
           }}
         >
 
-          <Book size={15} style={{ marginRight: '.75rem' }} color={iconColor} />
+          <Book size={15} className='app-sidebar-icon' color={iconColor} />
           All Notes
         </div>
         <div
@@ -110,7 +106,7 @@ const AppSidebar = () => {
           onDrop={favoriteNoteHandler}
           onDragOver={allowDrop}
         >
-          <Bookmark size={15} style={{ marginRight: '.75rem' }} color={iconColor} />
+          <Bookmark size={15} className='app-sidebar-icon' color={iconColor} />
           Favorites
         </div>
         <div
@@ -127,9 +123,9 @@ const AppSidebar = () => {
           <Trash2 size={15} style={{ marginRight: '.75rem' }} color={iconColor} />
           Trash
         </div>
-        <div className='category-title vbetween'>
+        <div className='category-title v-between'>
           <h2>Categories</h2>
-          <button className='add-category-button' onClick={newTempCategoryHandler}>
+          <button className='category-button' onClick={newTempCategoryHandler}>
             <Plus size={15} color={iconColor} />
           </button>
         </div>
@@ -138,7 +134,7 @@ const AppSidebar = () => {
           {categories.map(category => {
             return (
               <div key={category.id}
-                   className={category.id === activeCategoryId ? 'category-each active' : 'category-each'}
+                   className={`category-list-each ${category.id === activeCategoryId ? 'active' : ''}`}
                    onClick={() => {
                      const notesForNewCategory = notes.filter(
                        note => note.category === category.id,
@@ -158,8 +154,8 @@ const AppSidebar = () => {
                    }}
                    onDragOver={allowDrop}
               >
-                <div className='category-each-name'>
-                  <Folder size={15} style={{ marginRight: '.75rem' }} color={iconColor} />
+                <div className='category-list-name'>
+                  <Folder size={15} className='app-sidebar-icon' color={iconColor} />
                   {category.name}
                 </div>
 
@@ -184,7 +180,7 @@ const AppSidebar = () => {
         </div>
         {addingTempCategory && (
           <form
-            className='add-category-form'
+            className='category-form'
             action=''
             onSubmit={onSubmit}
           >
@@ -212,7 +208,7 @@ const AppSidebar = () => {
               <span>
                 <Plus
                   size={18}
-                  className='action-button__icon'
+                  className='action-button-icon'
                   color={iconColor}
                   aria-hidden='true'
                   focusable='false'
@@ -224,7 +220,7 @@ const AppSidebar = () => {
               <span>
                 <UploadCloud
                   size={18}
-                  className='action-button__icon'
+                  className='action-button-icon'
                   color={iconColor}
                   aria-hidden='true'
                   focusable='false'
@@ -235,7 +231,7 @@ const AppSidebar = () => {
               <span>
                 <Settings
                   size={18}
-                  className='action-button__icon'
+                  className='action-button-icon'
                   color={iconColor}
                   aria-hidden='true'
                   focusable='false'
