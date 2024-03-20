@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch } from '../store'
 import { toggleSettingsModal, updateCodeMirrorOption } from '../store/slices/settingsSlice'
 import { toggleDarkTheme } from '../store/slices/themeSlice'
+import Switch from '../componets/Switch'
 
 
 const SettingsModal = () => {
@@ -33,6 +34,13 @@ const SettingsModal = () => {
     }
   }
 
+  const toggleVimMode = () => {
+    dispatch(updateCodeMirrorOption({
+      key: 'keyMap',
+      value: codeMirrorOptions.keyMap === 'vim' ? 'default' : 'vim',
+    }))
+  }
+
   useEffect(() => {
     document.addEventListener('mousedown', handleDomClick)
     return () => {
@@ -44,30 +52,61 @@ const SettingsModal = () => {
     <div className='dimmer'>
       <div ref={node} className='settings-modal'>
         <h2>Settings</h2>
-        <div className='settings-options v-between'>
-          <div className='settings-label'>Dark Mode</div>
-          <label className='switch'>
-            <input type='checkbox' onChange={toggleDarkThemeHandler} checked={dark} />
-            <span className='slider'></span>
-          </label>
-        </div>
-        <div className='settings-options v-between'>
-          <div className='settings-label'>Vim Mode</div>
-          <label className='switch'>
-            <input
-              type='checkbox'
-              onChange={() => {
-                dispatch(updateCodeMirrorOption({
-                  key: 'keyMap',
-                  value: codeMirrorOptions.keyMap === 'vim' ? 'default' : 'vim',
-                }))
-              }}
-              checked={codeMirrorOptions.keyMap === 'vim'} />
-            <span className='slider'></span>
-          </label>
-        </div>
-      </div>
 
+        <div className='settings-options'>
+          <div className='settings-label'>Dark Mode</div>
+          <Switch toggle={toggleDarkThemeHandler} checked={dark} />
+        </div>
+
+        <div className='settings-options'>
+          <div className='settings-label'>Vim Mode</div>
+          <Switch toggle={toggleVimMode} checked={codeMirrorOptions.keyMap === 'vim'} />
+        </div>
+
+        <section className='settings-section'>
+          <div className='settings-label mb-1'>Keyboard Shortcuts</div>
+          <div className='settings-shortcut'>
+            <div>Create note</div>
+            <div>
+              <kbd>
+                <kbd>Alt</kbd> + <kbd>N</kbd>
+              </kbd>
+            </div>
+          </div>
+          <div className='settings-shortcut'>
+            <div>Delete note</div>
+            <div>
+              <kbd>
+                <kbd>Alt</kbd> + <kbd>W</kbd>
+              </kbd>
+            </div>
+          </div>
+          <div className='settings-shortcut'>
+            <div>Create category</div>
+            <div>
+              <kbd>
+                <kbd>Alt</kbd> + <kbd>C</kbd>
+              </kbd>
+            </div>
+          </div>
+          <div className='settings-shortcut'>
+            <div>Download note</div>
+            <div>
+              <kbd>
+                <kbd>Alt</kbd> + <kbd>D</kbd>
+              </kbd>
+            </div>
+          </div>
+          <div className='settings-shortcut'>
+            <div>Sync note</div>
+            <div>
+              <kbd>
+                <kbd>Alt</kbd> + <kbd>S</kbd>
+              </kbd>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   ) : null
 }

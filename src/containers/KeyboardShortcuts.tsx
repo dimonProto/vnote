@@ -54,7 +54,7 @@ const KeyboardShortcuts = () => {
     postState(notes, categories)
   }
 
-  useKey('alt+k', () => {
+  useKey('alt+n', () => {
     newNoteHandler()
   })
 
