@@ -89,6 +89,43 @@ const AppSidebar = () => {
 
   return (
     <aside className='app-sidebar'>
+      <section className='app-sidebar-actions'>
+        {activeFolder !== Folders.TRASH && (
+          <button className='action-button' aria-label='create new note' onClick={newNoteHandler}>
+              <span>
+                <Plus
+                  size={18}
+                  className='action-button-icon'
+                  color={iconColor}
+                  aria-hidden='true'
+                  focusable='false'
+                />
+              </span>
+          </button>
+        )}
+        <button className='action-button' aria-label='create new note' onClick={syncNotesHandler}>
+              <span>
+                <UploadCloud
+                  size={18}
+                  className='action-button-icon'
+                  color={iconColor}
+                  aria-hidden='true'
+                  focusable='false'
+                />
+              </span>
+        </button>
+        <button className='action-button' aria-label='create new note' onClick={settingsHandler}>
+              <span>
+                <Settings
+                  size={18}
+                  className='action-button-icon'
+                  color={iconColor}
+                  aria-hidden='true'
+                  focusable='false'
+                />
+              </span>
+        </button>
+      </section>
       <section className='app-sidebar-main'>
         <div
           className={activeFolder === Folders.ALL ? 'app-sidebar-link active' : 'app-sidebar-link'}
@@ -201,45 +238,7 @@ const AppSidebar = () => {
           </form>
         )}
       </section>
-      <section className='app-sidebar-actions'>
-        <div>
-          {activeFolder !== Folders.TRASH && (
-            <button className='action-button' aria-label='create new note' onClick={newNoteHandler}>
-              <span>
-                <Plus
-                  size={18}
-                  className='action-button-icon'
-                  color={iconColor}
-                  aria-hidden='true'
-                  focusable='false'
-                />
-              </span>
-            </button>
-          )}
-          <button className='action-button' aria-label='create new note' onClick={syncNotesHandler}>
-              <span>
-                <UploadCloud
-                  size={18}
-                  className='action-button-icon'
-                  color={iconColor}
-                  aria-hidden='true'
-                  focusable='false'
-                />
-              </span>
-          </button>
-          <button className='action-button' aria-label='create new note' onClick={settingsHandler}>
-              <span>
-                <Settings
-                  size={18}
-                  className='action-button-icon'
-                  color={iconColor}
-                  aria-hidden='true'
-                  focusable='false'
-                />
-              </span>
-          </button>
-        </div>
-      </section>
+
     </aside>
   )
 }
