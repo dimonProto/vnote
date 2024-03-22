@@ -3,7 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import './styles/index.scss'
 import { store } from './store'
-import App from './componets/App'
+import App from './containers/App'
 import { createRoot } from 'react-dom/client'
 
 const container = document.getElementById('root')

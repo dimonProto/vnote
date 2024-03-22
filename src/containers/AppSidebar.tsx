@@ -35,7 +35,13 @@ const AppSidebar = () => {
 
   const dispatch: AppDispatch = useDispatch()
 
-  const { addingTempCategory, setAddingTempCategory } = useKeyboard()
+  const {
+    addingTempCategory,
+    setAddingTempCategory,
+    errorCategoryMessage,
+    setErrorCategoryMessage,
+  } = useKeyboard()
+
   const [tempCategory, setTempCategory] = useState('')
   const [editingCategoryId, setEditingCategoryId] = useState('')
 
@@ -62,14 +68,21 @@ const AppSidebar = () => {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement> | React.FocusEvent<HTMLInputElement>): void => {
     event.preventDefault()
+
     const category = {
       id: kebabCase(tempCategory),
       name: tempCategory,
     }
-    if (!categories.find(cat => cat.id === kebabCase(tempCategory))) {
+
+    if (category.name.length > 20) {
+      setErrorCategoryMessage('Category name must not exceed 20 characters')
+    } else if (categories.find(cat => cat.id === kebabCase(tempCategory))) {
+      setErrorCategoryMessage('Category name has already been added')
+    } else {
       dispatch(addCategory(category))
       setTempCategory('')
       setAddingTempCategory(false)
+      setErrorCategoryMessage('')
     }
   }
 
@@ -169,6 +182,9 @@ const AppSidebar = () => {
         </div>
 
         <div className='category-list'>
+          <div className='category-error-message'>
+            {errorCategoryMessage && <span>{errorCategoryMessage}</span>}
+          </div>
           {categories.map(category => {
             return (
               <div key={category.id}

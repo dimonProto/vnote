@@ -8,18 +8,14 @@ import { AppDispatch } from '../store'
 import { useDispatch, useSelector } from 'react-redux'
 import { loadCategories } from '../store/slices/categorySlice'
 import { KeyboardProvider } from '../context/KeyboardContext'
-import SettingsModal from '../containers/SettingsModal'
+import SettingsModal from './SettingsModal'
 
 
 const App: React.FC = () => {
-  const dispatch: AppDispatch = useDispatch()
   const dark = useSelector(({ themeState }) => themeState.dark)
 
-  let themeClass = ''
+  const dispatch: AppDispatch = useDispatch()
 
-  if (dark) {
-    themeClass = 'dark'
-  }
 
   useEffect(() => {
     dispatch(loadNotes())
@@ -30,7 +26,7 @@ const App: React.FC = () => {
   }, [dispatch])
 
   return (
-    <div className={`app ${themeClass}`}>
+    <div className={`app ${dark ? 'dark' : ''}`}>
       <KeyboardProvider>
         <AppSidebar />
         <NoteList />
