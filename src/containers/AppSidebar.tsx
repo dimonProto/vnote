@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import kebabCase from 'lodash/kebabCase'
 import { AppDispatch, RootState } from '../store'
-import { addCategory, deleteCategory } from 'store/slices/categorySlice'
+import { addCategory, deleteCategory, updateCategory } from 'store/slices/categorySlice'
 import { CategoryItem, NoteItem } from 'type'
 import {
   addCategoryToNote,
@@ -37,6 +37,7 @@ const AppSidebar = () => {
 
   const { addingTempCategory, setAddingTempCategory } = useKeyboard()
   const [tempCategory, setTempCategory] = useState('')
+  const [editingCategoryId, setEditingCategoryId] = useState('')
 
   const newTempCategoryHandler = () => {
     !addingTempCategory && setAddingTempCategory(true)
@@ -182,6 +183,12 @@ const AppSidebar = () => {
                        dispatch(swapNote(newNoteId))
                      }
                    }}
+                   onDoubleClick={() => {
+                     setEditingCategoryId(category.id)
+                   }}
+                   onBlur={() => {
+                     setEditingCategoryId('')
+                   }}
                    onDrop={event => {
                      event.preventDefault()
                      dispatch(addCategoryToNote({
@@ -191,11 +198,24 @@ const AppSidebar = () => {
                    }}
                    onDragOver={allowDrop}
               >
-                <div className='category-list-name'>
+                <form
+                  className='category-list-name'
+                  onSubmit={e => {
+                    setEditingCategoryId('')
+                    e.preventDefault()
+                  }}
+                >
                   <Folder size={15} className='app-sidebar-icon' color={iconColor} />
-                  {category.name}
-                </div>
-
+                  {editingCategoryId === category.id ? (
+                    <input
+                      value={category.name}
+                      onChange={event => {
+                        dispatch(updateCategory({ id: category.id, name: event.target.value }))
+                      }}
+                    />
+                  ) : category.name
+                  }
+                </form>
                 <div
                   className='category-options'
                   onClick={() => {

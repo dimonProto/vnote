@@ -37,7 +37,7 @@ export const categorySlice = createSlice({
     },
     updateCategory: (state, action) => {
       state.categories = state.categories.map((category) =>
-        category.id === action.payload ? {
+        category.id === action.payload.id ? {
           id: category.id,
           name: action.payload.name,
         } : category,
