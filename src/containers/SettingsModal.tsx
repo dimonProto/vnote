@@ -4,6 +4,7 @@ import { AppDispatch } from '../store'
 import { toggleSettingsModal, updateCodeMirrorOption } from '../store/slices/settingsSlice'
 import { toggleDarkTheme } from '../store/slices/themeSlice'
 import Switch from '../componets/Switch'
+import { ReactMouseEvent } from '../type'
 
 
 const SettingsModal = () => {
@@ -15,7 +16,7 @@ const SettingsModal = () => {
 
   const node = useRef<HTMLDivElement>()
 
-  const handleDomClick = (event: MouseEvent | React.MouseEvent<HTMLDivElement>) => {
+  const handleDomClick = (event: ReactMouseEvent) => {
     event.stopPropagation()
     if (node.current && node.current.contains(event.target as HTMLDivElement)) return
 

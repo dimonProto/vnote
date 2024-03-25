@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import kebabCase from 'lodash/kebabCase'
 import { AppDispatch, RootState } from '../store'
 import { addCategory, deleteCategory, updateCategory } from 'store/slices/categorySlice'
-import { CategoryItem, NoteItem } from 'type'
+import { CategoryItem, NoteItem, ReactDragEvent, ReactSubmitEvent } from 'type'
 import {
   addCategoryToNote,
   addNote,
@@ -79,7 +79,7 @@ const AppSidebar = () => {
     setErrorCategoryMessage('')
   }
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement> | React.FocusEvent<HTMLInputElement>): void => {
+  const onSubmit = (event: ReactSubmitEvent): void => {
     event.preventDefault()
 
     const category = {
@@ -97,16 +97,16 @@ const AppSidebar = () => {
     }
   }
 
-  const allowDrop = (event: React.DragEvent<HTMLDivElement>) => {
+  const allowDrop = (event: ReactDragEvent) => {
     event.preventDefault()
   }
 
-  const trashNoteHandler = (event: React.DragEvent<HTMLDivElement>) => {
+  const trashNoteHandler = (event: ReactDragEvent) => {
     event.preventDefault()
     dispatch(toggleTrashedNote(event.dataTransfer.getData('text')))
   }
 
-  const favoriteNoteHandler = (event: React.DragEvent<HTMLDivElement>) => {
+  const favoriteNoteHandler = (event: ReactDragEvent) => {
     event.preventDefault()
     dispatch(toggleFavoriteNote(event.dataTransfer.getData('text')))
   }

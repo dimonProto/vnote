@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'store'
 import { addCategoryToNote, pruneNote, swapCategory, swapNote } from 'store/slices/noteSlice'
 import { getNoteTitle, sortByLastUpdated } from '../helpers'
-import { CategoryItem, NoteItem } from '../type'
+import { CategoryItem, NoteItem, ReactDragEvent, ReactMouseEvent } from '../type'
 import { Folders } from '../constants/codeMirrorOptions'
 import NoteOptions from './NoteOptions'
 import { MoreHorizontal } from 'react-feather'
@@ -48,7 +48,7 @@ const NoteList = () => {
   const [noteOptionsId, setNoteOptionsId] = useState('')
   const node = useRef<HTMLDivElement>(null)
 
-  const handleNoteOptionsClick = (event: MouseEvent | React.MouseEvent<HTMLDivElement> | React.ChangeEvent<HTMLSelectElement>, noteId: string = '') => {
+  const handleNoteOptionsClick = (event: ReactMouseEvent, noteId: string = '') => {
     event.stopPropagation()
 
     if (node.current && node.current.contains(event.target as HTMLDivElement)) return
@@ -66,7 +66,7 @@ const NoteList = () => {
     }
   })
 
-  const handleDragStart = (event: React.DragEvent<HTMLDivElement>, noteId: string = '') => {
+  const handleDragStart = (event: ReactDragEvent, noteId: string = '') => {
     event.stopPropagation()
     event.dataTransfer.setData('text/plain', noteId)
   }

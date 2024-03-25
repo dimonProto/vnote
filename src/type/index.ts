@@ -1,3 +1,5 @@
+import React from 'react'
+
 export interface NoteItem {
   id: string
   text: string
@@ -36,3 +38,11 @@ export interface SettingsState {
   codeMirrorOptions: { [key: string]: any }
 }
 
+export type ReactDragEvent = React.DragEvent<HTMLDivElement>
+
+export type ReactMouseEvent =
+  | MouseEvent
+  | React.MouseEvent<HTMLDivElement>
+  | React.ChangeEvent<HTMLSelectElement>
+
+export type ReactSubmitEvent = React.FormEvent<HTMLFormElement> | React.FocusEvent<HTMLInputElement>
