@@ -18,7 +18,7 @@ import { Folders } from '../constants/codeMirrorOptions'
 import { Book, Bookmark, Folder, Plus, Settings, Trash2, UploadCloud, X } from 'react-feather'
 import { postState } from '../store/middleware'
 import { newNote } from '../helpers'
-import { useKeyboard } from '../context/KeyboardContext'
+import { useTempState } from '../context/TempStateProvider'
 import { toggleSettingsModal } from '../store/slices/settingsSlice'
 
 
@@ -40,7 +40,7 @@ const AppSidebar = () => {
     setAddingTempCategory,
     errorCategoryMessage,
     setErrorCategoryMessage,
-  } = useKeyboard()
+  } = useTempState()
 
   const [tempCategory, setTempCategory] = useState('')
   const [editingCategoryId, setEditingCategoryId] = useState('')
@@ -66,6 +66,12 @@ const AppSidebar = () => {
     postState(notes, categories)
   }
 
+  const resetTempCategory = () => {
+    setTempCategory('')
+    setAddingTempCategory(false)
+    setErrorCategoryMessage('')
+  }
+
   const onSubmit = (event: React.FormEvent<HTMLFormElement> | React.FocusEvent<HTMLInputElement>): void => {
     event.preventDefault()
 
@@ -80,9 +86,7 @@ const AppSidebar = () => {
       setErrorCategoryMessage('Category name has already been added')
     } else {
       dispatch(addCategory(category))
-      setTempCategory('')
-      setAddingTempCategory(false)
-      setErrorCategoryMessage('')
+      resetTempCategory()
     }
   }
 
@@ -182,9 +186,9 @@ const AppSidebar = () => {
         </div>
 
         <div className='category-list'>
-          <div className='category-error-message'>
-            {errorCategoryMessage && <span>{errorCategoryMessage}</span>}
-          </div>
+          {errorCategoryMessage && (
+            <div className='category-error-message'>{errorCategoryMessage} </div>
+          )}
           {categories.map(category => {
             return (
               <div key={category.id}
@@ -264,8 +268,8 @@ const AppSidebar = () => {
                 setTempCategory(event.target.value)
               }}
               onBlur={event => {
-                if (!tempCategory) {
-                  setAddingTempCategory(false)
+                if (!tempCategory || errorCategoryMessage) {
+                  resetTempCategory()
                 } else {
                   onSubmit(event)
                 }

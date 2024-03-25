@@ -6,7 +6,7 @@ import { useInterval, useKey } from '../helpers/hooks'
 import { postState } from '../store/middleware'
 import { CategoryItem, NoteItem } from '../type'
 import { RootState } from '../store'
-import { useKeyboard } from '../context/KeyboardContext'
+import { useTempState } from '../context/TempStateProvider'
 import { toggleDarkTheme } from '../store/slices/themeSlice'
 import { syncState } from '../store/slices/syncSlice'
 
@@ -18,7 +18,7 @@ const KeyboardShortcuts = () => {
   const categories: CategoryItem[] = useSelector(({ categoryState }) => categoryState.categories)
   const activeFolder = useSelector(({ notesState }) => notesState.activeFolder)
 
-  const { addingTempCategory, setAddingTempCategory } = useKeyboard()
+  const { addingTempCategory, setAddingTempCategory } = useTempState()
 
   const dispatch = useDispatch()
 

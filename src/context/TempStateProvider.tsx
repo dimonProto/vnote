@@ -1,7 +1,7 @@
 import React, { createContext, FunctionComponent, useContext, useState } from 'react'
 
 
-interface KeyboardContextInterface {
+interface TempStateContextInterface {
   addingTempCategory: boolean
   errorCategoryMessage: string
   setErrorCategoryMessage: (message: string) => void
@@ -16,30 +16,31 @@ const initialContextValue = {
   setErrorCategoryMessage: (message: string): void => undefined,
 }
 
-const KeyboardContext = createContext<KeyboardContextInterface>(initialContextValue)
+const TempStateContext = createContext<TempStateContextInterface>(initialContextValue)
 
-const useKeyboard = (): KeyboardContextInterface => {
-  const context = useContext(KeyboardContext)
+const useTempState = (): TempStateContextInterface => {
+  const context = useContext(TempStateContext)
 
   if (!context) {
-    throw new Error('useKeyboard must be used within a KeyboardContext')
+    throw new Error('useTempState must be used within a TempStateProvider')
   }
   return context
 }
 
 
-const KeyboardProvider: FunctionComponent<React.PropsWithChildren<{}>> = ({ children }) => {
+const TempStateProvider: FunctionComponent<React.PropsWithChildren<{}>> = ({ children }) => {
   const [addingTempCategory, setAddingTempCategory] = useState(false)
   const [errorCategoryMessage, setErrorCategoryMessage] = useState('')
 
-  const value: KeyboardContextInterface = {
+  const value: TempStateContextInterface = {
     addingTempCategory,
     setAddingTempCategory,
     errorCategoryMessage,
     setErrorCategoryMessage,
   }
-  return <KeyboardContext.Provider value={value}>{children}</KeyboardContext.Provider>
+
+  return <TempStateContext.Provider value={value}>{children}</TempStateContext.Provider>
 }
 
 
-export { KeyboardProvider, useKeyboard }
+export { TempStateProvider, useTempState }

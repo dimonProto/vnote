@@ -7,7 +7,7 @@ import { loadNotes } from '../store/slices/noteSlice'
 import { AppDispatch } from '../store'
 import { useDispatch, useSelector } from 'react-redux'
 import { loadCategories } from '../store/slices/categorySlice'
-import { KeyboardProvider } from '../context/KeyboardContext'
+import { TempStateProvider } from '../context/TempStateProvider'
 import SettingsModal from './SettingsModal'
 
 
@@ -27,13 +27,13 @@ const App: React.FC = () => {
 
   return (
     <div className={`app ${dark ? 'dark' : ''}`}>
-      <KeyboardProvider>
+      <TempStateProvider>
         <AppSidebar />
         <NoteList />
         <NoteEditor />
         <KeyboardShortcuts />
         <SettingsModal />
-      </KeyboardProvider>
+      </TempStateProvider>
     </div>
   )
 }
