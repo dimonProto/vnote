@@ -6,16 +6,8 @@ import { Folders } from '../constants'
 
 export const getNoteTitle = (text: string) => {
   const noteTitleRegEx = /[\w'?!., ]{1,50}/
-
-  let noteTitle: string
-  let noteText = text.match(noteTitleRegEx)
-
-  if (!noteText) {
-    noteTitle = 'New Note'
-  } else {
-    noteTitle = noteText[0]
-  }
-  return noteTitle
+  const noteText = text.match(noteTitleRegEx)
+  return noteText ? noteText[0] : 'New note'
 }
 
 export const noteWithFrontmatter = (note: NoteItem) => {
@@ -31,7 +23,7 @@ export const noteWithFrontmatter = (note: NoteItem) => {
 
 export const downloadNote = (fileName: string, note: NoteItem) => {
   const pom = document.createElement('a')
-  pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(noteWithFrontmatter(note)))
+  pom.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(noteWithFrontmatter(note))}`)
   pom.setAttribute('download', `${fileName}.md`)
 
   if (document.createEvent) {

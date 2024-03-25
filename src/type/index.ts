@@ -38,6 +38,11 @@ export interface SettingsState {
   codeMirrorOptions: { [key: string]: any }
 }
 
+export interface SyncStatePayload {
+  categories: CategoryItem[]
+  notes: NoteItem[]
+}
+
 export type ReactDragEvent = React.DragEvent<HTMLDivElement>
 
 export type ReactMouseEvent =

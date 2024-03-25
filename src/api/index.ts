@@ -1,8 +1,8 @@
-import { CategoryItem, NoteItem } from '../type'
+import { SyncStatePayload } from '../type'
 
-export const requestNotes = () => {
-  return new Promise((resolve, reject) => {
-    const data = localStorage.getItem('notes') || '[]'
+export const requestCategories = () => {
+  new Promise((resolve, reject) => {
+    const data = localStorage.getItem('categories') || '[]'
     if (data) {
       if (typeof data === 'string') {
         resolve(JSON.parse(data))
@@ -15,9 +15,9 @@ export const requestNotes = () => {
   })
 }
 
-export const requestCategories = () => {
+export const requestNotes = () => {
   return new Promise((resolve, reject) => {
-    const data = localStorage.getItem('categories') || '[]'
+    const data = localStorage.getItem('notes') || '[]'
 
     if (data) {
       resolve(JSON.parse(data))
@@ -29,16 +29,15 @@ export const requestCategories = () => {
   })
 }
 
-export const saveState = (notes: NoteItem[], categories: CategoryItem[]) => {
+export const saveState = ({ categories, notes }: SyncStatePayload) => {
 
-  return new Promise((resolve, reject) => {
-    localStorage.setItem('notes', JSON.stringify(notes))
+  new Promise((resolve, reject) => {
     localStorage.setItem('categories', JSON.stringify(categories))
-    
+    localStorage.setItem('notes', JSON.stringify(notes))
 
     resolve({
-      notes: JSON.parse(localStorage.getItem('notes') || '[]'),
       categories: JSON.parse(localStorage.getItem('categories') || '[]'),
+      notes: JSON.parse(localStorage.getItem('notes') || '[]'),
     })
   })
 }
