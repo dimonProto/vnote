@@ -55,8 +55,15 @@ const AppSidebar = () => {
 
   const newNoteHandler = () => {
 
+    if (activeFolder === Folders.TRASH) {
+      dispatch(swapFolder(Folders.ALL))
+    }
+
     if ((activeNote && activeNote.text !== '') || !activeNote) {
-      const note = newNote(activeCategoryId, activeFolder)
+      const note = newNote(
+        activeCategoryId,
+        activeFolder === Folders.TRASH ? Folders.ALL : activeFolder,
+      )
       dispatch(addNote(note))
       dispatch(swapNote(note.id))
     }
@@ -108,7 +115,7 @@ const AppSidebar = () => {
   return (
     <aside className='app-sidebar'>
       <section className='app-sidebar-actions'>
-        {activeFolder !== Folders.TRASH && (
+        <>
           <button className='action-button' aria-label='create new note' onClick={newNoteHandler}>
               <span>
                 <Plus
@@ -120,7 +127,7 @@ const AppSidebar = () => {
                 />
               </span>
           </button>
-        )}
+        </>
         <button className='action-button' aria-label='create new note' onClick={syncNotesHandler}>
               <span>
                 <UploadCloud
