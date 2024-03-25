@@ -4,7 +4,7 @@ import { AppDispatch, RootState } from 'store'
 import { addCategoryToNote, pruneNote, swapCategory, swapNote } from 'store/slices/noteSlice'
 import { getNoteTitle, sortByLastUpdated } from '../helpers'
 import { CategoryItem, NoteItem, ReactDragEvent, ReactMouseEvent } from '../type'
-import { Folders } from '../constants/codeMirrorOptions'
+import { Folders } from '../constants'
 import NoteOptions from './NoteOptions'
 import { MoreHorizontal } from 'react-feather'
 

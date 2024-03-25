@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { NoteItem } from 'type'
 import { fetchNotes } from '../middleware'
-import { Folders } from '../../constants/codeMirrorOptions'
+import { Folders } from '../../constants'
 import { sortByLastUpdated } from '../../helpers'
 
 

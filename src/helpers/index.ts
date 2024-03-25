@@ -1,7 +1,7 @@
 import { NoteItem } from '../type'
 import { v4 as uuidv4 } from 'uuid'
 import moment from 'moment'
-import { Folders } from '../constants/codeMirrorOptions'
+import { Folders } from '../constants'
 
 
 export const getNoteTitle = (text: string) => {
