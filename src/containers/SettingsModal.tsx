@@ -17,12 +17,17 @@ const SettingsModal = () => {
   const node = useRef<HTMLDivElement>()
 
   const handleDomClick = (event: ReactMouseEvent) => {
+
     event.stopPropagation()
     if (node.current && node.current.contains(event.target as HTMLDivElement)) return
 
     if (isOpen) {
       dispatch(toggleSettingsModal())
     }
+  }
+
+  const toggleLineHighlight = () => {
+    dispatch(updateCodeMirrorOption({ key: 'styleActiveLine', value: !codeMirrorOptions.styleActiveLine }))
   }
 
   const toggleDarkThemeHandler = () => {
@@ -58,6 +63,11 @@ const SettingsModal = () => {
           <div className='settings-label'>Dark Mode</div>
           <Switch toggle={toggleDarkThemeHandler} checked={dark} />
         </div>
+        <div className='settings-options'>
+          <div className='settings-label'>Line highlight</div>
+          <Switch toggle={toggleLineHighlight} checked={codeMirrorOptions.styleActiveLine} />
+        </div>
+
 
         <div className='settings-options'>
           <div className='settings-label'>Vim Mode</div>

@@ -24,7 +24,7 @@ export const fetchCategories = async () => {
 export const postState = (notes: NoteItem[], categories: CategoryItem[]) => {
 
   try {
-    return saveState(notes, categories)
+    return saveState({ notes, categories })
   } catch (error) {
     throw new Error('Response status is not 200')
   }

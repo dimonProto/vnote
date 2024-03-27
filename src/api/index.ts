@@ -1,37 +1,29 @@
 import { SyncStatePayload } from '../type'
 
-export const requestCategories = () => {
+export const requestCategories = () =>
   new Promise((resolve, reject) => {
     const data = localStorage.getItem('categories') || '[]'
+
     if (data) {
-      if (typeof data === 'string') {
-        resolve(JSON.parse(data))
-      }
+      resolve(JSON.parse(data))
     } else {
-      reject({
-        message: 'Something went wrong',
-      })
+      reject({ message: 'Something went wrong' })
     }
   })
-}
 
-export const requestNotes = () => {
-  return new Promise((resolve, reject) => {
+export const requestNotes = () =>
+  new Promise((resolve, reject) => {
     const data = localStorage.getItem('notes') || '[]'
 
     if (data) {
       resolve(JSON.parse(data))
     } else {
-      reject({
-        message: 'Something went wrong',
-      })
+      reject({ message: 'Something went wrong' })
     }
   })
-}
 
-export const saveState = ({ categories, notes }: SyncStatePayload) => {
-
-  new Promise((resolve, reject) => {
+export const saveState = ({ categories, notes }: SyncStatePayload) =>
+  new Promise(resolve => {
     localStorage.setItem('categories', JSON.stringify(categories))
     localStorage.setItem('notes', JSON.stringify(notes))
 
@@ -40,4 +32,3 @@ export const saveState = ({ categories, notes }: SyncStatePayload) => {
       notes: JSON.parse(localStorage.getItem('notes') || '[]'),
     })
   })
-}
