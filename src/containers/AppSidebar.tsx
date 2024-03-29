@@ -21,7 +21,7 @@ import { newNote } from '../helpers'
 import { useTempState } from '../context/TempStateProvider'
 import { toggleSettingsModal } from '../store/slices/settingsSlice'
 import AppSidebarAction from '../componets/AppSidebarAction'
-
+import { v4 as uuidv4 } from 'uuid'
 
 const AppSidebar = () => {
 
@@ -83,11 +83,11 @@ const AppSidebar = () => {
     event.preventDefault()
 
     const category = {
-      id: kebabCase(tempCategory),
-      name: tempCategory,
+      id: uuidv4(),
+      name: tempCategory.trim(),
     }
 
-    if (categories.find(cat => cat.id === kebabCase(tempCategory))) {
+    if (categories.find(cat => cat.name === kebabCase(tempCategory.trim()))) {
       setErrorCategoryMessage('Category already exists!')
     } else {
       dispatch(addCategory(category))
@@ -245,7 +245,7 @@ const AppSidebar = () => {
           >
             <input
               autoFocus
-              maxLength={15}
+              maxLength={20}
               placeholder='New category...'
               onChange={event => {
                 setTempCategory(event.target.value)
