@@ -79,7 +79,7 @@ const AppSidebar = () => {
     setErrorCategoryMessage('')
   }
 
-  const onSubmit = (event: ReactSubmitEvent): void => {
+  const onSubmitCategory = (event: ReactSubmitEvent): void => {
     event.preventDefault()
 
     const category = {
@@ -241,7 +241,7 @@ const AppSidebar = () => {
           <form
             className='category-form'
             action=''
-            onSubmit={onSubmit}
+            onSubmit={onSubmitCategory}
           >
             <input
               autoFocus
@@ -251,10 +251,10 @@ const AppSidebar = () => {
                 setTempCategory(event.target.value)
               }}
               onBlur={event => {
-                if (!tempCategory || errorCategoryMessage) {
+                if (!tempCategory || tempCategory.trim() === '' || errorCategoryMessage) {
                   resetTempCategory()
                 } else {
-                  onSubmit(event)
+                  onSubmitCategory(event)
                 }
               }}
               type='text' />
