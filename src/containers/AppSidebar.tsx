@@ -87,10 +87,8 @@ const AppSidebar = () => {
       name: tempCategory,
     }
 
-    if (category.name.length > 20) {
-      setErrorCategoryMessage('Category name must not exceed 20 characters')
-    } else if (categories.find(cat => cat.id === kebabCase(tempCategory))) {
-      setErrorCategoryMessage('Category name has already been added')
+    if (categories.find(cat => cat.id === kebabCase(tempCategory))) {
+      setErrorCategoryMessage('Category already exists!')
     } else {
       dispatch(addCategory(category))
       resetTempCategory()
@@ -247,6 +245,7 @@ const AppSidebar = () => {
           >
             <input
               autoFocus
+              maxLength={15}
               placeholder='New category...'
               onChange={event => {
                 setTempCategory(event.target.value)

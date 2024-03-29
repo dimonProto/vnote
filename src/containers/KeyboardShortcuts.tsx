@@ -9,6 +9,7 @@ import { RootState } from '../store'
 import { useTempState } from '../context/TempStateProvider'
 import { toggleDarkTheme } from '../store/slices/themeSlice'
 import { syncState } from '../store/slices/syncSlice'
+import { updateCodeMirrorOption } from '../store/slices/settingsSlice'
 
 // @ts-ignore
 const KeyboardShortcuts = () => {
@@ -17,6 +18,7 @@ const KeyboardShortcuts = () => {
   const notes: NoteItem[] = useSelector(({ notesState }) => notesState.notes)
   const categories: CategoryItem[] = useSelector(({ categoryState }) => categoryState.categories)
   const activeFolder = useSelector(({ notesState }) => notesState.activeFolder)
+  const dark = useSelector(({ themeState }) => themeState.dark)
 
   const { addingTempCategory, setAddingTempCategory } = useTempState()
 
@@ -61,6 +63,7 @@ const KeyboardShortcuts = () => {
 
   useKey('alt+t', () => {
     toggleDarkThemeHandler()
+    dispatch(updateCodeMirrorOption({ key: 'theme', value: dark ? 'base16-light' : 'zenburn' }))
   })
 
   useKey('alt+c', () => {

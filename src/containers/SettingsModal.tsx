@@ -60,17 +60,17 @@ const SettingsModal = () => {
         <h2>Settings</h2>
 
         <div className='settings-options'>
-          <div className='settings-label'>Dark Mode</div>
-          <Switch toggle={toggleDarkThemeHandler} checked={dark} />
-        </div>
-        <div className='settings-options'>
-          <div className='settings-label'>Line highlight</div>
+          <div>Active line highlight</div>
           <Switch toggle={toggleLineHighlight} checked={codeMirrorOptions.styleActiveLine} />
         </div>
 
-
         <div className='settings-options'>
-          <div className='settings-label'>Vim Mode</div>
+          <div className='settings-label'>Dark Mode</div>
+          <Switch toggle={toggleDarkThemeHandler} checked={dark} />
+        </div>
+        
+        <div className='settings-options'>
+          <div>Vim Mode</div>
           <Switch toggle={toggleVimMode} checked={codeMirrorOptions.keyMap === 'vim'} />
         </div>
 
@@ -105,6 +105,14 @@ const SettingsModal = () => {
             <div>
               <kbd>
                 <kbd>Alt</kbd> + <kbd>D</kbd>
+              </kbd>
+            </div>
+          </div>
+          <div className='settings-shortcut'>
+            <div>dark theme</div>
+            <div>
+              <kbd>
+                <kbd>Alt</kbd> + <kbd>T</kbd>
               </kbd>
             </div>
           </div>
