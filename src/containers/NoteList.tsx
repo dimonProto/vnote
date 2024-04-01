@@ -107,10 +107,10 @@ const NoteList = () => {
                 >
                   {!note.trash && (
                     <>
-                      <h2>Move to category</h2>
+
                       <select
                         defaultValue=''
-                        className='select-element'
+                        className='select'
                         onChange={event => {
                           dispatch(addCategoryToNote({ noteId: note.id, categoryId: event.target.value }))
 
@@ -123,7 +123,7 @@ const NoteList = () => {
                         }}
                       >
                         <option disabled value=''>
-                          Select category
+                          Move to category...
                         </option>
                         {filteredCategories
                           .filter(category => category.id !== note.category)
