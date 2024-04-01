@@ -11,6 +11,7 @@ import { TempStateProvider } from '../context/TempStateProvider'
 import SettingsModal from './SettingsModal'
 import { Helmet } from 'react-helmet'
 import { Folders } from '../constants'
+import { HelmetProvider } from 'react-helmet-async'
 
 
 const App: React.FC = () => {
@@ -32,7 +33,7 @@ const App: React.FC = () => {
 
 
   return (
-    <>
+    <HelmetProvider>
       <Helmet>
         <meta charSet='utf-8' />
         <title>
@@ -52,7 +53,7 @@ const App: React.FC = () => {
           <SettingsModal />
         </TempStateProvider>
       </div>
-    </>
+    </HelmetProvider>
 
   )
 }
