@@ -48,5 +48,6 @@ export const newNote = (categoryId?: string, folder?: string): NoteItem => ({
   lastUpdated: moment().format(),
   category: categoryId,
   favorite: folder === Folders.FAVORITES,
+  searchValue: '',
 })
 

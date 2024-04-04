@@ -17,11 +17,12 @@ export const loadNotes = createAsyncThunk<NoteItem[], void>(
 
 const initialState = {
   notes: [] as NoteItem[],
-  activeFolder: 'ALL',
+  activeFolder: Folders.ALL,
   activeNoteId: '',
   activeCategoryId: '',
   error: '',
   loading: true,
+  searchValue: '',
 }
 
 
@@ -43,6 +44,9 @@ export const noteSlice = createSlice({
       state.activeCategoryId = action.payload
       state.activeFolder = Folders.CATEGORY
       state.activeNoteId = getFirstNote(Folders.CATEGORY, state.notes, action.payload)
+    },
+    searchNotes: (state, action) => {
+      state.searchValue = action.payload
     },
     swapFolder: (state, action) => {
       state.activeFolder = action.payload
@@ -137,6 +141,7 @@ export const {
   swapCategory,
   swapFolder,
   toggleFavoriteNote,
+  searchNotes,
 } = noteSlice.actions
 
 export default noteSlice.reducer

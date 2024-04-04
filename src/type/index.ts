@@ -8,6 +8,7 @@ export interface NoteItem {
   category?: string
   trash?: boolean
   favorite?: boolean
+  searchValue: string
 }
 
 export interface CategoryItem {
@@ -23,6 +24,7 @@ export interface NoteState {
   error: string
   loading: boolean
   syncing: boolean
+  searchValue: string
 }
 
 export interface CategoryState {

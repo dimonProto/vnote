@@ -1,41 +1,38 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'store'
-import { addCategoryToNote, pruneNote, swapCategory, swapNote } from 'store/slices/noteSlice'
+import { addCategoryToNote, pruneNote, searchNotes, swapCategory, swapNote } from 'store/slices/noteSlice'
 import { getNoteTitle, sortByLastUpdated } from '../helpers'
 import { CategoryItem, NoteItem, ReactDragEvent, ReactMouseEvent } from '../type'
 import { Folders } from '../constants'
 import NoteOptions from './NoteOptions'
 import { MoreHorizontal } from 'react-feather'
+import _ from 'lodash'
 
 
 const NoteList = () => {
 
   const activeCategoryId = useSelector(({ categoryState }) => categoryState.activeCategoryId)
   const activeFolder: Folders = useSelector(({ notesState }) => notesState.activeFolder)
-  const activeCategory = useSelector(({ categoryState, notesState }: RootState) => categoryState.categories.find(
-    category => category.id === notesState.activeCategoryId))
+  const searchValue = useSelector(({ notesState }) => notesState.searchValue)
   const activeNoteId = useSelector((state: RootState) => state.notesState.activeNoteId)
-  const filteredNotes: NoteItem[] = useSelector(({
-                                                   notesState,
-                                                 }: RootState) => {
-      let filterNotes: NoteItem[]
 
-      if (notesState.activeFolder === Folders.CATEGORY) {
 
-        filterNotes = notesState.notes.filter(
-          note => !note.trash && note.category === notesState.activeCategoryId)
-      } else if (notesState.activeFolder === Folders.FAVORITES) {
-        filterNotes = notesState.notes.filter(note => !note.trash && note.favorite)
-      } else if (notesState.activeFolder === Folders.TRASH) {
-        filterNotes = notesState.notes.filter(note => note.trash)
-      } else {
-        filterNotes = notesState.notes.filter(note => !note.trash)
-      }
+  const re = new RegExp(_.escapeRegExp(searchValue), 'i')
+  const isMatch = (result: NoteItem) => re.test(result.text)
 
-      filterNotes.sort(sortByLastUpdated)
-      return filterNotes
-    },
+  const filter: Record<Folders, (note: NoteItem) => boolean> = {
+    [Folders.CATEGORY]: note => !note.trash && note.category === activeCategoryId,
+    [Folders.FAVORITES]: note => !note.trash && !!note.favorite,
+    [Folders.TRASH]: note => !!note.trash,
+    [Folders.ALL]: note => !note.trash,
+  }
+
+
+  const filteredNotes: NoteItem[] = useSelector(
+    ({ notesState }: RootState) => notesState.notes.filter(filter[activeFolder])
+      .filter(isMatch)
+      .sort(sortByLastUpdated),
   )
 
   const filteredCategories: CategoryItem[] = useSelector(({
@@ -74,7 +71,13 @@ const NoteList = () => {
   return (
     <aside className='note-sidebar'>
       <div className='note-sidebar-header'>
-        {activeFolder === 'CATEGORY' ? activeCategory && activeCategory.name : Folders[activeFolder]}
+        <input type='search'
+               placeholder='Search for notes'
+               onChange={event => {
+                 event.preventDefault()
+                 dispatch(searchNotes(event.target.value))
+               }}
+        />
       </div>
       <div className='note-list'>
         {filteredNotes.map(note => {
