@@ -12,12 +12,12 @@ import _ from 'lodash'
 
 const NoteList = () => {
 
-  const activeCategoryId = useSelector(({ categoryState }) => categoryState.activeCategoryId)
+  const activeCategoryId = useSelector(({ notesState }) => notesState.activeCategoryId)
   const activeFolder: Folders = useSelector(({ notesState }) => notesState.activeFolder)
   const searchValue = useSelector(({ notesState }) => notesState.searchValue)
   const activeNoteId = useSelector((state: RootState) => state.notesState.activeNoteId)
 
-
+  console.log(activeCategoryId)
   const re = new RegExp(_.escapeRegExp(searchValue), 'i')
   const isMatch = (result: NoteItem) => re.test(result.text)
 

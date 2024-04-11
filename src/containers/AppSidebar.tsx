@@ -35,15 +35,10 @@ const AppSidebar = () => {
 
   const dispatch: AppDispatch = useDispatch()
 
-  const {
-    addingTempCategory,
-    setAddingTempCategory,
-    errorCategoryMessage,
-    setErrorCategoryMessage,
-  } = useTempState()
+  const { setErrorCategoryMessage, addingTempCategory, setAddingTempCategory } = useTempState()
 
-  const [tempCategory, setTempCategory] = useState('')
   const [editingCategoryId, setEditingCategoryId] = useState('')
+  const [tempCategoryName, setTempCategoryName] = useState('')
 
   const newTempCategoryHandler = () => {
     !addingTempCategory && setAddingTempCategory(true)
@@ -74,23 +69,37 @@ const AppSidebar = () => {
   }
 
   const resetTempCategory = () => {
-    setTempCategory('')
+    setTempCategoryName('')
     setAddingTempCategory(false)
     setErrorCategoryMessage('')
+    setEditingCategoryId('')
   }
 
-  const onSubmitCategory = (event: ReactSubmitEvent): void => {
+  const onSubmitNewCategory = (event: ReactSubmitEvent): void => {
     event.preventDefault()
 
     const category = {
       id: uuidv4(),
-      name: tempCategory.trim(),
+      name: tempCategoryName.trim(),
     }
 
-    if (categories.find(cat => cat.name === kebabCase(tempCategory.trim()))) {
-      setErrorCategoryMessage('Category already exists!')
+    if (categories.find(cat => cat.name === kebabCase(tempCategoryName.trim()))) {
+      resetTempCategory()
     } else {
       dispatch(addCategory(category))
+      resetTempCategory()
+    }
+  }
+
+  const onSubmitUpdateCategory = (event: ReactSubmitEvent): void => {
+    event.preventDefault()
+
+    const category = { id: editingCategoryId, name: tempCategoryName.trim() }
+
+    if (categories.find(cat => cat.name === tempCategoryName.trim())) {
+      resetTempCategory()
+    } else {
+      dispatch(updateCategory({ id: category.id, name: category.name }))
       resetTempCategory()
     }
   }
@@ -168,9 +177,7 @@ const AppSidebar = () => {
         </div>
 
         <div className='category-list'>
-          {errorCategoryMessage && (
-            <div className='category-error-message'>{errorCategoryMessage} </div>
-          )}
+
           {categories.map(category => {
             return (
               <div key={category.id}
@@ -187,6 +194,7 @@ const AppSidebar = () => {
                    }}
                    onDoubleClick={() => {
                      setEditingCategoryId(category.id)
+                     setTempCategoryName(category.name)
                    }}
                    onBlur={() => {
                      setEditingCategoryId('')
@@ -202,17 +210,25 @@ const AppSidebar = () => {
               >
                 <form
                   className='category-list-name'
-                  onSubmit={e => {
+                  onSubmit={event => {
+                    event.preventDefault()
                     setEditingCategoryId('')
-                    e.preventDefault()
+                    onSubmitUpdateCategory(event)
                   }}
                 >
                   <Folder size={15} className='app-sidebar-icon' color={iconColor} />
                   {editingCategoryId === category.id ? (
                     <input
-                      value={category.name}
+                      type='text'
+                      autoFocus
+                      maxLength={20}
+                      className='category-edit'
+                      value={tempCategoryName}
                       onChange={event => {
-                        dispatch(updateCategory({ id: category.id, name: event.target.value }))
+                        setTempCategoryName(event.target.value)
+                      }}
+                      onBlur={event => {
+                        resetTempCategory()
                       }}
                     />
                   ) : category.name
@@ -241,23 +257,24 @@ const AppSidebar = () => {
           <form
             className='category-form'
             action=''
-            onSubmit={onSubmitCategory}
+            onSubmit={onSubmitNewCategory}
           >
             <input
               autoFocus
+              type='text'
               maxLength={20}
               placeholder='New category...'
               onChange={event => {
-                setTempCategory(event.target.value)
+                setTempCategoryName(event.target.value)
               }}
               onBlur={event => {
-                if (!tempCategory || tempCategory.trim() === '' || errorCategoryMessage) {
+                if (!tempCategoryName || tempCategoryName.trim() === '') {
                   resetTempCategory()
                 } else {
-                  onSubmitCategory(event)
+                  onSubmitNewCategory(event)
                 }
               }}
-              type='text' />
+            />
           </form>
         )}
       </section>
