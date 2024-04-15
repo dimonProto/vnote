@@ -17,7 +17,7 @@ const NoteList = () => {
   const searchValue = useSelector(({ notesState }) => notesState.searchValue)
   const activeNoteId = useSelector((state: RootState) => state.notesState.activeNoteId)
 
-  console.log(activeCategoryId)
+
   const re = new RegExp(_.escapeRegExp(searchValue), 'i')
   const isMatch = (result: NoteItem) => re.test(result.text)
 
@@ -42,6 +42,9 @@ const NoteList = () => {
     category => category.id !== notesState.activeCategoryId))
 
   const dispatch: AppDispatch = useDispatch()
+
+  const _searchNotes = _.debounce((searchValue: string) => dispatch(searchNotes(searchValue)), 200)
+
   const [noteOptionsId, setNoteOptionsId] = useState('')
   const node = useRef<HTMLDivElement>(null)
 
@@ -81,7 +84,27 @@ const NoteList = () => {
       </div>
       <div className='note-list'>
         {filteredNotes.map(note => {
-          const noteTitle = getNoteTitle(note.text)
+          let noteTitle: string | React.ReactElement = getNoteTitle(note.text)
+
+          if (searchValue) {
+            const highlightStart = noteTitle.search(re)
+
+            if (highlightStart !== -1) {
+              const highlightEnd = highlightStart + searchValue.length
+              console.log(searchValue.length, 's')
+              noteTitle = (
+                <>
+                  {noteTitle.slice(0, highlightStart)}
+                  <strong style={{ color: '#3e64ff' }}>
+                    {noteTitle.slice(highlightStart, highlightEnd)}
+                  </strong>
+                  {noteTitle.slice(highlightEnd)}
+                </>
+              )
+            }
+
+          }
+
           return (
             <div
               key={note.id}
