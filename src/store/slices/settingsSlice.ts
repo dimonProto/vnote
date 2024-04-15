@@ -1,12 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { SettingsState, VimModes } from '../../type'
+import { SettingsState } from '../../type'
 
 
 const initialState: SettingsState = {
   isOpen: false,
-  vimState: {
-    mode: VimModes.default,
-  },
+
   codeMirrorOptions: {
     mode: 'grm',
     theme: 'base16-light',
@@ -27,12 +25,6 @@ export const settingsSlice = createSlice({
     toggleSettingsModal: (state) => {
       state.isOpen = !state.isOpen
     },
-    updateVimStateMode: (state, action) => ({
-      ...state,
-      vimState: {
-        mode: action.payload,
-      },
-    }),
     updateCodeMirrorOption: (state, action) => {
       const { key, value } = action.payload
       return {
@@ -48,6 +40,6 @@ export const settingsSlice = createSlice({
 
 
 // Action creators are generated for each case reducer function
-export const { toggleSettingsModal, updateCodeMirrorOption, updateVimStateMode } = settingsSlice.actions
+export const { toggleSettingsModal, updateCodeMirrorOption } = settingsSlice.actions
 
 export default settingsSlice.reducer

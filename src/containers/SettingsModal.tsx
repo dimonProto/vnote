@@ -40,12 +40,6 @@ const SettingsModal = () => {
     }
   }
 
-  const toggleVimMode = () => {
-    dispatch(updateCodeMirrorOption({
-      key: 'keyMap',
-      value: codeMirrorOptions.keyMap === 'vim' ? 'default' : 'vim',
-    }))
-  }
 
   useEffect(() => {
     document.addEventListener('mousedown', handleDomClick)
@@ -67,11 +61,6 @@ const SettingsModal = () => {
         <div className='settings-options'>
           <div className='settings-label'>Dark Mode</div>
           <Switch toggle={toggleDarkThemeHandler} checked={dark} />
-        </div>
-        
-        <div className='settings-options'>
-          <div>Vim Mode</div>
-          <Switch toggle={toggleVimMode} checked={codeMirrorOptions.keyMap === 'vim'} />
         </div>
 
         <section className='settings-section'>
