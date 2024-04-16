@@ -91,7 +91,7 @@ const NoteList = () => {
 
             if (highlightStart !== -1) {
               const highlightEnd = highlightStart + searchValue.length
-              console.log(searchValue.length, 's')
+
               noteTitle = (
                 <>
                   {noteTitle.slice(0, highlightStart)}

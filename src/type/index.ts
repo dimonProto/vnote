@@ -34,6 +34,14 @@ export interface CategoryState {
   loading: boolean
 }
 
+export interface PreviewMarkdownState {
+  previewMarkdown: boolean
+}
+
+export interface SyncState {
+  syncing: boolean
+  error: string
+}
 
 export interface SettingsState {
   isOpen: boolean
@@ -41,6 +49,18 @@ export interface SettingsState {
 
 }
 
+export interface ThemeState {
+  dark: boolean
+}
+
+export interface RootState {
+  categoryState: CategoryState
+  noteState: NoteState
+  settingsState: SettingsState
+  syncState: SyncState
+  themeState: ThemeState
+  previewMarkdown: PreviewMarkdownState
+}
 
 export interface SyncStatePayload {
   categories: CategoryItem[]

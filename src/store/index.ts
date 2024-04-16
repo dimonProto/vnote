@@ -4,6 +4,7 @@ import syncReducer from './slices/syncSlice'
 import categoryReducer from './slices/categorySlice'
 import themeReducer from './slices/themeSlice'
 import settingsReducer from './slices/settingsSlice'
+import previewMarkdownReducer from './slices/previewMarkdown'
 
 const rootReducer = combineReducers({
   notesState: noteReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   categoryState: categoryReducer,
   themeState: themeReducer,
   settingsState: settingsReducer,
+  previewMarkdownState: previewMarkdownReducer,
 })
 
 

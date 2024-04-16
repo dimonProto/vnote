@@ -5,12 +5,14 @@ import { toggleSettingsModal, updateCodeMirrorOption } from '../store/slices/set
 import { toggleDarkTheme } from '../store/slices/themeSlice'
 import Switch from '../componets/Switch'
 import { ReactMouseEvent } from '../type'
+import { togglePreviewMarkdown } from '../store/slices/previewMarkdown'
 
 
 const SettingsModal = () => {
   const isOpen = useSelector(({ settingsState }) => settingsState.isOpen)
   const dark = useSelector(({ themeState }) => themeState.dark)
   const codeMirrorOptions = useSelector(({ settingsState }) => settingsState.codeMirrorOptions)
+  const previewMarkdown = useSelector(({ previewMarkdownState }) => previewMarkdownState.previewMarkdown)
 
   const dispatch: AppDispatch = useDispatch()
 
@@ -40,6 +42,10 @@ const SettingsModal = () => {
     }
   }
 
+  const togglePreviewMarkdownHandler = () => {
+    dispatch(togglePreviewMarkdown())
+  }
+
 
   useEffect(() => {
     document.addEventListener('mousedown', handleDomClick)
@@ -56,6 +62,11 @@ const SettingsModal = () => {
         <div className='settings-options'>
           <div>Active line highlight</div>
           <Switch toggle={toggleLineHighlight} checked={codeMirrorOptions.styleActiveLine} />
+        </div>
+
+        <div className='settings-options'>
+          <div>Preview note</div>
+          <Switch toggle={togglePreviewMarkdownHandler} checked={previewMarkdown} />
         </div>
 
         <div className='settings-options'>
@@ -102,6 +113,14 @@ const SettingsModal = () => {
             <div>
               <kbd>
                 <kbd>Alt</kbd> + <kbd>T</kbd>
+              </kbd>
+            </div>
+          </div>
+          <div className='settings-shortcut'>
+            <div>Preview note</div>
+            <div>
+              <kbd>
+                <kbd>Alt</kbd> + <kbd>J</kbd>
               </kbd>
             </div>
           </div>

@@ -8,7 +8,7 @@ import { AppDispatch, RootState } from 'store'
 import { updateNote } from 'store/slices/noteSlice'
 import { NoteItem } from '../type'
 import moment from 'moment'
-
+import ReactMarkdown from 'react-markdown'
 
 const NoteEditor = () => {
 
@@ -20,7 +20,8 @@ const NoteEditor = () => {
     return notesState.loading
   })
 
-  const vimState = useSelector(({ settingsState }) => settingsState.vimState)
+  const previewMarkdown = useSelector(({ previewMarkdownState }) => previewMarkdownState.previewMarkdown)
+
 
   const dispatch: AppDispatch = useDispatch()
 
@@ -42,10 +43,11 @@ const NoteEditor = () => {
         </div>
       </div>
     )
+  } else if (previewMarkdown) {
+    return <ReactMarkdown className='previewer' children={activeNote.text} />
   }
 
   return (
-
     <CodeMirror
       className={`editor mousetrap`}
       value={activeNote.text}

@@ -10,6 +10,7 @@ import { useTempState } from '../context/TempStateProvider'
 import { toggleDarkTheme } from '../store/slices/themeSlice'
 import { syncState } from '../store/slices/syncSlice'
 import { updateCodeMirrorOption } from '../store/slices/settingsSlice'
+import { togglePreviewMarkdown } from '../store/slices/previewMarkdown'
 
 // @ts-ignore
 const KeyboardShortcuts = () => {
@@ -30,6 +31,10 @@ const KeyboardShortcuts = () => {
       dispatch(addNote(note))
       dispatch(swapNote(note.id))
     }
+  }
+
+  const togglePreviewMarkdownHandler = () => {
+    dispatch(togglePreviewMarkdown())
   }
 
   const newTempCategoryHandler = () => {
@@ -68,6 +73,10 @@ const KeyboardShortcuts = () => {
 
   useKey('alt+c', () => {
     newTempCategoryHandler()
+  })
+
+  useKey('alt+j', () => {
+    togglePreviewMarkdownHandler()
   })
 
   useKey('alt+w', () => {
