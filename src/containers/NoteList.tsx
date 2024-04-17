@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'store'
 import { addCategoryToNote, pruneNote, searchNotes, swapCategory, swapNote } from 'store/slices/noteSlice'
-import { getNoteTitle, sortByLastUpdated } from '../helpers'
+import { getNoteTitle, sortByFavouritesThenLastUpdated } from '../helpers'
 import { CategoryItem, NoteItem, ReactDragEvent, ReactMouseEvent } from '../type'
 import { Folders } from '../constants'
 import NoteOptions from './NoteOptions'
@@ -32,7 +32,7 @@ const NoteList = () => {
   const filteredNotes: NoteItem[] = useSelector(
     ({ notesState }: RootState) => notesState.notes.filter(filter[activeFolder])
       .filter(isMatch)
-      .sort(sortByLastUpdated),
+      .sort(sortByFavouritesThenLastUpdated),
   )
 
   const filteredCategories: CategoryItem[] = useSelector(({
@@ -126,6 +126,7 @@ const NoteList = () => {
               >
                 <MoreHorizontal size={15} />
               </div>
+              {note.favorite && <span>⭐</span>}
               {noteOptionsId === note.id && (
                 <div ref={node}
                      className='note-options-context-menu'

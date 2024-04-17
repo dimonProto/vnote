@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { NoteItem } from 'type'
 import { fetchNotes } from '../middleware'
 import { Folders } from '../../constants'
-import { sortByLastUpdated } from '../../helpers'
+import { sortByFavouritesThenLastUpdated } from '../../helpers'
 
 
 // Create an async thunk
@@ -149,7 +149,7 @@ export default noteSlice.reducer
 
 export const getFirstNote = (folder: string, notes: NoteItem[], categoryId?: string) => {
 
-  const notesNotTrash = notes.filter(note => !note.trash).sort(sortByLastUpdated)
+  const notesNotTrash = notes.filter(note => !note.trash).sort(sortByFavouritesThenLastUpdated)
   const firstNoteCategory = notesNotTrash.find(note => note.category === categoryId)
   const firstNoteFavorite = notesNotTrash.find(note => note.favorite)
   const firstNoteTrash = notes.find(note => note.trash)

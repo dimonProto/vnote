@@ -35,7 +35,10 @@ export const downloadNote = (fileName: string, note: NoteItem) => {
   }
 }
 
-export const sortByLastUpdated = (a: NoteItem, b: NoteItem) => {
+export const sortByFavouritesThenLastUpdated = (a: NoteItem, b: NoteItem) => {
+  if (a.favorite && !b.favorite) return -1
+  if (!a.favorite && b.favorite) return 1
+
   let dataA = new Date(a.lastUpdated)
   let dataB = new Date(b.lastUpdated)
   return dataA > dataB ? -1 : dataA < dataB ? 1 : 0
