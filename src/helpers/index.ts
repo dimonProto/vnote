@@ -5,7 +5,8 @@ import { Folders } from '../constants'
 
 
 export const getNoteTitle = (text: string) => {
-  const noteTitleRegEx = /[\w'?!., ]{1,50}/
+  const noteTitleRegEx = /[\p{Alpha}\p{M}\p{Nd}\p{Pc}\p{Join_C}'?!.,\s]{1,50}/gu
+  
   const noteText = text.match(noteTitleRegEx)
   return noteText ? noteText[0] : 'New note'
 }
