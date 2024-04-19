@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import kebabCase from 'lodash/kebabCase'
 import { AppDispatch, RootState } from '../store'
 import { addCategory, deleteCategory, updateCategory } from 'store/slices/categorySlice'
 import { CategoryItem, NoteItem, ReactDragEvent, ReactSubmitEvent } from 'type'
@@ -83,7 +82,7 @@ const AppSidebar = () => {
       name: tempCategoryName.trim(),
     }
 
-    if (categories.find(cat => cat.name === kebabCase(tempCategoryName.trim()))) {
+    if (categories.find(cat => cat.name === category.name) || category.name === '') {
       resetTempCategory()
     } else {
       dispatch(addCategory(category))
@@ -96,7 +95,7 @@ const AppSidebar = () => {
 
     const category = { id: editingCategoryId, name: tempCategoryName.trim() }
 
-    if (categories.find(cat => cat.name === tempCategoryName.trim())) {
+    if (categories.find(cat => cat.name === category.name) || category.name === '') {
       resetTempCategory()
     } else {
       dispatch(updateCategory({ id: category.id, name: category.name }))
