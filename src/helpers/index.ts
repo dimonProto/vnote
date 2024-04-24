@@ -6,7 +6,7 @@ import { Folders } from '../constants'
 
 export const getNoteTitle = (text: string) => {
   const noteTitleRegEx = /[\p{Alpha}\p{M}\p{Nd}\p{Pc}\p{Join_C}'?!.,\s]{1,50}/gu
-  
+
   const noteText = text.match(noteTitleRegEx)
   return noteText ? noteText[0] : 'New note'
 }
@@ -36,10 +36,15 @@ export const downloadNote = (fileName: string, note: NoteItem) => {
   }
 }
 
-export const sortByFavouritesThenLastUpdated = (a: NoteItem, b: NoteItem) => {
+export const sortByFavourites = (a: NoteItem, b: NoteItem) => {
   if (a.favorite && !b.favorite) return -1
   if (!a.favorite && b.favorite) return 1
 
+  return 0
+
+}
+
+export const sortByLastUpdated = (a: NoteItem, b: NoteItem) => {
   let dataA = new Date(a.lastUpdated)
   let dataB = new Date(b.lastUpdated)
   return dataA > dataB ? -1 : dataA < dataB ? 1 : 0

@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { NoteItem } from 'type'
 import { fetchNotes } from '../middleware'
 import { Folders } from '../../constants'
-import { sortByFavouritesThenLastUpdated } from '../../helpers'
+import { sortByFavourites, sortByLastUpdated } from '../../helpers'
 
 
 // Create an async thunk
@@ -32,7 +32,7 @@ export const noteSlice = createSlice({
   reducers: {
     loadNotesSuccess: (state, action) => {
       state.notes = action.payload
-      state.activeNoteId = getFirstNote(Folders.ALL, action.payload)
+      state.activeNoteId = getFirstNoteId(Folders.ALL, action.payload)
     },
     loadNotesError: (state, action) => {
       state.error = action.payload
@@ -43,7 +43,7 @@ export const noteSlice = createSlice({
     swapCategory: (state, action) => {
       state.activeCategoryId = action.payload
       state.activeFolder = Folders.CATEGORY
-      state.activeNoteId = getFirstNote(Folders.CATEGORY, state.notes, action.payload)
+      state.activeNoteId = getFirstNoteId(Folders.CATEGORY, state.notes, action.payload)
     },
     searchNotes: (state, action) => {
       state.searchValue = action.payload
@@ -51,7 +51,7 @@ export const noteSlice = createSlice({
     swapFolder: (state, action) => {
       state.activeFolder = action.payload
       state.activeCategoryId = ''
-      state.activeNoteId = getFirstNote('', state.notes, action.payload)
+      state.activeNoteId = getFirstNoteId('', state.notes, action.payload)
     },
     addNote: (state, action) => {
       state.notes = [action.payload, ...state.notes]
@@ -147,9 +147,9 @@ export const {
 export default noteSlice.reducer
 
 
-export const getFirstNote = (folder: string, notes: NoteItem[], categoryId?: string) => {
+export const getFirstNoteId = (folder: string, notes: NoteItem[], categoryId?: string) => {
 
-  const notesNotTrash = notes.filter(note => !note.trash).sort(sortByFavouritesThenLastUpdated)
+  const notesNotTrash = notes.filter(note => !note.trash).sort(sortByLastUpdated).sort(sortByFavourites)
   const firstNoteCategory = notesNotTrash.find(note => note.category === categoryId)
   const firstNoteFavorite = notesNotTrash.find(note => note.favorite)
   const firstNoteTrash = notes.find(note => note.trash)
