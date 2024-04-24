@@ -6,7 +6,7 @@ import { getNoteTitle, sortByFavourites, sortByLastUpdated } from '../helpers'
 import { CategoryItem, NoteItem, ReactDragEvent, ReactMouseEvent } from '../type'
 import { Folders } from '../constants'
 import NoteOptions from './NoteOptions'
-import { Bookmark, MoreHorizontal } from 'react-feather'
+import { MoreHorizontal, Star } from 'react-feather'
 import _ from 'lodash'
 
 
@@ -145,9 +145,10 @@ const NoteList = () => {
               draggable
               onDragStart={event => handleDragStart(event, note.id)}
             >
-              <div>
+              <div className='v-center'>
+                {note.favorite && <Star className='note-favorite' size={15} />}
                 {noteTitle}
-                {note.favorite && <Bookmark className='note-favourite' size={15} />}
+
               </div>
               <div className={noteOptionsId === note.id ? 'note-options active' : 'note-options'}
                    onClick={event => handleNoteOptionsClick(event, note.id)}

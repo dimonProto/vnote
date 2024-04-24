@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../store'
 import { deleteNote, toggleFavoriteNote, toggleTrashedNote } from '../store/slices/noteSlice'
 import { downloadNote, getNoteTitle } from '../helpers'
-import { ArrowUp, Bookmark, Download, Trash, X } from 'react-feather'
+import { ArrowUp, Download, Star, Trash, X } from 'react-feather'
 
 interface NoteOptionsProps {
   clickedNote: NoteItem
@@ -50,7 +50,7 @@ const NoteOptions: React.FC<NoteOptionsProps> = ({ clickedNote }) => {
       ) : (
         <>
           <div className='nav-item' onClick={favoriteNoteHandler}>
-            <Bookmark size={18} />
+            <Star size={18} />
             {clickedNote.favorite ? 'Remove Favorite' : 'Mark as Favorite'}
           </div>
           <div className='nav-item' onClick={trashNoteHandler}>

@@ -14,7 +14,7 @@ import {
   toggleTrashedNote,
 } from 'store/slices/noteSlice'
 import { Folders, iconColor } from '../constants'
-import { Book, Bookmark, Folder, Loader, Plus, Settings, Trash2, UploadCloud, X } from 'react-feather'
+import { Book, Folder, Loader, Plus, Settings, Star, Trash2, UploadCloud, X } from 'react-feather'
 import { postState } from '../store/middleware'
 import { newNote } from '../helpers'
 import { useTempState } from '../context/TempStateProvider'
@@ -151,7 +151,7 @@ const AppSidebar = () => {
           onDrop={favoriteNoteHandler}
           onDragOver={allowDrop}
         >
-          <Bookmark size={15} className='app-sidebar-icon' color={iconColor} />
+          <Star size={15} className='app-sidebar-icon' color={iconColor} />
           Favorites
         </div>
         <div
