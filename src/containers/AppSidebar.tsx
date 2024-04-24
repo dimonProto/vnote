@@ -201,8 +201,8 @@ const AppSidebar = () => {
                    onDrop={event => {
                      event.preventDefault()
                      dispatch(addCategoryToNote({
-                       noteId: category.id,
-                       categoryId: event.dataTransfer.getData('text'),
+                       categoryId: category.id,
+                       noteId: event.dataTransfer.getData('text'),
                      }))
                    }}
                    onDragOver={allowDrop}

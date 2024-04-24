@@ -16,6 +16,7 @@ const NoteList = () => {
   const activeFolder: Folders = useSelector(({ notesState }) => notesState.activeFolder)
   const searchValue = useSelector(({ notesState }) => notesState.searchValue)
   const activeNoteId = useSelector((state: RootState) => state.notesState.activeNoteId)
+  const [noteOptionsPosition, setNoteOptionsPosition] = useState({ x: 0, y: 0 })
 
 
   const re = new RegExp(_.escapeRegExp(searchValue), 'i')
@@ -49,6 +50,19 @@ const NoteList = () => {
   const node = useRef<HTMLDivElement>(null)
 
   const handleNoteOptionsClick = (event: ReactMouseEvent, noteId: string = '') => {
+
+    if (event instanceof MouseEvent && (event.target instanceof Element || event.target instanceof SVGElement)) {
+
+      if (event.target.classList.contains('note-options')) {
+        setNoteOptionsPosition({ x: event.pageX, y: event.pageY })
+      }
+      if (event.target.parentElement instanceof Element) {
+        if (event.target.parentElement.classList.contains('note-options')) {
+          setNoteOptionsPosition({ x: event.pageX, y: event.pageY })
+        }
+      }
+    }
+
     event.stopPropagation()
 
     if (node.current && node.current.contains(event.target as HTMLDivElement)) return
@@ -56,7 +70,18 @@ const NoteList = () => {
 
   }
 
+  const getOptionsYPosition = () => {
+    const MaxY = window.innerHeight
 
+    // determine approximate options height based on root font-size of 15px, padding, and select box.
+    const optionsSize = 15 * 11
+
+    return MaxY - noteOptionsPosition.y > optionsSize
+      ? noteOptionsPosition.y
+      : noteOptionsPosition.y - optionsSize
+  }
+
+  console.log(noteOptionsPosition, getOptionsYPosition(), 'getOptionsYPosition')
   useEffect(() => {
     // add when mounted
     document.addEventListener('mousedown', handleNoteOptionsClick)
@@ -130,6 +155,11 @@ const NoteList = () => {
               {noteOptionsId === note.id && (
                 <div ref={node}
                      className='note-options-context-menu'
+                     style={{
+                       position: 'absolute',
+                       top: getOptionsYPosition() + 'px',
+                       left: noteOptionsPosition.x + 'px',
+                     }}
                      onClick={event => event.stopPropagation()}
                 >
                   {!note.trash && (
