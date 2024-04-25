@@ -51,7 +51,7 @@ const NoteOptions: React.FC<NoteOptionsProps> = ({ clickedNote }) => {
         <>
           <div className='nav-item' onClick={favoriteNoteHandler}>
             <Star size={18} />
-            {clickedNote.favorite ? 'Remove Favorite' : 'Mark as Favorite'}
+            {clickedNote.favorite ? 'Remove favorite' : 'Mark as favorite'}
           </div>
           <div className='nav-item' onClick={trashNoteHandler}>
             <Trash size={18} />
