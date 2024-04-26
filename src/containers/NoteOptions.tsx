@@ -5,6 +5,7 @@ import { AppDispatch } from '../store'
 import { deleteNote, toggleFavoriteNote, toggleTrashedNote } from '../store/slices/noteSlice'
 import { downloadNote, getNoteTitle } from '../helpers'
 import { ArrowUp, Download, Star, Trash, X } from 'react-feather'
+import NoteOptionsButton from '../componets/NoteOptionsButton'
 
 interface NoteOptionsProps {
   clickedNote: NoteItem
@@ -38,32 +39,17 @@ const NoteOptions: React.FC<NoteOptionsProps> = ({ clickedNote }) => {
     <nav className='note-options-nav'>
       {clickedNote.trash ? (
         <>
-          <div className='nav-item' onClick={deleteNoteHandler}>
-            <X size={18} />
-            Delete permanently
-          </div>
-          <div className='nav-item' onClick={trashNoteHandler}>
-            <ArrowUp size={18} />
-            Restore from trash
-          </div>
+          <NoteOptionsButton handler={deleteNoteHandler} icon={X} text='Delete permanently' />
+          <NoteOptionsButton handler={trashNoteHandler} icon={ArrowUp} text='Restore from trash' />
         </>
       ) : (
         <>
-          <div className='nav-item' onClick={favoriteNoteHandler}>
-            <Star size={18} />
-            {clickedNote.favorite ? 'Remove favorite' : 'Mark as favorite'}
-          </div>
-          <div className='nav-item' onClick={trashNoteHandler}>
-            <Trash size={18} />
-            Move to trash
-          </div>
+          <NoteOptionsButton handler={favoriteNoteHandler} icon={Star}
+                             text={clickedNote.favorite ? 'Remove favorite' : 'Mark as favorite'} />
+          <NoteOptionsButton handler={trashNoteHandler} icon={Trash} text='Move to trash' />
         </>
       )}
-      <div className='nav-item' onClick={downloadNoteHandler}>
-        <Download size={18} />
-        Download
-      </div>
-
+      <NoteOptionsButton handler={downloadNoteHandler} icon={Download} text='Download' />
     </nav>
   )
 }
