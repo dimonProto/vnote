@@ -14,13 +14,15 @@ import {
   toggleTrashedNote,
 } from 'store/slices/noteSlice'
 import { Folders, iconColor } from '../constants'
-import { Book, Folder, Loader, Plus, Settings, Star, Trash2, UploadCloud, X } from 'react-feather'
+import { Book, Check, Folder, Loader, Plus, Settings, Star, Trash2, UploadCloud, X } from 'react-feather'
 import { postState } from '../store/middleware'
 import { newNote } from '../helpers'
 import { useTempState } from '../context/TempStateProvider'
 import { toggleSettingsModal } from '../store/slices/settingsSlice'
 import AppSidebarAction from '../componets/AppSidebarAction'
 import { v4 as uuidv4 } from 'uuid'
+import moment from 'moment'
+import { syncStateSuccess } from '../store/slices/syncSlice'
 
 const AppSidebar = () => {
 
@@ -28,7 +30,7 @@ const AppSidebar = () => {
   const activeCategoryId = useSelector(({ categoryState }) => categoryState.activeCategoryId)
   const notes: NoteItem[] = useSelector(({ notesState }) => notesState.notes)
   const activeFolder = useSelector(({ notesState }) => notesState.activeFolder)
-  const { syncing } = useSelector((state: RootState) => state.syncState)
+  const { syncing, lastSynced } = useSelector((state: RootState) => state.syncState)
   const activeNote: NoteItem | undefined = useSelector(({ notesState }: RootState) => notesState.notes?.find(note => note.id === notesState.activeNoteId))
 
 
@@ -64,6 +66,7 @@ const AppSidebar = () => {
   }
 
   const syncNotesHandler = () => {
+    dispatch(syncStateSuccess(moment().format()))
     postState(notes, categories)
   }
 
@@ -117,7 +120,7 @@ const AppSidebar = () => {
     dispatch(toggleFavoriteNote(event.dataTransfer.getData('text')))
   }
 
-
+  console.log(Boolean(lastSynced), 'lastSynced')
   return (
     <aside className='app-sidebar'>
       <section className='app-sidebar-actions'>
@@ -277,7 +280,14 @@ const AppSidebar = () => {
           </form>
         )}
       </section>
-
+      {lastSynced && (
+        <section className='app-sidebar-synced'>
+          <div className='v-center last-synced'>
+            <Check size={14} className='app-sidebar-icon' />
+            {moment(lastSynced).format('h:mm A on M/D/Y')}
+          </div>
+        </section>
+      )}
     </aside>
   )
 }

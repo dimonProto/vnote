@@ -81,7 +81,7 @@ const NoteList = () => {
       : noteOptionsPosition.y - optionsSize
   }
 
-  console.log(noteOptionsPosition, getOptionsYPosition(), 'getOptionsYPosition')
+
   useEffect(() => {
     // add when mounted
     document.addEventListener('mousedown', handleNoteOptionsClick)

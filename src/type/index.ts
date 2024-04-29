@@ -41,6 +41,7 @@ export interface PreviewMarkdownState {
 export interface SyncState {
   syncing: boolean
   error: string
+  lastSynced: string
 }
 
 export interface SettingsState {

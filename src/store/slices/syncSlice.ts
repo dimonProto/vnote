@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   syncing: false,
   error: '',
+  lastSynced: '',
 }
 
 
@@ -14,12 +15,13 @@ export const syncSlice = createSlice({
     syncState: (state, action) => {
       state.syncing = true
     },
-    syncStateSuccess: (state, action) => {
-      state.syncing = false
-    },
     syncStateError: (state, action) => {
       state.syncing = false
       state.error = action.payload
+    },
+    syncStateSuccess: (state, action) => {
+      state.syncing = false
+      state.lastSynced = action.payload
     },
   },
 })
