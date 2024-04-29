@@ -120,7 +120,7 @@ const NoteList = () => {
               noteTitle = (
                 <>
                   {noteTitle.slice(0, highlightStart)}
-                  <strong style={{ color: '#3e64ff' }}>
+                  <strong className='highlighted'>
                     {noteTitle.slice(highlightStart, highlightEnd)}
                   </strong>
                   {noteTitle.slice(highlightEnd)}
