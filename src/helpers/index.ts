@@ -5,10 +5,10 @@ import { Folders } from '../constants'
 
 
 export const getNoteTitle = (text: string) => {
-  const noteTitleRegEx = /[\w'?!., ]{1,50}/
+  const noteText = text.match(/[^#]{1,50}/)
+  const noteTextFirstLine = noteText ? noteText[0].split(/\r?\n/)[0] : 'New note'
 
-  const noteText = text.match(noteTitleRegEx)
-  return noteText ? noteText[0] : 'New note'
+  return noteTextFirstLine
 }
 
 export const noteWithFrontmatter = (note: NoteItem) => {
