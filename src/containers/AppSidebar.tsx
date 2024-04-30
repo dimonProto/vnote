@@ -120,7 +120,7 @@ const AppSidebar = () => {
     dispatch(toggleFavoriteNote(event.dataTransfer.getData('text')))
   }
 
-  console.log(Boolean(lastSynced), 'lastSynced')
+
   return (
     <aside className='app-sidebar'>
       <section className='app-sidebar-actions'>

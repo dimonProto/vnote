@@ -34,12 +34,7 @@ const SettingsModal = () => {
 
   const toggleDarkThemeHandler = () => {
     dispatch(toggleDarkTheme())
-
-    if (!dark) {
-      dispatch(updateCodeMirrorOption({ key: 'theme', value: 'zenburn' }))
-    } else {
-      dispatch(updateCodeMirrorOption({ key: 'theme', value: 'base16-light' }))
-    }
+    dispatch(updateCodeMirrorOption({ key: 'theme', value: dark ? 'base16-light' : 'new-moon' }))
   }
 
   const togglePreviewMarkdownHandler = () => {

@@ -2,13 +2,12 @@ import React from 'react'
 import { addNote, swapNote, toggleTrashedNote } from 'store/slices/noteSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { downloadNote, getNoteTitle, newNote } from 'helpers'
-import { useInterval, useKey } from '../helpers/hooks'
+import { useKey } from '../helpers/hooks'
 import { postState } from '../store/middleware'
 import { CategoryItem, NoteItem } from '../type'
 import { RootState } from '../store'
 import { useTempState } from '../context/TempStateProvider'
 import { toggleDarkTheme } from '../store/slices/themeSlice'
-import { syncState } from '../store/slices/syncSlice'
 import { updateCodeMirrorOption } from '../store/slices/settingsSlice'
 import { togglePreviewMarkdown } from '../store/slices/previewMarkdown'
 
@@ -50,6 +49,7 @@ const KeyboardShortcuts = () => {
 
   const toggleDarkThemeHandler = () => {
     dispatch(toggleDarkTheme())
+    dispatch(updateCodeMirrorOption({ key: 'theme', value: dark ? 'base16-light' : 'new-moon' }))
   }
 
   const downloadNoteHandler = () => {
@@ -91,9 +91,6 @@ const KeyboardShortcuts = () => {
     downloadNoteHandler()
   })
 
-  useInterval(() => {
-    dispatch(syncState({ notes, categories }))
-  }, 3000)
 
   return null
 

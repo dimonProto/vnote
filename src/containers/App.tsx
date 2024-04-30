@@ -12,6 +12,9 @@ import SettingsModal from './SettingsModal'
 import { Helmet } from 'react-helmet'
 import { Folders } from '../constants'
 import { HelmetProvider } from 'react-helmet-async'
+import { useInterval } from '../helpers/hooks'
+import { syncState } from '../store/slices/syncSlice'
+import { NoteItem } from '../type'
 
 
 const App: React.FC = () => {
@@ -20,6 +23,7 @@ const App: React.FC = () => {
   const { categories } = useSelector((state: RootState) => state.categoryState)
   const activeCategoryId = useSelector(({ notesState }) => notesState.activeCategoryId)
   const activeCategory = categories.find(({ id }) => id === activeCategoryId)
+  const notes: NoteItem[] = useSelector(({ notesState }) => notesState.notes)
   const dispatch: AppDispatch = useDispatch()
 
 
@@ -31,6 +35,9 @@ const App: React.FC = () => {
     dispatch(loadCategories())
   }, [dispatch])
 
+  useInterval(() => {
+    dispatch(syncState({ notes, categories }))
+  }, 20000)
 
   return (
     <HelmetProvider>
