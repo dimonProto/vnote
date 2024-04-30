@@ -282,7 +282,7 @@ const AppSidebar = () => {
       </section>
       {lastSynced && (
         <section className='app-sidebar-synced'>
-          <div className='v-center last-synced'>
+          <div className='last-synced'>
             <Check size={14} className='app-sidebar-icon' />
             {moment(lastSynced).format('h:mm A on M/D/Y')}
           </div>

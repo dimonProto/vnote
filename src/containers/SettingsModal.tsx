@@ -6,6 +6,7 @@ import { toggleDarkTheme } from '../store/slices/themeSlice'
 import Switch from '../componets/Switch'
 import { ReactMouseEvent } from '../type'
 import { togglePreviewMarkdown } from '../store/slices/previewMarkdown'
+import { X } from 'react-feather'
 
 
 const SettingsModal = () => {
@@ -52,7 +53,18 @@ const SettingsModal = () => {
   return isOpen ? (
     <div className='dimmer'>
       <div ref={node} className='settings-modal'>
-        <h2>Settings</h2>
+        <div className='settings-header'>
+          <h2>Settings</h2>
+          <div className='action-button'>
+            <X size={20}
+               onClick={() => {
+                 if (isOpen) {
+                   dispatch(toggleSettingsModal())
+                 }
+               }} />
+          </div>
+        </div>
+
 
         <div className='settings-options'>
           <div>Active line highlight</div>
@@ -65,7 +77,7 @@ const SettingsModal = () => {
         </div>
 
         <div className='settings-options'>
-          <div className='settings-label'>Dark Mode</div>
+          <div className='settings-label'>Dark mode</div>
           <Switch toggle={toggleDarkThemeHandler} checked={dark} />
         </div>
 
@@ -104,7 +116,7 @@ const SettingsModal = () => {
             </div>
           </div>
           <div className='settings-shortcut'>
-            <div>dark theme</div>
+            <div>Toggle theme</div>
             <div>
               <kbd>
                 <kbd>Alt</kbd> + <kbd>T</kbd>
