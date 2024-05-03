@@ -171,11 +171,9 @@ const AppSidebar = () => {
           <Trash2 size={15} style={{ marginRight: '.75rem' }} color={iconColor} />
           Trash
         </div>
-        <div className='category-title v-between'>
+        <div className='category-title'>
           <h2>Categories</h2>
-          <button className='category-button' onClick={newTempCategoryHandler}>
-            <Plus size={15} color={iconColor} />
-          </button>
+
         </div>
 
         <div className='category-list'>
@@ -255,6 +253,11 @@ const AppSidebar = () => {
             )
           })}
         </div>
+        {!addingTempCategory && (
+          <button className='category-button' onClick={newTempCategoryHandler}>
+            <Plus size={15} color={iconColor} />
+          </button>)
+        }
         {addingTempCategory && (
           <form
             className='category-form'
