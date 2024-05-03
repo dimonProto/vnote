@@ -33,13 +33,11 @@ const NoteEditor = () => {
   if (!activeNote) {
     return (
       <div className='empty-editor v-center'>
-        <div className='empty-editor v-center'>
-          <div className='text-center'>
-            <p><strong>Create a note</strong></p>
-            <p>
-              <kbd>ALT</kbd> + <kbd>N</kbd>
-            </p>
-          </div>
+        <div className='text-center'>
+          <p><strong>Create a note</strong></p>
+          <p>
+            <kbd>ALT</kbd> + <kbd>N</kbd>
+          </p>
         </div>
       </div>
     )
