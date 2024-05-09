@@ -76,6 +76,9 @@ export const noteSlice = createSlice({
       state.notes = state.notes.filter(note => note.id !== action.payload)
       state.activeNoteId = getNewNoteId(state.notes, action.payload, state.activeCategoryId)
     },
+    emptyTrash: (state) => {
+      state.notes = state.notes.filter(note => !note.trash)
+    },
     pruneNote: (state) => {
       state.notes = state.notes.filter(note => note.text !== '' || note.id !== state.activeNoteId)
     },
@@ -142,6 +145,7 @@ export const {
   swapFolder,
   toggleFavoriteNote,
   searchNotes,
+  emptyTrash,
 } = noteSlice.actions
 
 export default noteSlice.reducer

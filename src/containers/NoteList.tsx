@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'store'
-import { addCategoryToNote, pruneNote, searchNotes, swapCategory, swapNote } from 'store/slices/noteSlice'
+import { addCategoryToNote, emptyTrash, pruneNote, searchNotes, swapCategory, swapNote } from 'store/slices/noteSlice'
 import { getNoteTitle, sortByFavourites, sortByLastUpdated } from '../helpers'
 import { CategoryItem, NoteItem, ReactDragEvent, ReactMouseEvent } from '../type'
 import { Folders } from '../constants'
 import NoteOptions from './NoteOptions'
 import { MoreHorizontal, Star } from 'react-feather'
 import _ from 'lodash'
+import NoteListButton from '../componets/NoteListButton'
 
 
 const NoteList = () => {
@@ -96,6 +97,8 @@ const NoteList = () => {
     event.dataTransfer.setData('text/plain', noteId)
   }
 
+  const showEmptyTrash = activeFolder === Folders.TRASH && filteredNotes.length > 0
+
   return (
     <aside className='note-sidebar'>
       <div className='note-sidebar-header'>
@@ -106,6 +109,11 @@ const NoteList = () => {
                  dispatch(searchNotes(event.target.value))
                }}
         />
+        {showEmptyTrash && (
+          <NoteListButton handler={() => dispatch(emptyTrash())} label="Empty Trash">
+            Empty Trash
+          </NoteListButton>
+        )}
       </div>
       <div className='note-list'>
         {filteredNotes.map(note => {
