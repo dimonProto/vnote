@@ -72,7 +72,7 @@ const NoteEditor = () => {
         }))
       }}
       onChange={(editor, data, value) => {
-        if (activeNote && activeNote.text === '') {
+        if (!value) {
           editor.focus()
         }
       }}></CodeMirror>
