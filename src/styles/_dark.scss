@@ -114,6 +114,10 @@ $dark-editor: #3f3f3f;
     }
   }
 
+  .preview-button {
+    background-color: $app-sidebar-color;
+  }
+
   .settings-modal {
     background: $dark-sidebar;
     color: $light-font-color;
