@@ -9,6 +9,7 @@ import { updateNote } from 'store/slices/noteSlice'
 import { NoteItem } from '../type'
 import moment from 'moment'
 import ReactMarkdown from 'react-markdown'
+import { togglePreviewMarkdown } from '../store/slices/previewMarkdown'
 
 const NoteEditor = () => {
 
@@ -42,7 +43,14 @@ const NoteEditor = () => {
       </div>
     )
   } else if (previewMarkdown) {
-    return <ReactMarkdown className='previewer' children={activeNote.text} />
+    return (
+      <div style={{ position: 'relative' }}>
+        <ReactMarkdown className='previewer' children={activeNote.text} />
+        <button className='preview-button' onClick={() => dispatch(togglePreviewMarkdown())}>
+          Preview Exit
+        </button>
+      </div>
+    )
   }
 
   return (
