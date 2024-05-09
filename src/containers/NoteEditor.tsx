@@ -10,6 +10,7 @@ import { NoteItem } from '../type'
 import moment from 'moment'
 import ReactMarkdown from 'react-markdown'
 import { togglePreviewMarkdown } from '../store/slices/previewMarkdown'
+import { X } from 'react-feather'
 
 const NoteEditor = () => {
 
@@ -44,12 +45,12 @@ const NoteEditor = () => {
     )
   } else if (previewMarkdown) {
     return (
-      <div className='previewer'>
+      <>
         <ReactMarkdown className='previewer' children={activeNote.text} />
         <button className='preview-button' onClick={() => dispatch(togglePreviewMarkdown())}>
-          Preview Exit
+          Preview Exit <X size={12} />
         </button>
-      </div>
+      </>
     )
   }
 
